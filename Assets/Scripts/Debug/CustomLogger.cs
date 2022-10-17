@@ -5,20 +5,6 @@ using UnityEngine;
 using System.Diagnostics;
 using System;
 
-//TODO expose logCategory and frequency to editor / text file / in cleaner way
-    //and move enums out of there
-//TODO add option to configure text colors as well
-//TODO move OnGui to here
-//TODO TryGetUnityObject - try to make it return generic typ
-//TODO GetGameObjectName - check if unityEngine.object can be passed instead
-
-//TODO create self intantiating debug menu that allows changing flags in runtime
-//TODO add flag to enable debug logging in production
-    //with warning confirm window
-//TODO make log not needing to be on game object - spawn itself instead?
-//TODO try getting variable name without passing string name
-
-//ROOTNAMESPACEBEGIN - can i use it like in default script template?
 namespace SinkingShips.Debug
 {
     #region Enums
