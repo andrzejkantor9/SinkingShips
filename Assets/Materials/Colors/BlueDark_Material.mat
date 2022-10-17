@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Orange_Desaturated_Material
+  m_Name: BlueDark_Material
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -114,12 +114,12 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.6698113, g: 0.49597833, b: 0.28751335, a: 1}
-    - _Color: {r: 0.6698113, g: 0.4959783, b: 0.28751332, a: 1}
+    - _BaseColor: {r: 0.1504984, g: 0.173151, b: 0.3584906, a: 1}
+    - _Color: {r: 0.15049836, g: 0.17315096, b: 0.35849056, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &2482109488762587045
+--- !u!114 &1480562783613535748
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
