@@ -12,6 +12,7 @@ namespace SinkingShips.Editor
         {
             "_AssetPacks",
             "_Packages",
+            "_Test",
             "Animations",
             "Audio",
             "Audio/Music",
