@@ -56,6 +56,7 @@ namespace SinkingShips.Input
         public void OnMove(InputAction.CallbackContext context)
         {
             Vector2 movementValue = context.ReadValue<Vector2>();
+            MovementValue = movementValue;
 
             onMoveChanged?.Invoke(movementValue);
             CustomLogger.Log($"move input changed to: {movementValue}", this, LogCategory.Input,
