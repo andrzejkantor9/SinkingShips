@@ -1,0 +1,17 @@
+{
+    "name": "SinkingShips.Input",
+    "rootNamespace": "SinkingShips.Input",
+    "references": [
+        "GUID:bfa3f9e1429b5e04aa8ebf0071fbb457",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
