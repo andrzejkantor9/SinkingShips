@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 316075027}
-  m_LocalRotation: {x: 0.21827218, y: -0, z: -0, w: 0.97588795}
+  m_LocalRotation: {x: 0.21827218, y: -1e-45, z: -0, w: 0.97588795}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -417,7 +417,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 794555181}
-  m_LocalRotation: {x: 0.16184811, y: -1e-45, z: -0, w: 0.9868157}
+  m_LocalRotation: {x: 0.16184811, y: -0, z: -0, w: 0.9868157}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -481,6 +481,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1327026728}
   - component: {fileID: 1327026730}
+  - component: {fileID: 2523319346313713173}
   m_Layer: 0
   m_Name: FreeLookCamera
   m_TagString: Untagged
@@ -547,9 +548,9 @@ MonoBehaviour:
   m_YAxis:
     Value: 0.5
     m_SpeedMode: 0
-    m_MaxSpeed: 2
-    m_AccelTime: 0.2
-    m_DecelTime: 0.1
+    m_MaxSpeed: 0
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 0
@@ -571,7 +572,7 @@ MonoBehaviour:
   m_XAxis:
     Value: 0
     m_SpeedMode: 0
-    m_MaxSpeed: 300
+    m_MaxSpeed: 200
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: 
@@ -591,7 +592,7 @@ MonoBehaviour:
     m_VelocityFilterStrength: 4
     m_Bias: 0
   m_RecenterToTargetHeading:
-    m_enabled: 1
+    m_enabled: 0
     m_WaitTime: 0
     m_RecenteringTime: 1
     m_LegacyHeadingDefinition: -1
@@ -610,6 +611,22 @@ MonoBehaviour:
   - {fileID: 316075029}
   - {fileID: 1845993876}
   - {fileID: 794555183}
+--- !u!114 &2523319346313713173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1327026727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb7194dc27b9df64c8beca7482ee8e0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerIndex: -1
+  AutoEnableInputs: 1
+  XYAxis: {fileID: 4432013942211743134, guid: 8dbe37795bf86634a975521facaf686f, type: 3}
+  ZAxis: {fileID: 0}
 --- !u!1 &1650768361
 GameObject:
   m_ObjectHideFlags: 0
@@ -888,7 +905,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1845993874}
-  m_LocalRotation: {x: 0.19004512, y: -0.000000008446403, z: 0.0000000016349947, w: 0.9817754}
+  m_LocalRotation: {x: 0.19004512, y: 0.0000000084464045, z: -0.0000000016349949,
+    w: 0.9817754}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -952,7 +970,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1959391248}
   m_Layer: 0
-  m_Name: CameraLookAt
+  m_Name: CameraLookAtTransform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -983,7 +1001,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2043703447}
   m_Layer: 0
-  m_Name: CameraFollow
+  m_Name: CameraFollowTransform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1036,7 +1054,7 @@ Transform:
   - {fileID: 7887930547171293450}
   - {fileID: 482406760}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2217014114416537408
 MonoBehaviour:

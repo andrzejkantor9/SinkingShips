@@ -103,6 +103,7 @@ namespace SinkingShips.Input
                 IsAttackingRight = true;
                 onAttackRight?.Invoke();
                 onAttackRightChanged?.Invoke(true);
+
                 CustomLogger.Log("attack right performed", this, LogCategory.Input,
                     LogFrequency.MostFrames, LogDetails.Basic);
             }
@@ -110,9 +111,15 @@ namespace SinkingShips.Input
             {
                 IsAttackingRight = false;
                 onAttackRightChanged?.Invoke(false);
+
                 CustomLogger.Log("attack right cancelled", this, LogCategory.Input,
                     LogFrequency.MostFrames, LogDetails.Basic);
             }
+        }
+
+        //done by CinemachineInputProvider component
+        public void OnLook(InputAction.CallbackContext context)
+        {
         }
         #endregion
     }

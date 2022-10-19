@@ -55,6 +55,15 @@ namespace SinkingShips.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""501191d3-49d6-42f2-877b-e0c6ebcca23c"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -167,6 +176,28 @@ namespace SinkingShips.Input
                     ""action"": ""AttackRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4b99e30c-9369-4051-a858-bcd6328be1d2"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse&Keyboard"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2e34729e-4f70-43c7-9ffa-040853b69527"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -206,6 +237,7 @@ namespace SinkingShips.Input
             m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
             m_Gameplay_AttackLeft = m_Gameplay.FindAction("AttackLeft", throwIfNotFound: true);
             m_Gameplay_AttackRight = m_Gameplay.FindAction("AttackRight", throwIfNotFound: true);
+            m_Gameplay_Look = m_Gameplay.FindAction("Look", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -268,6 +300,7 @@ namespace SinkingShips.Input
         private readonly InputAction m_Gameplay_Move;
         private readonly InputAction m_Gameplay_AttackLeft;
         private readonly InputAction m_Gameplay_AttackRight;
+        private readonly InputAction m_Gameplay_Look;
         public struct GameplayActions
         {
             private @DefaultControlSchemeGenerated m_Wrapper;
@@ -275,6 +308,7 @@ namespace SinkingShips.Input
             public InputAction @Move => m_Wrapper.m_Gameplay_Move;
             public InputAction @AttackLeft => m_Wrapper.m_Gameplay_AttackLeft;
             public InputAction @AttackRight => m_Wrapper.m_Gameplay_AttackRight;
+            public InputAction @Look => m_Wrapper.m_Gameplay_Look;
             public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -293,6 +327,9 @@ namespace SinkingShips.Input
                     @AttackRight.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttackRight;
                     @AttackRight.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttackRight;
                     @AttackRight.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttackRight;
+                    @Look.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLook;
+                    @Look.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLook;
+                    @Look.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLook;
                 }
                 m_Wrapper.m_GameplayActionsCallbackInterface = instance;
                 if (instance != null)
@@ -306,6 +343,9 @@ namespace SinkingShips.Input
                     @AttackRight.started += instance.OnAttackRight;
                     @AttackRight.performed += instance.OnAttackRight;
                     @AttackRight.canceled += instance.OnAttackRight;
+                    @Look.started += instance.OnLook;
+                    @Look.performed += instance.OnLook;
+                    @Look.canceled += instance.OnLook;
                 }
             }
         }
@@ -333,6 +373,7 @@ namespace SinkingShips.Input
             void OnMove(InputAction.CallbackContext context);
             void OnAttackLeft(InputAction.CallbackContext context);
             void OnAttackRight(InputAction.CallbackContext context);
+            void OnLook(InputAction.CallbackContext context);
         }
     }
 }
