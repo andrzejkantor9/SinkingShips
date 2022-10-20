@@ -2,6 +2,7 @@ using UnityEngine;
 
 using SinkingShips.Debug;
 using SinkingShips.Helpers;
+using System;
 
 namespace SinkingShips.Movement
 {
@@ -60,13 +61,27 @@ namespace SinkingShips.Movement
             bool isMovingForward = distance > 0f;
             force *= isMovingForward ? 1f : _movementConfig.BackwardMultiplier;
 
-            _rigidbody.AddForceAtPosition(force, _addForcePosition.position);
-            _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, 
-                isMovingForward ? _movementConfig.MaxVelocityMagintude 
-                : _movementConfig.MaxVelocityMagintude * _movementConfig.BackwardMultiplier);
+            if(_rigidbody.velocity.sqrMagnitude < Mathf.Pow(_movementConfig.MaxVelocityMagintude, 2))
+            {
+                _rigidbody.AddForceAtPosition(force, _addForcePosition.position);
 
-            CustomLogger.Log($"added force: {force}, velocity: {_rigidbody.velocity}", this, 
-                LogCategory.Movement, LogFrequency.EveryFrame, LogDetails.Medium);
+                CustomLogger.Log($"added force: {force}, current velocity: {_rigidbody.velocity}", this,
+                    LogCategory.Movement, LogFrequency.EveryFrame, LogDetails.Medium);
+            }
+        }
+
+        public void Turn(float turnAmount, float deltaTime)
+        {
+            Vector3 torque = deltaTime * _movementConfig.TorqueValue * turnAmount * transform.up;
+            bool isRotatingRight = turnAmount > 0f;
+
+            if(_rigidbody.angularVelocity.sqrMagnitude < Mathf.Pow(_movementConfig.MaxAngularVelocityMagnitude, 2))
+            {
+                _rigidbody.AddRelativeTorque(torque);
+
+                CustomLogger.Log($"added torque: {torque}, angular velocity: {_rigidbody.angularVelocity}", this,
+                    LogCategory.Movement, LogFrequency.EveryFrame, LogDetails.Medium);
+            }
         }
         #endregion
 

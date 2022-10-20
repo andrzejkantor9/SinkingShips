@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ForceValue>k__BackingField: 750
   <MaxVelocityMagintude>k__BackingField: 20
-  <BackwardMultiplier>k__BackingField: 0.9
+  <BackwardMultiplier>k__BackingField: 0.85
+  <TorqueValue>k__BackingField: 4500
+  <MaxAngularVelocityMagnitude>k__BackingField: 1
