@@ -10,6 +10,7 @@ namespace SinkingShips.Debug
     #region Enums
     public enum LogCategory
     {
+        _Test,
         Abilities,
         Animations,
         Combat,
@@ -61,6 +62,7 @@ namespace SinkingShips.Debug
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
         private static readonly Dictionary<LogCategory, bool> _logCategoryEnabled = new Dictionary<LogCategory, bool>()
         {
+            {LogCategory._Test, true},
             {LogCategory.Abilities, true},
             {LogCategory.Animations, true},
             {LogCategory.Combat, true},
