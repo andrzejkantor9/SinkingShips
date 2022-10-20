@@ -7,7 +7,7 @@ using SinkingShips.Debug;
 
 namespace SinkingShips.Input
 {
-    public class InputReaderGameplay : MonoBehaviour, DefaultControlSchemeGenerated.IGameplayActions
+    public class InputReaderGameplay : MonoBehaviour, DefaultControlSchemeGenerated.IGameplayActions, IInputProviderGameplay
     {
 
         #region Cache & Constants
