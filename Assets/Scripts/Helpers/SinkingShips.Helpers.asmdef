@@ -1,0 +1,16 @@
+{
+    "name": "SinkingShips.Helpers",
+    "rootNamespace": "SinkingShips.Helpers",
+    "references": [
+        "GUID:bfa3f9e1429b5e04aa8ebf0071fbb457"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
