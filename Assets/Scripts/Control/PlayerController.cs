@@ -46,8 +46,8 @@ namespace SinkingShips.Control
         {
             Profiler.BeginSample("PlayerController FixedUpdate()");
 
-            _movementByDistance.MoveForward(_inputProvider.MovementValue.y, Time.deltaTime);
-            _movementByDistance.Turn(_inputProvider.MovementValue.x, Time.deltaTime);
+            _movementByDistance.MoveForward(_inputProvider.MovementValue.y, Time.fixedDeltaTime);
+            _movementByDistance.Turn(_inputProvider.MovementValue.x, Time.fixedDeltaTime);
 
             Profiler.EndSample();
         }
