@@ -336,7 +336,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 127
   m_IsActive: 1
 --- !u!64 &1310759812
 MeshCollider:
@@ -379,7 +379,7 @@ MeshRenderer:
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
+  m_ScaleInLightmap: 0.025
   m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
@@ -492,19 +492,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 330585546, guid: 7085b6d66b09c55489e8797c897dfbf3, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00000003045393
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 330585546, guid: 7085b6d66b09c55489e8797c897dfbf3, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000005895056
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 794555182, guid: 7085b6d66b09c55489e8797c897dfbf3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.000000019107636
+      objectReference: {fileID: 0}
+    - target: {fileID: 794555182, guid: 7085b6d66b09c55489e8797c897dfbf3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0000000022299373
       objectReference: {fileID: 0}
     - target: {fileID: 1845993875, guid: 7085b6d66b09c55489e8797c897dfbf3, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000008446403
+      value: -1e-45
       objectReference: {fileID: 0}
     - target: {fileID: 1845993875, guid: 7085b6d66b09c55489e8797c897dfbf3, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000016349947
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5680987505560442421, guid: 7085b6d66b09c55489e8797c897dfbf3,
         type: 3}
