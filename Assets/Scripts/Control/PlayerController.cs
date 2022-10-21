@@ -10,25 +10,11 @@ namespace SinkingShips.Control
 {
     public class PlayerController : ShipController
     {
-        #region Config
-        //[Header("CONFIG")]
-        #endregion
-
         #region Cache & Constants
         //[Header("CACHE")]
-        //[Space(8f)]
 
         private IInputProviderGameplay _inputProvider;
         private IMovementByDistance _movementByDistance;
-        #endregion
-
-        #region States
-        #endregion
-
-        #region Events & Statics
-        #endregion
-
-        #region Data
         #endregion
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,18 +37,6 @@ namespace SinkingShips.Control
 
             Profiler.EndSample();
         }
-        #endregion
-
-        #region Public
-        #endregion
-
-        #region Interfaces & Inheritance
-        #endregion
-
-        #region Events & Statics
-        #endregion
-
-        #region Private & Protected
         #endregion
     }
 }
