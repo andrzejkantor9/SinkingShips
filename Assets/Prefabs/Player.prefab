@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 316075027}
-  m_LocalRotation: {x: 0.21827218, y: -1e-45, z: -0, w: 0.97588795}
+  m_LocalRotation: {x: 0.17278737, y: 1e-45, z: -0, w: 0.9849592}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -105,8 +105,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.19004513, y: -0.00000003045393, z: 0.000000005895056, w: 0.9817754}
-  m_LocalPosition: {x: 0, y: 13.324, z: -14.929}
+  m_LocalRotation: {x: 0.14431769, y: -0, z: -0, w: 0.9895314}
+  m_LocalPosition: {x: 0, y: 13.324, z: -19.428999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -290,7 +290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 0
-  m_FollowOffset: {x: 0, y: 8.6, z: -12.63}
+  m_FollowOffset: {x: 0, y: 8.6, z: -17.13}
   m_XDamping: 0.2
   m_YDamping: 0.2
   m_ZDamping: 0.2
@@ -417,7 +417,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 794555181}
-  m_LocalRotation: {x: 0.16184811, y: -1e-45, z: -0, w: 0.9868157}
+  m_LocalRotation: {x: 0.115917265, y: -0.000000019107636, z: 0.0000000022299373,
+    w: 0.9932589}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -497,7 +498,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1327026727}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 13.324, z: -14.929}
+  m_LocalPosition: {x: 0, y: 13.324, z: -19.428999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -603,7 +604,7 @@ MonoBehaviour:
   - m_Height: 4.5
     m_Radius: 1.75
   - m_Height: 8.6
-    m_Radius: 12.63
+    m_Radius: 17.13
   - m_Height: 0.4
     m_Radius: 1.3
   m_LegacyHeadingBias: 3.4028235e+38
@@ -686,7 +687,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 0
-  m_FollowOffset: {x: 0, y: 8.6, z: -12.63}
+  m_FollowOffset: {x: 0, y: 8.6, z: -17.13}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -813,7 +814,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 0
-  m_FollowOffset: {x: 0, y: 8.6, z: -12.63}
+  m_FollowOffset: {x: 0, y: 8.6, z: -17.13}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -905,8 +906,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1845993874}
-  m_LocalRotation: {x: 0.19004512, y: -0.0000000084464045, z: 0.0000000016349949,
-    w: 0.9817754}
+  m_LocalRotation: {x: 0.14431767, y: -0, z: -0, w: 0.9895314}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1057,7 +1057,7 @@ Transform:
   - {fileID: 7887930547171293450}
   - {fileID: 482406760}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &9130615877979290706
 Rigidbody:
@@ -1113,6 +1113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementConfig: {fileID: 11400000, guid: 8ee51c77110896240ad75c3d99a59225, type: 2}
   _addForcePosition: {fileID: 3343800053246441299}
+  _particleDisplayer: {fileID: 3873421798478231019}
   _rigidbody: {fileID: 0}
 --- !u!1001 &7796818781139020328
 PrefabInstance:
@@ -1191,6 +1192,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7796818781139020328}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3873421798478231019 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6481513041143668675, guid: 1d903adb0be49c649b8e6a5b5fb236c4,
+    type: 3}
+  m_PrefabInstance: {fileID: 7796818781139020328}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc9cd2928e4338342a5232684121fd9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &7887930547171293450 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 91288418133889826, guid: 1d903adb0be49c649b8e6a5b5fb236c4,

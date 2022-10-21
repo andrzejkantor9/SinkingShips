@@ -3,6 +3,7 @@ using UnityEngine;
 using SinkingShips.Debug;
 using SinkingShips.Helpers;
 using System;
+using SinkingShips.Effects;
 
 namespace SinkingShips.Movement
 {
@@ -20,6 +21,8 @@ namespace SinkingShips.Movement
         [Header("CACHE")]
         [SerializeField]
         private Transform _addForcePosition;
+        [SerializeField]
+        private ParticleDisplayer _particleDisplayer;
 
         [Header("CACHE - optional")]
         [SerializeField, Tooltip("Auto initialized with GetComponent<>() if not set")]
@@ -44,10 +47,7 @@ namespace SinkingShips.Movement
 
             CustomLogger.AssertTrue(_movementConfig != null, "_movementConfig", this);
             CustomLogger.AssertNotNull(_addForcePosition, "_addForcePosition", this);
-        }
-
-        private void Update()
-        {
+            CustomLogger.AssertNotNull(_particleDisplayer, "_particleDisplayer", this);
         }
         #endregion
 
@@ -67,6 +67,15 @@ namespace SinkingShips.Movement
 
                 CustomLogger.Log($"added force: {force}, current velocity: {_rigidbody.velocity}", this,
                     LogCategory.Movement, LogFrequency.EveryFrame, LogDetails.Medium);
+            }
+
+            if(!Mathf.Approximately(distance, 0f))
+            {
+                _particleDisplayer.DisplayParticle();
+            }
+            else
+            {
+                _particleDisplayer.HideParticle();
             }
         }
 
