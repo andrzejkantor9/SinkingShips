@@ -22,27 +22,6 @@ namespace SinkingShips.Movement
         //optional - slower turning while moving
         #endregion
 
-        #region Events & Statics
-        #endregion
-
-        #region Data
-        #endregion
-
         ////////////////////////////////////////////////////////////////////////////////////////////////
-
-        #region Engine & Contructors
-        #endregion
-
-        #region Public
-        #endregion
-
-        #region Interfaces & Inheritance
-        #endregion
-
-        #region Events & Statics
-        #endregion
-
-        #region Private & Protected
-        #endregion
     }
 }

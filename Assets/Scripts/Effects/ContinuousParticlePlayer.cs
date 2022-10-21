@@ -4,25 +4,12 @@ using SinkingShips.Debug;
 
 namespace SinkingShips.Effects
 {
-    public class ContinuosParticleDisplayer : ParticleDisplayer
+    public class ContinuousParticlePlayer : EffectPlayer
     {
-        #region Config
-        //[Header("CONFIG")]
-        #endregion
-
         #region Cache & Constants
         [Header("CACHE")]
         [SerializeField]
         ParticleSystem[] _particlesToDisplay;
-        #endregion
-
-        #region States
-        #endregion
-
-        #region Events & Statics
-        #endregion
-
-        #region Data
         #endregion
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,11 +21,8 @@ namespace SinkingShips.Effects
         }
         #endregion
 
-        #region Public
-        #endregion
-
         #region Interfaces & Inheritance
-        public override void DisplayParticle()
+        public override void PlayEffect()
         {
             foreach(ParticleSystem particle in _particlesToDisplay)
             {
@@ -52,7 +36,7 @@ namespace SinkingShips.Effects
             }
         }
 
-        public override void HideParticle()
+        public override void StopEffect()
         {
             foreach (ParticleSystem particle in _particlesToDisplay)
             {
@@ -64,12 +48,6 @@ namespace SinkingShips.Effects
                 }
             }
         }
-        #endregion
-
-        #region Events & Statics
-        #endregion
-
-        #region Private & Protected
         #endregion
     }
 }

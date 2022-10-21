@@ -22,20 +22,13 @@ namespace SinkingShips.Movement
         [SerializeField]
         private Transform _addForcePosition;
         [SerializeField]
-        private ParticleDisplayer _particleDisplayer;
+        private EffectPlayer _particleEffectPlayer;
+        [SerializeField]
+        private EffectPlayer _audioEffectPlayer;
 
-        [Header("CACHE - optional")]
-        [SerializeField, Tooltip("Auto initialized with GetComponent<>() if not set")]
+        [Header("CACHE - optional (auto initialized if null)")]
+        [SerializeField]
         private Rigidbody _rigidbody;
-        #endregion
-
-        #region States
-        #endregion
-
-        #region Events & Statics
-        #endregion
-
-        #region Data
         #endregion
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,11 +40,8 @@ namespace SinkingShips.Movement
 
             CustomLogger.AssertTrue(_movementConfig != null, "_movementConfig", this);
             CustomLogger.AssertNotNull(_addForcePosition, "_addForcePosition", this);
-            CustomLogger.AssertNotNull(_particleDisplayer, "_particleDisplayer", this);
+            CustomLogger.AssertNotNull(_particleEffectPlayer, "_particleDisplayer", this);
         }
-        #endregion
-
-        #region Public
         #endregion
 
         #region Interfaces & Inheritance
@@ -71,11 +61,13 @@ namespace SinkingShips.Movement
 
             if(!Mathf.Approximately(distance, 0f))
             {
-                _particleDisplayer.DisplayParticle();
+                _particleEffectPlayer.PlayEffect();
+                _audioEffectPlayer.PlayEffect();
             }
             else
             {
-                _particleDisplayer.HideParticle();
+                _particleEffectPlayer.StopEffect();
+                _audioEffectPlayer.StopEffect();
             }
         }
 
@@ -92,12 +84,6 @@ namespace SinkingShips.Movement
                     LogCategory.Movement, LogFrequency.EveryFrame, LogDetails.Medium);
             }
         }
-        #endregion
-
-        #region Events & Statics
-        #endregion
-
-        #region Private & Protected
         #endregion
     }
 }
