@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace SinkingShips.Effects
 {
-    public abstract class EffectPlayer : MonoBehaviour
+    public interface IEffectPlayer
     {
         ////////////////////////////////////////////////////////////////////////////////////////////////
 

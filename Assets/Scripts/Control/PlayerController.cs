@@ -23,9 +23,9 @@ namespace SinkingShips.Control
         private void Awake()
         {
             _inputProvider = InitializationHelpers.GetComponentIfEmpty<IInputProviderGameplay>
-                (_inputProvider, this, "_inputProvider");
+                (_inputProvider, gameObject, "_inputProvider");
             _movementByDistance = InitializationHelpers.GetComponentIfEmpty<IMovementByDistance>
-                (_movementByDistance, this, "_movementByDistance");
+                (_movementByDistance, gameObject, "_movementByDistance");
         }
 
         private void FixedUpdate()

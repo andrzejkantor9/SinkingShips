@@ -7,7 +7,7 @@ using SinkingShips.Debug;
 
 namespace SinkingShips.Effects
 {
-    public class VolumeOverTimeSfxPlayer : EffectPlayer
+    public class VolumeOverTimeSfxPlayer : MonoBehaviour,  IEffectPlayer
     {
         #region
         [Header("CONFIG")]
@@ -33,17 +33,18 @@ namespace SinkingShips.Effects
         #region Engine & Contructors
         private void Awake()
         {
-            _audioSource = InitializationHelpers.GetComponentIfEmpty<AudioSource>(_audioSource, this, 
+            _audioSource = InitializationHelpers.GetComponentIfEmpty<AudioSource>(_audioSource, gameObject, 
                 "_audioSource");
 
-            CustomLogger.AssertTrue(_volumeOverTimeSfxConfig != null, "_volumeOverTimeSfxConfig is null", this);
+            CustomLogger.AssertTrue(_volumeOverTimeSfxConfig != null, "_volumeOverTimeSfxConfig is null", 
+                this);
 
             _defaultVolume = _audioSource.volume;
         }
         #endregion
 
         #region Interfaces & Inheritance
-        public override void PlayEffect()
+        public void PlayEffect()
         {
             if (!_audioSource.isPlaying || _currentStopCoroutine != null)
             {
@@ -51,7 +52,7 @@ namespace SinkingShips.Effects
             }
         }
 
-        public override void StopEffect()
+        public void StopEffect()
         {
             if (_audioSource.isPlaying || _currentPlayCoroutine != null)
             {

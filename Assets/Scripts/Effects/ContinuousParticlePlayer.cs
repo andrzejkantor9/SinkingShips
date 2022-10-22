@@ -4,7 +4,7 @@ using SinkingShips.Debug;
 
 namespace SinkingShips.Effects
 {
-    public class ContinuousParticlePlayer : EffectPlayer
+    public class ContinuousParticlePlayer : MonoBehaviour, IEffectPlayer
     {
         #region Cache & Constants
         [Header("CACHE")]
@@ -22,7 +22,7 @@ namespace SinkingShips.Effects
         #endregion
 
         #region Interfaces & Inheritance
-        public override void PlayEffect()
+        public void PlayEffect()
         {
             for(int i = 0; i < _particlesToDisplay.Length; i++)
             {
@@ -36,7 +36,7 @@ namespace SinkingShips.Effects
             }
         }
 
-        public override void StopEffect()
+        public void StopEffect()
         {
             for(var i = 0; i < _particlesToDisplay.Length; i++)
             {

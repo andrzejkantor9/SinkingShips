@@ -1,8 +1,9 @@
+using System.Collections.Generic;
+
 using UnityEngine;
 
 using SinkingShips.Debug;
 using SinkingShips.Helpers;
-using System;
 using SinkingShips.Effects;
 
 namespace SinkingShips.Movement
@@ -22,13 +23,13 @@ namespace SinkingShips.Movement
         [SerializeField]
         private Transform _addForcePosition;
         [SerializeField]
-        private EffectPlayer _particleEffectPlayer;
-        [SerializeField]
-        private EffectPlayer _audioEffectPlayer;
+        private GameObject _movementEffectsRoot;
 
         [Header("CACHE - optional (auto initialized if null)")]
         [SerializeField]
         private Rigidbody _rigidbody;
+
+        private List<IEffectPlayer> _movementEffectsPlayers = new List<IEffectPlayer>();
         #endregion
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -36,11 +37,14 @@ namespace SinkingShips.Movement
         #region Engine & Contructors
         private void Awake()
         {
-            _rigidbody = InitializationHelpers.GetComponentIfEmpty<Rigidbody>(_rigidbody, this, "_rigidbody");
+            _rigidbody = InitializationHelpers.GetComponentIfEmpty(_rigidbody, gameObject, "_rigidbody");
+            _movementEffectsPlayers = InitializationHelpers.GetComponentsIfEmpty<IEffectPlayer>
+                (_movementEffectsPlayers, _movementEffectsRoot, "_movementEffectsPlayers");
 
             CustomLogger.AssertTrue(_movementConfig != null, "_movementConfig", this);
             CustomLogger.AssertNotNull(_addForcePosition, "_addForcePosition", this);
-            CustomLogger.AssertNotNull(_particleEffectPlayer, "_particleDisplayer", this);
+
+            CustomLogger.AssertNotNull(_movementEffectsRoot, "_movementEffectsRoot", this);
         }
         #endregion
 
@@ -61,13 +65,17 @@ namespace SinkingShips.Movement
 
             if(!Mathf.Approximately(distance, 0f))
             {
-                _particleEffectPlayer.PlayEffect();
-                _audioEffectPlayer.PlayEffect();
+                foreach (var effectPlayer in _movementEffectsPlayers)
+                {
+                    effectPlayer.PlayEffect();
+                }
             }
             else
             {
-                _particleEffectPlayer.StopEffect();
-                _audioEffectPlayer.StopEffect();
+                foreach(var effectPlayer in _movementEffectsPlayers)
+                {
+                    effectPlayer.StopEffect();
+                }
             }
         }
 
