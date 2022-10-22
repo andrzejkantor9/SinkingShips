@@ -6,10 +6,16 @@ namespace SinkingShips.Effects
 {
     public class ContinuousParticlePlayer : MonoBehaviour, IEffectPlayer
     {
+        #region Config
+        [Header("CONFIG")]
+        [SerializeField]
+        private ParticleSystemStopBehavior _stopBehavior = ParticleSystemStopBehavior.StopEmitting;
+        #endregion
+
         #region Cache & Constants
         [Header("CACHE")]
         [SerializeField]
-        ParticleSystem[] _particlesToDisplay;
+        private ParticleSystem[] _particlesToDisplay;
         #endregion
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,7 +35,7 @@ namespace SinkingShips.Effects
                 if (!_particlesToDisplay[i].isPlaying)
                 {
                     _particlesToDisplay[i].Play();
-                    CustomLogger.Log($"stopped playing movement particles", this,
+                    CustomLogger.Log($"started playing movement particles", this,
                         LogCategory.VFX, LogFrequency.Regular, LogDetails.Basic);
                 }
                     
@@ -40,9 +46,9 @@ namespace SinkingShips.Effects
         {
             for(var i = 0; i < _particlesToDisplay.Length; i++)
             {
-                if (_particlesToDisplay[i].isPlaying)
+                if (_particlesToDisplay[i].isPlaying && _particlesToDisplay[i].isEmitting)
                 {
-                    _particlesToDisplay[i].Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                    _particlesToDisplay[i].Stop(true, _stopBehavior);
                     CustomLogger.Log($"stopped playing movement particles", this,
                         LogCategory.VFX, LogFrequency.Regular, LogDetails.Basic);
                 }

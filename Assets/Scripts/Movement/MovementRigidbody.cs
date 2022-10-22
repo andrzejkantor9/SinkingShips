@@ -5,6 +5,7 @@ using UnityEngine;
 using SinkingShips.Debug;
 using SinkingShips.Helpers;
 using SinkingShips.Effects;
+using System;
 
 namespace SinkingShips.Movement
 {
@@ -59,8 +60,11 @@ namespace SinkingShips.Movement
             {
                 _rigidbody.AddForceAtPosition(force, _addForcePosition.position);
 
-                CustomLogger.Log($"added force: {force}, current velocity: {_rigidbody.velocity}", this,
-                    LogCategory.Movement, LogFrequency.EveryFrame, LogDetails.Medium);
+                if (force != Vector3.zero || _rigidbody.velocity != Vector3.zero)
+                {
+                    CustomLogger.Log($"added force: {force}, current velocity: {_rigidbody.velocity}", this,
+                        LogCategory.Movement, LogFrequency.EveryFrame, LogDetails.Medium);
+                }
             }
 
             if(!Mathf.Approximately(distance, 0f))
@@ -88,8 +92,11 @@ namespace SinkingShips.Movement
             {
                 _rigidbody.AddRelativeTorque(torque);
 
-                CustomLogger.Log($"added torque: {torque}, angular velocity: {_rigidbody.angularVelocity}", this,
-                    LogCategory.Movement, LogFrequency.EveryFrame, LogDetails.Medium);
+                if(torque != Vector3.zero)
+                {
+                    CustomLogger.Log($"added torque: {torque}, angular velocity: {_rigidbody.angularVelocity}", this,
+                        LogCategory.Movement, LogFrequency.EveryFrame, LogDetails.Medium);
+                }
             }
         }
         #endregion

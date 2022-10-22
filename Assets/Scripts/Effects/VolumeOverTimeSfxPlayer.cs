@@ -54,7 +54,7 @@ namespace SinkingShips.Effects
 
         public void StopEffect()
         {
-            if (_audioSource.isPlaying || _currentPlayCoroutine != null)
+            if ((_audioSource.isPlaying || _currentPlayCoroutine != null ) && _currentStopCoroutine == null)
             {
                 Stop();
             }
