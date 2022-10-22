@@ -203,7 +203,8 @@ namespace SinkingShips.Debug
             {
                 filePath = GetFileFromPath(filePath);
 
-                UnityEngine.Debug.Log($"{message}, <color=teal>object: {unityObject?.name}, called at: {filePath}</color>", unityObject);
+                UnityEngine.Debug.Log($"{message}, <color=teal>object: {unityObject?.name}" +
+                    $", called at: {filePath}</color>", unityObject);
             }
             else
             {
@@ -227,7 +228,8 @@ namespace SinkingShips.Debug
             )
             {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
-                LogWarning(message, (object)null, logCategory, logFrequency, logDetails, logToScreen, stackInfo, filePath);
+                LogWarning(message, (object)null, logCategory, logFrequency, logDetails, logToScreen, 
+                    stackInfo, filePath);
 #endif
             }
 
@@ -244,7 +246,8 @@ namespace SinkingShips.Debug
             )
         {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
-            if(!_logCategoryEnabled[logCategory] || !_logFrequencyEnabled[logFrequency] || !_logDetailsEnabled[logDetails]) return;
+            if(!_logCategoryEnabled[logCategory] || !_logFrequencyEnabled[logFrequency] 
+                || !_logDetailsEnabled[logDetails]) return;
 
             UnityEngine.Object unityObject = TryGetUnityObject(contextObject);
             string warningMessage = "<color=yellow>" + message + "</color>";
@@ -252,11 +255,13 @@ namespace SinkingShips.Debug
             {
                 filePath = GetFileFromPath(filePath);
 
-                UnityEngine.Debug.LogWarning($"{warningMessage}, <color=teal>object: {unityObject?.name}, called at: {filePath}</color>", unityObject);
+                UnityEngine.Debug.LogWarning($"{warningMessage}, <color=teal>object: {unityObject?.name}, " +
+                    $"called at: {filePath}</color>", unityObject);
             }
             else
             {
-                UnityEngine.Debug.LogWarning($"{warningMessage}, <color=teal>object: {unityObject?.name}</color>", unityObject);
+                UnityEngine.Debug.LogWarning($"{warningMessage}, <color=teal>object: {unityObject?.name}</color>", 
+                    unityObject);
             }
 
             if(logToScreen)
@@ -267,45 +272,39 @@ namespace SinkingShips.Debug
         [Conditional("DEVELOPMENT_BUILD"), Conditional("UNITY_EDITOR")]
         public static void LogError(
             string message,
-            LogCategory logCategory, 
-            LogFrequency logFrequency,
-            LogDetails logDetails,
             bool logToScreen = true, 
             bool stackInfo = true, 
             [System.Runtime.CompilerServices.CallerFilePath] string filePath = ""
             )
             {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
-                LogError(message, (object)null, logCategory, logFrequency, logDetails, logToScreen, stackInfo, filePath);
+                LogError(message, (object)null, logToScreen, stackInfo, filePath);
 #endif
             }
 
         [Conditional("DEVELOPMENT_BUILD"), Conditional("UNITY_EDITOR")]
         public static void LogError<T>(
             string message,
-            T contextObject, 
-            LogCategory logCategory, 
-            LogFrequency logFrequency,
-            LogDetails logDetails,
+            T contextObject,
             bool logToScreen = true, 
             bool stackInfo = true,
             [System.Runtime.CompilerServices.CallerFilePath] string filePath = ""
             )
         {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
-            if(!_logCategoryEnabled[logCategory] || !_logFrequencyEnabled[logFrequency] || !_logDetailsEnabled[logDetails]) return;
-
             UnityEngine.Object unityObject = TryGetUnityObject(contextObject);
             string warningMessage = "<color=red>" + message + "</color>";
             if(stackInfo)
             {
                 filePath = GetFileFromPath(filePath);
 
-                UnityEngine.Debug.LogError($"{warningMessage}, <color=teal>object: {unityObject?.name}, called at: {filePath}</color>", unityObject);
+                UnityEngine.Debug.LogError($"{warningMessage}, <color=teal>object: {unityObject?.name}" +
+                    $", called at: {filePath}</color>", unityObject);
             }
             else
             {
-                UnityEngine.Debug.LogError($"{warningMessage}, <color=teal>object: {unityObject?.name}</color>", unityObject);
+                UnityEngine.Debug.LogError($"{warningMessage}, <color=teal>object: {unityObject?.name}</color>"
+                    , unityObject);
             }
             
             if(logToScreen)
@@ -317,7 +316,7 @@ namespace SinkingShips.Debug
     #region Assertions
         [Conditional("DEVELOPMENT_BUILD"), Conditional("UNITY_EDITOR")]
         public static void AssertNotNull<T, U>(T variableToCheck, string variableToCheckName, U scriptThis) 
-            where T : Component
+            where T : UnityEngine.Object
         {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
             string scriptName = GetScriptNameWithoutNamespace(scriptThis);
@@ -326,7 +325,8 @@ namespace SinkingShips.Debug
             UnityEngine.Assertions.Assert.IsNotNull
             (
                 variableToCheck, 
-                $"{variableToCheckName} is null, <color=teal>Object: {gameObjectName}, Script: {scriptName}</color>"
+                $"{variableToCheckName} is null, <color=teal>Object: {gameObjectName}, " +
+                $"Script: {scriptName}</color>"
             );
 #endif
         }
@@ -365,12 +365,14 @@ namespace SinkingShips.Debug
             if(possibleUnityObject == null)
                 return null;
 
-            return possibleUnityObject.GetType().IsSubclassOf(typeof(UnityEngine.Object)) ? (possibleUnityObject as UnityEngine.Object) : null;
+            return possibleUnityObject.GetType().IsSubclassOf(typeof(UnityEngine.Object)) ? 
+                (possibleUnityObject as UnityEngine.Object) : null;
         }
 
         private static string GetGameObjectName(System.Object script)
         {
-           return script.GetType().IsSubclassOf(typeof(MonoBehaviour)) ? (script as MonoBehaviour).gameObject.name : "not a game object";
+           return script.GetType().IsSubclassOf(typeof(MonoBehaviour)) ? 
+                (script as MonoBehaviour).gameObject.name : "not a game object";
         }
     #endregion
     }
