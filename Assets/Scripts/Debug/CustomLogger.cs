@@ -57,8 +57,10 @@ namespace SinkingShips.Debug
     public class CustomLogger : MonoBehaviour
     {
         private const int IM_GUI_FONT_SIZE = 25;
+        [SerializeField]
+        private static bool sss;
 
-    #region LogConfig
+        #region LogConfig
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
         private static readonly Dictionary<LogCategory, bool> _logCategoryEnabled = new Dictionary<LogCategory, bool>()
         {
@@ -105,11 +107,11 @@ namespace SinkingShips.Debug
             {LogDetails.Deep, true}
         };
 #endif
-    #endregion
+        #endregion
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
         
-    #region ImGUI
+        #region ImGUI
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
         private GUIStyle textStyle = new GUIStyle();
 
@@ -163,9 +165,9 @@ namespace SinkingShips.Debug
             }
         }
 #endif
-    #endregion
+        #endregion
 
-    #region Logging
+        #region Logging
         [Conditional("DEVELOPMENT_BUILD"), Conditional("UNITY_EDITOR")]
         public static void Log(
             string message,
@@ -313,7 +315,7 @@ namespace SinkingShips.Debug
         }
         #endregion
 
-    #region Assertions
+        #region Assertions
         [Conditional("DEVELOPMENT_BUILD"), Conditional("UNITY_EDITOR")]
         public static void AssertNotNull<T, U>(T variableToCheck, string variableToCheckName, U scriptThis) 
             where T : UnityEngine.Object
@@ -345,7 +347,9 @@ namespace SinkingShips.Debug
             );
 #endif
         }
+        #endregion
 
+        #region Private & Protected
         private static string GetFileFromPath(string filePath)
         {
             filePath = filePath.Substring(filePath.LastIndexOf('\\') + 1);
@@ -374,6 +378,6 @@ namespace SinkingShips.Debug
            return script.GetType().IsSubclassOf(typeof(MonoBehaviour)) ? 
                 (script as MonoBehaviour).gameObject.name : "not a game object";
         }
-    #endregion
+        #endregion
     }
 }

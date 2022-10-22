@@ -18,8 +18,5 @@ namespace SinkingShips.Helpers
             return path;
         }
         #endregion
-
-        #region Private & Protected
-        #endregion
     }
 }

@@ -88,6 +88,7 @@ namespace SinkingShips.Effects
 
         private IEnumerator PlayAndIncreaseVolume(float startVolume)
         {
+            //setup variables
             if(_volumeOverTimeSfxConfig.PlayFromRandomSecond)
             {
                 _audioSource.time = Random.Range(0f, _audioSource.clip.length);
@@ -95,10 +96,12 @@ namespace SinkingShips.Effects
             _audioSource.volume = startVolume;
             float _timeStartedCoroutine = Time.time;
 
+            //play
             _audioSource.Play();
             CustomLogger.Log($"play clip: {_audioSource.clip.name} from: {_audioSource.time} second", this, 
                 LogCategory.SFX, LogFrequency.Regular, LogDetails.Basic);
 
+            //increase volume every frame
             while (_audioSource.volume < _defaultVolume)
             {
                 float lerpFraction = (Time.time - _timeStartedCoroutine) / _volumeOverTimeSfxConfig.TimeToMaxVolume;
@@ -109,6 +112,7 @@ namespace SinkingShips.Effects
                 yield return null;
             }
 
+            //clean coroutine
             _currentPlayCoroutine = null;
             CustomLogger.Log($"clip: {_audioSource.clip.name} reached desired volume", this, 
                 LogCategory.SFX, LogFrequency.Regular, LogDetails.Medium);
@@ -116,11 +120,13 @@ namespace SinkingShips.Effects
 
         private IEnumerator StopPlayingOverTime()
         {
+            //setup variables
             float _currentVolume = _audioSource.volume;
             float _timeStartedCoroutine = Time.time;
             CustomLogger.Log($"start silencing clip: {_audioSource.clip.name}", this,
                 LogCategory.SFX, LogFrequency.Regular, LogDetails.Medium);
 
+            //decrease volume every frame
             while (!Mathf.Approximately(_audioSource.volume, 0f))
             {
                 float lerpFraction = (Time.time - _timeStartedCoroutine) / _volumeOverTimeSfxConfig.TimeToStopSfx;
@@ -131,6 +137,7 @@ namespace SinkingShips.Effects
                 yield return null;
             }
 
+            //stop and cleanup coroutine
             _currentStopCoroutine = null;
             _audioSource.Stop();
             CustomLogger.Log($"stop playing clip: {_audioSource.clip.name}", this, 

@@ -56,31 +56,20 @@ namespace SinkingShips.Movement
             bool isMovingForward = distance > 0f;
             force *= isMovingForward ? 1f : _movementConfig.BackwardMultiplier;
 
-            if(_rigidbody.velocity.sqrMagnitude < Mathf.Pow(_movementConfig.MaxVelocityMagintude, 2))
+            if (_rigidbody.velocity.sqrMagnitude < Mathf.Pow(_movementConfig.MaxVelocityMagintude, 2))
             {
                 _rigidbody.AddForceAtPosition(force, _addForcePosition.position);
 
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
                 if (force != Vector3.zero || _rigidbody.velocity != Vector3.zero)
                 {
                     CustomLogger.Log($"added force: {force}, current velocity: {_rigidbody.velocity}", this,
                         LogCategory.Movement, LogFrequency.EveryFrame, LogDetails.Medium);
                 }
+#endif
             }
 
-            if(!Mathf.Approximately(distance, 0f))
-            {
-                foreach (var effectPlayer in _movementEffectsPlayers)
-                {
-                    effectPlayer.PlayEffect();
-                }
-            }
-            else
-            {
-                foreach(var effectPlayer in _movementEffectsPlayers)
-                {
-                    effectPlayer.StopEffect();
-                }
-            }
+            ToggleEffects(!Mathf.Approximately(distance, 0f));
         }
 
         public void Turn(float turnAmount, float deltaTime)
@@ -92,10 +81,32 @@ namespace SinkingShips.Movement
             {
                 _rigidbody.AddRelativeTorque(torque);
 
-                if(torque != Vector3.zero)
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+                if (torque != Vector3.zero)
                 {
                     CustomLogger.Log($"added torque: {torque}, angular velocity: {_rigidbody.angularVelocity}", this,
                         LogCategory.Movement, LogFrequency.EveryFrame, LogDetails.Medium);
+                }
+#endif
+            }
+        }
+        #endregion
+
+        #region Private & Protected
+        private void ToggleEffects(bool active)
+        {
+            if (active)
+            {
+                foreach (var effectPlayer in _movementEffectsPlayers)
+                {
+                    effectPlayer.PlayEffect();
+                }
+            }
+            else
+            {
+                foreach (var effectPlayer in _movementEffectsPlayers)
+                {
+                    effectPlayer.StopEffect();
                 }
             }
         }
