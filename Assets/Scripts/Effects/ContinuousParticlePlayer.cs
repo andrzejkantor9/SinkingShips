@@ -24,11 +24,11 @@ namespace SinkingShips.Effects
         #region Interfaces & Inheritance
         public override void PlayEffect()
         {
-            foreach(ParticleSystem particle in _particlesToDisplay)
+            for(int i = 0; i < _particlesToDisplay.Length; i++)
             {
-                if(!particle.isPlaying)
+                if (!_particlesToDisplay[i].isPlaying)
                 {
-                    particle.Play();
+                    _particlesToDisplay[i].Play();
                     CustomLogger.Log($"stopped playing movement particles", this,
                         LogCategory.VFX, LogFrequency.Regular, LogDetails.Basic);
                 }
@@ -38,11 +38,11 @@ namespace SinkingShips.Effects
 
         public override void StopEffect()
         {
-            foreach (ParticleSystem particle in _particlesToDisplay)
+            for(var i = 0; i < _particlesToDisplay.Length; i++)
             {
-                if (particle.isPlaying)
+                if (_particlesToDisplay[i].isPlaying)
                 {
-                    particle.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                    _particlesToDisplay[i].Stop(true, ParticleSystemStopBehavior.StopEmitting);
                     CustomLogger.Log($"stopped playing movement particles", this,
                         LogCategory.VFX, LogFrequency.Regular, LogDetails.Basic);
                 }
