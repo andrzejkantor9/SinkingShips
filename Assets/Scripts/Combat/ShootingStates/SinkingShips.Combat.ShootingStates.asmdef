@@ -1,12 +1,10 @@
 {
-    "name": "SinkingShips.Control",
-    "rootNamespace": "SinkingShips.Control",
+    "name": "SinkingShips.Combat.ShootingStates",
+    "rootNamespace": "SinkingShips.Combat.ShootingStates",
     "references": [
         "GUID:bfa3f9e1429b5e04aa8ebf0071fbb457",
-        "GUID:e00c87d44d5649b44bbce67fa67e6300",
-        "GUID:8c2a5edca786d6348b78674a478b1d55",
         "GUID:cd0c2db3ba770454d9a27d93baef337b",
-        "GUID:f5a5733bf3e1a2149a63058f069a69a9"
+        "GUID:f089ec6a031e7e845926017af144f547"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

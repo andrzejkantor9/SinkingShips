@@ -30,7 +30,7 @@ Transform:
   m_Children:
   - {fileID: 2785970726183439790}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2877118225340391052
 PrefabInstance:
@@ -99,6 +99,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ship_Enemy_Regular_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 202966054770850937, guid: e073249ac2df4db4a9b54ad6f3547b15,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3905798864768014352, guid: e073249ac2df4db4a9b54ad6f3547b15,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

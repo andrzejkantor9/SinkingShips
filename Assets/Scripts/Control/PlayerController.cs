@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.Profiling;
 
-using SinkingShips.Input;
 using SinkingShips.Debug;
-using SinkingShips.Movement;
 using SinkingShips.Helpers;
+
+using SinkingShips.Input;
+using SinkingShips.Movement;
+using SinkingShips.Combat;
 
 namespace SinkingShips.Control
 {
@@ -15,6 +17,7 @@ namespace SinkingShips.Control
 
         private IInputProviderGameplay _inputProvider;
         private IMovementByDistance _movementByDistance;
+        private ITwoSidedShooter _twoSidedShooter;
         #endregion
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -22,10 +25,23 @@ namespace SinkingShips.Control
         #region Engine & Contructors
         private void Awake()
         {
-            _inputProvider = InitializationHelpers.GetComponentIfEmpty<IInputProviderGameplay>
-                (_inputProvider, gameObject, "_inputProvider");
-            _movementByDistance = InitializationHelpers.GetComponentIfEmpty<IMovementByDistance>
+            _inputProvider = InitializationHelpers.GetComponentIfEmpty(_inputProvider, gameObject, "_inputProvider");
+            _movementByDistance = InitializationHelpers.GetComponentIfEmpty
                 (_movementByDistance, gameObject, "_movementByDistance");
+            _twoSidedShooter = InitializationHelpers.GetComponentIfEmpty
+                (_twoSidedShooter, gameObject, "_twoSidedShooter");
+        }
+
+        private void OnEnable()
+        {
+            _inputProvider.onAttackLeft += AttackLeft;
+            _inputProvider.onAttackRight += AttackRight;
+        }
+
+        private void OnDisable()
+        {
+            _inputProvider.onAttackLeft -= AttackLeft;
+            _inputProvider.onAttackRight -= AttackRight;
         }
 
         private void FixedUpdate()
@@ -36,6 +52,18 @@ namespace SinkingShips.Control
             _movementByDistance.Turn(_inputProvider.MovementValue.x, Time.fixedDeltaTime);
 
             Profiler.EndSample();
+        }
+        #endregion
+
+        #region Events & Statics
+        private void AttackLeft()
+        {
+            _twoSidedShooter.ShootLeft();
+        }
+
+        private void AttackRight()
+        {
+            _twoSidedShooter.ShootRight();
         }
         #endregion
     }

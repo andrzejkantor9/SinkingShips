@@ -1,0 +1,9 @@
+using UnityEngine;
+
+namespace SinkingShips.Combat
+{
+    public abstract class Projectile : MonoBehaviour
+    {
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+    }
+}
