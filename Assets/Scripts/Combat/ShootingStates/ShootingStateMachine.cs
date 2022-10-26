@@ -7,6 +7,9 @@ using SinkingShips.Debug;
 using SinkingShips.Combat.Projectiles;
 using UnityEditorInternal;
 using UnityEngine.PlayerLoop;
+using System.Text;
+using UnityEngine.Profiling;
+using static UnityEngine.UI.Selectable;
 
 namespace SinkingShips.Combat.ShootingStates
 {
@@ -53,6 +56,13 @@ namespace SinkingShips.Combat.ShootingStates
             {
                 FollowingState = followingState;
                 Condition = condition;
+
+
+                //StringBuilder builder = new StringBuilder();
+                //builder.Append($"transition exists: {GetTransition() != null}");
+                //builder.Append($", following state: {GetTransition()?.FollowingState.GetType().Name}");
+                //builder.Append($", _currentTransitions count: {_currentTransitions.Count}");
+                //_transitions[previousState.GetType()] = transitions;
             }
         }
 
@@ -102,11 +112,24 @@ namespace SinkingShips.Combat.ShootingStates
 
         private void Update()
         {
+            Profiler.BeginSample("ShootingStateMachine Update()");
+
             Transition transition = GetTransition();
             if (transition != null)
                 SwitchState(transition.FollowingState);
 
+            StringBuilder debugInfo = new StringBuilder();
+            debugInfo.Append("state update, ");
+            debugInfo.Append($"current state: {_currentState.GetType().Name}");
+            debugInfo.Append($", transition exists: {transition != null}");
+            debugInfo.Append($", following state: {transition?.FollowingState.GetType().Name}");
+            debugInfo.Append($", has shot: {_hasShot}");
+            debugInfo.Append($", _currentTransitions count: {_currentTransitions.Count}");
+            //CustomLogger.Log(debugInfo.ToString(), this, LogCategory._Test, LogFrequency.MostFrames, LogDetails.Medium);
+
             _currentState.Update(Time.deltaTime);
+
+            Profiler.EndSample();
         }
         #endregion
 
@@ -138,15 +161,26 @@ namespace SinkingShips.Combat.ShootingStates
         #region Private & Protected
         private void SetupStates()
         {
+            _hasShotCallbackInternal += () => 
+            {
+                _hasShot = true; 
+                _hasShotCallback?.Invoke();
+                StringBuilder debugInfo = new StringBuilder();
+                debugInfo.Append("state shot called, ");
+                debugInfo.Append($"transition exists: {GetTransition() != null}");
+                debugInfo.Append($", following state: {GetTransition()?.FollowingState.GetType().Name}");
+                debugInfo.Append($", _currentTransitions count: {_currentTransitions.Count}");
+
+                CustomLogger.Log(debugInfo.ToString(), this, LogCategory._Test, LogFrequency.Regular, LogDetails.Medium);                
+            };
+
             _ready = new Ready();
             _shooting = new Shooting(_hasShotCallbackInternal);
-            _reloading = new Reloading(this, _shootingConfig.TimeBetweenAttacks);
+            _reloading = new Reloading(_shootingConfig.TimeBetweenAttacks, () => _hasShot = false);
 
             AddTransition(_ready, _shooting, _wasShotPerformed);
             AddTransition(_shooting, _reloading, HasShot());
             AddTransition(_reloading, _ready, HasReloaded());
-
-            _hasShotCallbackInternal += () => { _hasShot = true; _hasShotCallback?.Invoke(); };
 
             SwitchState(_ready);
         }
@@ -170,7 +204,7 @@ namespace SinkingShips.Combat.ShootingStates
 
             CustomLogger.Log($"{gameObject.name} enter state: {_currentState.GetType().Name}", this,
                     LogCategory.Combat, LogFrequency.MostFrames, LogDetails.Basic);
-            _hasShot = false;
+            _currentState.Enter();
         }
 
         private void AddTransition(IShootingState previousState, IShootingState followingState, Func<bool> condition)

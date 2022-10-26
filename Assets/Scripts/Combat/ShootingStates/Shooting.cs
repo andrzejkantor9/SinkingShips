@@ -1,3 +1,4 @@
+using SinkingShips.Debug;
 using System;
 using UnityEngine;
 
@@ -38,11 +39,13 @@ namespace SinkingShips.Combat.ShootingStates
         #region Interfaces & Inheritance
         public void Enter()
         {
+            //do prefab and object pool things
+            CustomLogger.Log($"state callback exists: {_hasShotCallback != null}", LogCategory._Test, LogFrequency.Regular, LogDetails.Medium);
+            _hasShotCallback?.Invoke();
         }
 
         public void Exit()
         {
-            _hasShotCallback?.Invoke();
         }
 
         public void Update(float deltaTime)

@@ -1,7 +1,8 @@
+using System;
+
 using UnityEngine;
 
 using SinkingShips.Combat.ShootingStates;
-using static SinkingShips.Combat.ShootingStates.ShootingStateMachine;
 
 namespace SinkingShips.Combat
 {
@@ -12,7 +13,6 @@ namespace SinkingShips.Combat
         #endregion
 
         #region Cache & Constants
-        private ShootingStateMachine _shootingStateMachine;
         private float _reloadingDuration;
         #endregion
 
@@ -21,6 +21,7 @@ namespace SinkingShips.Combat
         #endregion
 
         #region Events & Statics
+        private Action _enterStateCallback;
         #endregion
 
         #region Data
@@ -29,10 +30,10 @@ namespace SinkingShips.Combat
         ////////////////////////////////////////////////////////////////////////////////////////////////
 
         #region Engine & Contructors
-        public Reloading(ShootingStateMachine shootingStateMachine, float reloadingDuration)
+        public Reloading(float reloadingDuration, Action enterStateCallback)
         {
-            _shootingStateMachine = shootingStateMachine;
             _reloadingDuration = reloadingDuration;
+            _enterStateCallback = enterStateCallback;
         }
         #endregion
 
@@ -43,6 +44,7 @@ namespace SinkingShips.Combat
         public void Enter()
         {
             ReloadingTime = 0f;
+            _enterStateCallback?.Invoke();
         }
 
         public void Exit()
