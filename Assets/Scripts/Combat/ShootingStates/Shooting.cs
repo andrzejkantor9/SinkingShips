@@ -1,3 +1,4 @@
+using SinkingShips.Combat.Projectiles;
 using SinkingShips.Debug;
 using System;
 using UnityEngine;
@@ -13,6 +14,12 @@ namespace SinkingShips.Combat.ShootingStates
 
         #region Cache & Constants
         private Action _hasShotCallback;
+        private Action _exitStateCallback;
+
+        private readonly float _impulseStrength;
+        private readonly bool _gravityEnabled;
+        private readonly ProjectilesObjectPool _projectilesObjectPool;
+        private readonly Transform[] _particlesSpawnAndForward;
         #endregion
 
         #region States
@@ -27,9 +34,17 @@ namespace SinkingShips.Combat.ShootingStates
         ////////////////////////////////////////////////////////////////////////////////////////////////
 
         #region Engine & Contructors
-        public Shooting(Action hasShotCallback)
+        public Shooting(Action hasShotCallback, Action exitStateCallback,
+            float impulseStrength, bool gravityEnabled, ProjectilesObjectPool projectilesObjectPool, 
+            Transform[] particlesSpawnAndForward)
         {
             _hasShotCallback = hasShotCallback;
+            _exitStateCallback = exitStateCallback;
+
+            _impulseStrength = impulseStrength;
+            _gravityEnabled = gravityEnabled;
+            _projectilesObjectPool = projectilesObjectPool;
+            _particlesSpawnAndForward = particlesSpawnAndForward;
         }
         #endregion
 
@@ -39,13 +54,25 @@ namespace SinkingShips.Combat.ShootingStates
         #region Interfaces & Inheritance
         public void Enter()
         {
-            //do prefab and object pool things
-            CustomLogger.Log($"state callback exists: {_hasShotCallback != null}", LogCategory._Test, LogFrequency.Regular, LogDetails.Medium);
+            foreach(Transform spawnTransform in _particlesSpawnAndForward)
+            {
+                Projectile projectile = _projectilesObjectPool.GetProjectile();
+                projectile.transform.position = spawnTransform.position;
+                projectile.transform.rotation = spawnTransform.rotation;
+
+                //projectile.onOutOfScreen += _projectilesObjectPool.ReleaseProjectile(projectile);
+                projectile.SetPoolReleaseMethod(() => _projectilesObjectPool.ReleaseProjectile(projectile));
+
+                Vector3 force = _impulseStrength * spawnTransform.forward;
+                projectile.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
+            }
+
             _hasShotCallback?.Invoke();
         }
 
         public void Exit()
         {
+            _exitStateCallback?.Invoke();
         }
 
         public void Update(float deltaTime)

@@ -21,11 +21,16 @@ namespace SinkingShips.Combat
         #region Cache & Constants
         [Header("CACHE")]
         [SerializeField]
+        private Transform _projectilesParent;
+        [SerializeField]
         private ShootingStateMachine _leftShootingStateMachines;
         [SerializeField]
         private ShootingStateMachine _righthootingStateMachines;
 
         private ProjectilesObjectPool _projectilesObjectPool;
+
+        private const int POOL_DEFAULT_CAPACITY = 8;
+        private const int POOL_MAX_OBJECTS = 16;
         #endregion
 
         #region States
@@ -47,6 +52,11 @@ namespace SinkingShips.Combat
             CustomLogger.AssertTrue(_simultaneousShooterConfig != null, "_simultaneousShooterConfig is null", this);
             CustomLogger.AssertNotNull(_leftShootingStateMachines, "_leftShootingStateMachines is null", this);
             CustomLogger.AssertNotNull(_righthootingStateMachines, "_righthootingStateMachines is null", this);
+
+            ProjectilesObjectPool.PoolConfig poolConfig = new ProjectilesObjectPool.PoolConfig(
+                _simultaneousShooterConfig.ProjectilePrefab, _projectilesParent, 
+                POOL_DEFAULT_CAPACITY, POOL_MAX_OBJECTS);
+            _projectilesObjectPool = new ProjectilesObjectPool(poolConfig);
 
             SetupStateMachines();
         }
@@ -78,11 +88,11 @@ namespace SinkingShips.Combat
         private void SetupStateMachines()
         {
             var shootingConfig = new ShootingStateMachine.ShootingConfig(
-                            _projectilesObjectPool,
-                            _simultaneousShooterConfig.ProjectilePrefab,
-                            _simultaneousShooterConfig.TimeBetweenAttacks,
-                            _simultaneousShooterConfig.ImpulseStrength,
-                            _simultaneousShooterConfig.GravityEnabled);
+                _projectilesObjectPool,
+                _simultaneousShooterConfig.ProjectilePrefab,
+                _simultaneousShooterConfig.TimeBetweenAttacks,
+                _simultaneousShooterConfig.ImpulseStrength,
+                _simultaneousShooterConfig.GravityEnabled);
 
             _leftShootingStateMachines.Inject(shootingConfig, () => _leftShotPerformed, () => _leftShotPerformed = false);
             _righthootingStateMachines.Inject(shootingConfig, () => _rightShotPerformed, () => _rightShotPerformed = false);

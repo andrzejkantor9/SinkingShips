@@ -1,10 +1,11 @@
+using System;
+using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
-using System.Diagnostics;
-using System;
-
+//import back comments
 namespace SinkingShips.Debug
 {
     #region Enums
@@ -176,12 +177,9 @@ namespace SinkingShips.Debug
             LogDetails logDetails,
             bool logToScreen = true, 
             bool stackInfo = true, 
-            [System.Runtime.CompilerServices.CallerFilePath] string filePath = ""
-            )
+            [System.Runtime.CompilerServices.CallerFilePath] string filePath = "")
             {
-#if DEVELOPMENT_BUILD || UNITY_EDITOR
                 Log(message, (object)null, logCategory, logFrequency, logDetails, logToScreen, stackInfo, filePath);
-#endif
             }
 
         [Conditional("DEVELOPMENT_BUILD"), Conditional("UNITY_EDITOR")]
@@ -193,8 +191,7 @@ namespace SinkingShips.Debug
             LogDetails logDetails,
             bool logToScreen = true, 
             bool stackInfo = true, 
-            [System.Runtime.CompilerServices.CallerFilePath] string filePath = ""
-            )
+            [System.Runtime.CompilerServices.CallerFilePath] string filePath = "")
         {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
             if(!_logCategoryEnabled[logCategory] || !_logFrequencyEnabled[logFrequency] || !_logDetailsEnabled[logDetails]) 
@@ -221,48 +218,39 @@ namespace SinkingShips.Debug
         [Conditional("DEVELOPMENT_BUILD"), Conditional("UNITY_EDITOR")]
         public static void LogWarning(
             string message,
-            LogCategory logCategory, 
-            LogFrequency logFrequency,
-            LogDetails logDetails,
+            LogCategory logCategory,
             bool logToScreen = true, 
             bool stackInfo = true, 
-            [System.Runtime.CompilerServices.CallerFilePath] string filePath = ""
-            )
+            [System.Runtime.CompilerServices.CallerFilePath] string filePath = "")
             {
-#if DEVELOPMENT_BUILD || UNITY_EDITOR
-                LogWarning(message, (object)null, logCategory, logFrequency, logDetails, logToScreen, 
-                    stackInfo, filePath);
-#endif
+                LogWarning(message, (object)null, logCategory, logToScreen, stackInfo, filePath);
             }
 
         [Conditional("DEVELOPMENT_BUILD"), Conditional("UNITY_EDITOR")]
         public static void LogWarning<T>(
             string message,
             T contextObject, 
-            LogCategory logCategory, 
-            LogFrequency logFrequency,
-            LogDetails logDetails,
+            LogCategory logCategory,
             bool logToScreen = true, 
             bool stackInfo = true,
-            [System.Runtime.CompilerServices.CallerFilePath] string filePath = ""
-            )
+            [System.Runtime.CompilerServices.CallerFilePath] string filePath = "")
         {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
-            if(!_logCategoryEnabled[logCategory] || !_logFrequencyEnabled[logFrequency] 
-                || !_logDetailsEnabled[logDetails]) return;
-
             UnityEngine.Object unityObject = TryGetUnityObject(contextObject);
             string warningMessage = "<color=yellow>" + message + "</color>";
-            if(stackInfo)
+            string logCategoryString = Enum.GetName(typeof(LogCategory), logCategory);
+
+            if (stackInfo)
             {
                 filePath = GetFileFromPath(filePath);
 
-                UnityEngine.Debug.LogWarning($"{warningMessage}, <color=teal>object: {unityObject?.name}, " +
-                    $"called at: {filePath}</color>", unityObject);
+                UnityEngine.Debug.LogWarning($"{warningMessage}, category: {logCategoryString}" +
+                    $", <color=teal>object: {unityObject?.name}, called at: {filePath}</color>", unityObject);
             }
             else
             {
-                UnityEngine.Debug.LogWarning($"{warningMessage}, <color=teal>object: {unityObject?.name}</color>", 
+                UnityEngine.Debug.LogWarning($"{warningMessage}, category: {logCategoryString}" +
+                    $", <color=teal>object: {unityObject?.name}</color>", 
                     unityObject);
             }
 
@@ -276,12 +264,9 @@ namespace SinkingShips.Debug
             string message,
             bool logToScreen = true, 
             bool stackInfo = true, 
-            [System.Runtime.CompilerServices.CallerFilePath] string filePath = ""
-            )
+            [System.Runtime.CompilerServices.CallerFilePath] string filePath = "")
             {
-#if DEVELOPMENT_BUILD || UNITY_EDITOR
                 LogError(message, (object)null, logToScreen, stackInfo, filePath);
-#endif
             }
 
         [Conditional("DEVELOPMENT_BUILD"), Conditional("UNITY_EDITOR")]
@@ -290,8 +275,7 @@ namespace SinkingShips.Debug
             T contextObject,
             bool logToScreen = true, 
             bool stackInfo = true,
-            [System.Runtime.CompilerServices.CallerFilePath] string filePath = ""
-            )
+            [System.Runtime.CompilerServices.CallerFilePath] string filePath = "")
         {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
             UnityEngine.Object unityObject = TryGetUnityObject(contextObject);

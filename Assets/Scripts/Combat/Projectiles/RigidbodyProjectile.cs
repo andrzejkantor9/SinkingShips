@@ -1,6 +1,8 @@
 using UnityEngine;
 
 using SinkingShips.Debug;
+using UnityEngine.Pool;
+using System;
 
 namespace SinkingShips.Combat.Projectiles
 {
@@ -18,6 +20,7 @@ namespace SinkingShips.Combat.Projectiles
         #endregion
 
         #region Events & Statics
+        private Action _outOfScreenCallback;
         #endregion
 
         #region Data
@@ -31,10 +34,18 @@ namespace SinkingShips.Combat.Projectiles
             CustomLogger.Log($"{gameObject.name} has collided with: {other.name}", this, 
                 LogCategory.Combat, LogFrequency.Regular, LogDetails.Basic);
         }
-        //on trigger enter log message
+
+        private void OnBecameInvisible()
+        {
+            _outOfScreenCallback?.Invoke();
+        }
         #endregion
 
         #region Public
+        public override void SetPoolReleaseMethod(Action outOfScreenCallback)
+        {
+            _outOfScreenCallback = outOfScreenCallback;
+        }
         #endregion
 
         #region Interfaces & Inheritance

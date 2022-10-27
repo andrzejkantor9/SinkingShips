@@ -1,15 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 using UnityEngine;
+using UnityEngine.Profiling;
 
 using SinkingShips.Debug;
 using SinkingShips.Combat.Projectiles;
-using UnityEditorInternal;
-using UnityEngine.PlayerLoop;
-using System.Text;
-using UnityEngine.Profiling;
-using static UnityEngine.UI.Selectable;
 
 namespace SinkingShips.Combat.ShootingStates
 {
@@ -17,6 +14,8 @@ namespace SinkingShips.Combat.ShootingStates
     {
         #region Config
         //[Header("CONFIG")]
+
+        private ShootingConfig _shootingConfig;
         #endregion
 
         #region Cache & Constants
@@ -24,7 +23,6 @@ namespace SinkingShips.Combat.ShootingStates
         [SerializeField]
         private Transform[] _particlesSpawnAndForward;
 
-        private ShootingConfig _shootingConfig;
         private Action _hasShotCallback;
 
         private Action _hasShotCallbackInternal;
@@ -56,7 +54,6 @@ namespace SinkingShips.Combat.ShootingStates
             {
                 FollowingState = followingState;
                 Condition = condition;
-
 
                 //StringBuilder builder = new StringBuilder();
                 //builder.Append($"transition exists: {GetTransition() != null}");
@@ -118,13 +115,13 @@ namespace SinkingShips.Combat.ShootingStates
             if (transition != null)
                 SwitchState(transition.FollowingState);
 
-            StringBuilder debugInfo = new StringBuilder();
-            debugInfo.Append("state update, ");
-            debugInfo.Append($"current state: {_currentState.GetType().Name}");
-            debugInfo.Append($", transition exists: {transition != null}");
-            debugInfo.Append($", following state: {transition?.FollowingState.GetType().Name}");
-            debugInfo.Append($", has shot: {_hasShot}");
-            debugInfo.Append($", _currentTransitions count: {_currentTransitions.Count}");
+            //StringBuilder debugInfo = new StringBuilder();
+            //debugInfo.Append("state update, ");
+            //debugInfo.Append($"current state: {_currentState.GetType().Name}");
+            //debugInfo.Append($", transition exists: {transition != null}");
+            //debugInfo.Append($", following state: {transition?.FollowingState.GetType().Name}");
+            //debugInfo.Append($", has shot: {_hasShot}");
+            //debugInfo.Append($", _currentTransitions count: {_currentTransitions.Count}");
             //CustomLogger.Log(debugInfo.ToString(), this, LogCategory._Test, LogFrequency.MostFrames, LogDetails.Medium);
 
             _currentState.Update(Time.deltaTime);
@@ -142,14 +139,16 @@ namespace SinkingShips.Combat.ShootingStates
 
             SetupStates();
         }
-        //shooting
-        //    pass data from config
-        //        gravity, impulse, concrete object from object pool
-        //        above as struct / class?
-        //    enable projectile in object pool
-        //    pass projectile prefab from object pool to enable
-        //    initialize object pool before switching states?
-        //    disable object in object pool when it is out of screen
+        //refactor
+            //inspector config pool size?
+            //proper state transitions
+            //logs
+            //split rigidbody shooting and shooting?
+                //call abstract shoot method?
+                //get component<rigidbody> in shooting and pool - ugly
+                //simultaneous and rigidbody shooter separate?
+            //introduce structs that make sense
+            //player input get cached after shooting event if it is not pressed after reloading
         #endregion
 
         #region Interfaces & Inheritance
@@ -175,8 +174,10 @@ namespace SinkingShips.Combat.ShootingStates
             };
 
             _ready = new Ready();
-            _shooting = new Shooting(_hasShotCallbackInternal);
-            _reloading = new Reloading(_shootingConfig.TimeBetweenAttacks, () => _hasShot = false);
+            _shooting = new Shooting(_hasShotCallbackInternal, () => _hasShot = false, 
+                _shootingConfig.ImpulseStrength, _shootingConfig.GravityEnabled, _shootingConfig.ProjectilesObjectPool,
+                _particlesSpawnAndForward);
+            _reloading = new Reloading(_shootingConfig.TimeBetweenAttacks, () => { });
 
             AddTransition(_ready, _shooting, _wasShotPerformed);
             AddTransition(_shooting, _reloading, HasShot());

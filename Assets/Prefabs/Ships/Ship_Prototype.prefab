@@ -60,8 +60,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8014151754408186986}
-  - {fileID: 8014151754966052273}
   - {fileID: 2107765128792395942}
+  - {fileID: 8014151754966052273}
   - {fileID: 8014151754179485197}
   - {fileID: 8014151753203673674}
   - {fileID: 8014151754885635754}
@@ -517,7 +517,7 @@ GameObject:
   - component: {fileID: 8014151754966052273}
   - component: {fileID: 7828023985475878715}
   m_Layer: 0
-  m_Name: CannonsLeft
+  m_Name: CannonsRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -616,7 +616,7 @@ GameObject:
   - component: {fileID: 2107765128792395942}
   - component: {fileID: 6361195409415461714}
   m_Layer: 0
-  m_Name: CannonsRight
+  m_Name: CannonsLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
