@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ba6986d54ce7a47ae673b8962134fd, type: 3}
   m_Name: SimultaneousShooterConfig
   m_EditorClassIdentifier: 
-  <ProjectilePrefab>k__BackingField: {fileID: 5456044929987700686, guid: 1c42a6ba457ae1849b3465be23dc5cfa,
-    type: 3}
   <TimeBetweenAttacks>k__BackingField: 2
-  <ImpulseStrength>k__BackingField: 75
+  <ImpulseStrength>k__BackingField: 50
   <GravityEnabled>k__BackingField: 1

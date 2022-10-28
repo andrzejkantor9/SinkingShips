@@ -8,6 +8,7 @@ using SinkingShips.Debug;
 using SinkingShips.Combat.ShootingStates;
 using SinkingShips.Combat.Projectiles;
 using System;
+using SinkingShips.Utils;
 
 namespace SinkingShips.Combat
 {
@@ -30,10 +31,7 @@ namespace SinkingShips.Combat
         [SerializeField]
         private ShootingStateMachine _rightShootingStateMachines;
 
-        private ProjectilesObjectPool _projectilesObjectPool;
-
-        //private const int POOL_DEFAULT_CAPACITY = 8;
-        //private const int POOL_MAX_OBJECTS = 16;
+        private ObjectPoolBase<Projectile> _projectilesObjectPool;
         #endregion
 
         #region States
@@ -60,9 +58,11 @@ namespace SinkingShips.Combat
             CustomLogger.AssertNotNull(_leftShootingStateMachines, "_leftShootingStateMachines is null", this);
             CustomLogger.AssertNotNull(_rightShootingStateMachines, "_righthootingStateMachines is null", this);
 
-            ProjectilesObjectPool.PoolConfig poolConfig = new ProjectilesObjectPool.PoolConfig(
-                _projectilesPoolConfig.PoolObject, _projectilesParent,
-                _projectilesPoolConfig.DefaultCapacity, _projectilesPoolConfig.MaxProjectilesCounts);
+            var poolConfig = new ObjectPoolBase<Projectile>.PoolConfig(
+                _projectilesPoolConfig.PoolObject, 
+                _projectilesParent,
+                _projectilesPoolConfig.DefaultCapacity, 
+                _projectilesPoolConfig.MaxProjectilesCounts);
             _projectilesObjectPool = new ProjectilesObjectPool(poolConfig);
         }
 
@@ -82,15 +82,13 @@ namespace SinkingShips.Combat
 
         #region Interfaces & Inheritance
         public void ShootLeft()
-        {            
-            //_leftShotPerformed = value.Invoke();
+        {
             CustomLogger.Log($"shot left with impulse: {_simultaneousShooterConfig.ImpulseStrength}", this,
                 LogCategory.Combat, LogFrequency.Regular, LogDetails.Basic);
         }
 
         public void ShootRight()
         {
-            //_rightShotPerformed = true;
             CustomLogger.Log($"shot right with impulse: {_simultaneousShooterConfig.ImpulseStrength}", this,
                 LogCategory.Combat, LogFrequency.Regular, LogDetails.Basic);
         }
@@ -110,8 +108,8 @@ namespace SinkingShips.Combat
                 _simultaneousShooterConfig.GravityEnabled, 
                 _projectilesPoolConfig.MinimumLifetime);
 
-            _leftShootingStateMachines.Inject(shootingConfig, _shootingLeft);//, () => _leftShotPerformed = false);
-            _rightShootingStateMachines.Inject(shootingConfig, _shootingRight);//, () => _rightShotPerformed = false);
+            _leftShootingStateMachines.Inject(shootingConfig, _shootingLeft);
+            _rightShootingStateMachines.Inject(shootingConfig, _shootingRight);
         }
         #endregion
     }

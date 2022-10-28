@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Profiling;
 
 using SinkingShips.Debug;
+using SinkingShips.Utils;
 using SinkingShips.Combat.Projectiles;
 
 namespace SinkingShips.Combat.ShootingStates
@@ -60,7 +61,7 @@ namespace SinkingShips.Combat.ShootingStates
         public struct ShootingConfig
         {
 
-            public ProjectilesObjectPool ProjectilesObjectPool { get; private set; }
+            public ObjectPoolBase<Projectile> ProjectilesObjectPool { get; private set; }
 
             public Projectile ProjectileScript { get; private set; }
             public float TimeBetweenAttacks { get; private set; }
@@ -68,7 +69,7 @@ namespace SinkingShips.Combat.ShootingStates
             public bool GravityEnabled { get; private set; }
             public float ProjectileMinimumLifetime { get; private set; }
 
-            public ShootingConfig(ProjectilesObjectPool projectilesObjectPool, Projectile projectileScript,
+            public ShootingConfig(ObjectPoolBase<Projectile> projectilesObjectPool, Projectile projectileScript,
                 float timeBetweenAttacks, float impulseStrength, bool gravityEnabled, float projectileMinimumLifetime)
             {
                 ProjectilesObjectPool = projectilesObjectPool;
@@ -136,7 +137,7 @@ namespace SinkingShips.Combat.ShootingStates
             //simultaneous and rigidbody shooter separate?
             //introduce structs that make sense
             //ITwoSidedShooter interface depends on inject with callbacks
-            //state machine and object pool as interfaces?
+            //abstract out state machine?
         #endregion
 
         #region Interfaces & Inheritance
