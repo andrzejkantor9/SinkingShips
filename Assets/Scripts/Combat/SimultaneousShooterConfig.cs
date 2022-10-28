@@ -1,14 +1,15 @@
 using UnityEngine;
 
 using SinkingShips.Combat.Projectiles;
+using SinkingShips.Debug;
 
 namespace SinkingShips.Combat
 {
     [CreateAssetMenu(fileName = "SimultaneousShooterConfig", menuName = "Combat/SimultaneousShooter")]
     public class SimultaneousShooterConfig : ScriptableObject
     {
-        [field: SerializeField]
-        public Projectile ProjectilePrefab { get; private set; }
+        //[field: SerializeField]
+        //public Projectile ProjectilePrefab { get; private set; }
 
         #region Time
         [field: Header("Time")]

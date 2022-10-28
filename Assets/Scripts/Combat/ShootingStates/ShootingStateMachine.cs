@@ -23,7 +23,7 @@ namespace SinkingShips.Combat.ShootingStates
         [SerializeField]
         private Transform[] _particlesSpawnAndForward;
 
-        private Action _hasShotCallback;
+        //private Action _hasShotCallback;
 
         private Action _hasShotCallbackInternal;
 
@@ -54,12 +54,6 @@ namespace SinkingShips.Combat.ShootingStates
             {
                 FollowingState = followingState;
                 Condition = condition;
-
-                //StringBuilder builder = new StringBuilder();
-                //builder.Append($"transition exists: {GetTransition() != null}");
-                //builder.Append($", following state: {GetTransition()?.FollowingState.GetType().Name}");
-                //builder.Append($", _currentTransitions count: {_currentTransitions.Count}");
-                //_transitions[previousState.GetType()] = transitions;
             }
         }
 
@@ -72,9 +66,10 @@ namespace SinkingShips.Combat.ShootingStates
             public float TimeBetweenAttacks { get; private set; }
             public float ImpulseStrength { get; private set; }
             public bool GravityEnabled { get; private set; }
+            public float ProjectileMinimumLifetime { get; private set; }
 
             public ShootingConfig(ProjectilesObjectPool projectilesObjectPool, Projectile projectileScript,
-                float timeBetweenAttacks, float impulseStrength, bool gravityEnabled)
+                float timeBetweenAttacks, float impulseStrength, bool gravityEnabled, float projectileMinimumLifetime)
             {
                 ProjectilesObjectPool = projectilesObjectPool;
 
@@ -82,6 +77,7 @@ namespace SinkingShips.Combat.ShootingStates
                 TimeBetweenAttacks = timeBetweenAttacks;
                 ImpulseStrength = impulseStrength;
                 GravityEnabled = gravityEnabled;
+                ProjectileMinimumLifetime = projectileMinimumLifetime;
             }
         }
         #endregion
@@ -115,15 +111,6 @@ namespace SinkingShips.Combat.ShootingStates
             if (transition != null)
                 SwitchState(transition.FollowingState);
 
-            //StringBuilder debugInfo = new StringBuilder();
-            //debugInfo.Append("state update, ");
-            //debugInfo.Append($"current state: {_currentState.GetType().Name}");
-            //debugInfo.Append($", transition exists: {transition != null}");
-            //debugInfo.Append($", following state: {transition?.FollowingState.GetType().Name}");
-            //debugInfo.Append($", has shot: {_hasShot}");
-            //debugInfo.Append($", _currentTransitions count: {_currentTransitions.Count}");
-            //CustomLogger.Log(debugInfo.ToString(), this, LogCategory._Test, LogFrequency.MostFrames, LogDetails.Medium);
-
             _currentState.Update(Time.deltaTime);
 
             Profiler.EndSample();
@@ -131,24 +118,25 @@ namespace SinkingShips.Combat.ShootingStates
         #endregion
 
         #region Public
-        public void Inject(ShootingConfig shootingConfig, Func<bool> wasShotPerformed, Action hasShotCallback)
+        public void Inject(ShootingConfig shootingConfig, Func<bool> wasShotPerformed)
         {
             _shootingConfig = shootingConfig;
             _wasShotPerformed = wasShotPerformed;
-            _hasShotCallback = hasShotCallback;
+            //_hasShotCallback = hasShotCallback;
 
             SetupStates();
         }
         //refactor
-            //inspector config pool size?
             //proper state transitions
             //logs
+            //decouple everything from shooting?
             //split rigidbody shooting and shooting?
-                //call abstract shoot method?
-                //get component<rigidbody> in shooting and pool - ugly
-                //simultaneous and rigidbody shooter separate?
+            //call abstract shoot method?
+            //get component<rigidbody> in shooting and pool - ugly
+            //simultaneous and rigidbody shooter separate?
             //introduce structs that make sense
-            //player input get cached after shooting event if it is not pressed after reloading
+            //ITwoSidedShooter interface depends on inject with callbacks
+            //state machine and object pool as interfaces?
         #endregion
 
         #region Interfaces & Inheritance
@@ -163,20 +151,13 @@ namespace SinkingShips.Combat.ShootingStates
             _hasShotCallbackInternal += () => 
             {
                 _hasShot = true; 
-                _hasShotCallback?.Invoke();
-                StringBuilder debugInfo = new StringBuilder();
-                debugInfo.Append("state shot called, ");
-                debugInfo.Append($"transition exists: {GetTransition() != null}");
-                debugInfo.Append($", following state: {GetTransition()?.FollowingState.GetType().Name}");
-                debugInfo.Append($", _currentTransitions count: {_currentTransitions.Count}");
-
-                CustomLogger.Log(debugInfo.ToString(), this, LogCategory._Test, LogFrequency.Regular, LogDetails.Medium);                
+                //_hasShotCallback?.Invoke();                
             };
 
             _ready = new Ready();
             _shooting = new Shooting(_hasShotCallbackInternal, () => _hasShot = false, 
                 _shootingConfig.ImpulseStrength, _shootingConfig.GravityEnabled, _shootingConfig.ProjectilesObjectPool,
-                _particlesSpawnAndForward);
+                _particlesSpawnAndForward, _shootingConfig.ProjectileMinimumLifetime);
             _reloading = new Reloading(_shootingConfig.TimeBetweenAttacks, () => { });
 
             AddTransition(_ready, _shooting, _wasShotPerformed);

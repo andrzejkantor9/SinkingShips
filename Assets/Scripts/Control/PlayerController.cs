@@ -7,6 +7,7 @@ using SinkingShips.Helpers;
 using SinkingShips.Input;
 using SinkingShips.Movement;
 using SinkingShips.Combat;
+using System;
 
 namespace SinkingShips.Control
 {
@@ -30,6 +31,8 @@ namespace SinkingShips.Control
                 (_movementByDistance, gameObject, "_movementByDistance");
             _twoSidedShooter = InitializationHelpers.GetComponentIfEmpty
                 (_twoSidedShooter, gameObject, "_twoSidedShooter");
+
+            _twoSidedShooter.Inject(() => _inputProvider.IsAttackingLeft, () => _inputProvider.IsAttackingRight);
         }
 
         private void OnEnable()

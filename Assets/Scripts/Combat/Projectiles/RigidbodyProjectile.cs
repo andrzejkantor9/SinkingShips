@@ -1,8 +1,9 @@
+using System;
+using System.Collections;
+
 using UnityEngine;
 
 using SinkingShips.Debug;
-using UnityEngine.Pool;
-using System;
 
 namespace SinkingShips.Combat.Projectiles
 {
@@ -14,13 +15,19 @@ namespace SinkingShips.Combat.Projectiles
 
         #region Cache & Constants
         //[Header("CACHE")]
+
+        private float _minimumLifetime;
         #endregion
 
         #region States
+        private bool _markedForRelease;
+        private float _timeSpawned;
+
+        private Coroutine _releaseCoroutine;
         #endregion
 
         #region Events & Statics
-        private Action _outOfScreenCallback;
+        private Action _releaseCallback;
         #endregion
 
         #region Data
@@ -29,6 +36,18 @@ namespace SinkingShips.Combat.Projectiles
         ////////////////////////////////////////////////////////////////////////////////////////////////
 
         #region Engine & Contructors
+        private void OnEnable()
+        {
+            _markedForRelease = false;
+            _timeSpawned = Time.time;
+
+            if(_releaseCoroutine != null )
+            {
+                StopCoroutine(_releaseCoroutine);
+                _releaseCoroutine = null;
+            }
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             CustomLogger.Log($"{gameObject.name} has collided with: {other.name}", this, 
@@ -37,14 +56,15 @@ namespace SinkingShips.Combat.Projectiles
 
         private void OnBecameInvisible()
         {
-            _outOfScreenCallback?.Invoke();
+            StartObjectRelease();
         }
         #endregion
 
         #region Public
-        public override void SetPoolReleaseMethod(Action outOfScreenCallback)
+        public override void Inject(Action releaseCallback, float minimumLifetime)
         {
-            _outOfScreenCallback = outOfScreenCallback;
+            _releaseCallback = releaseCallback;
+            _minimumLifetime = minimumLifetime;
         }
         #endregion
 
@@ -55,6 +75,26 @@ namespace SinkingShips.Combat.Projectiles
         #endregion
 
         #region Private & Protected
+        private void StartObjectRelease()
+        {
+            if (_releaseCoroutine == null && enabled)
+            {
+                if (Time.time >= _timeSpawned + _minimumLifetime)
+                {
+                    _releaseCallback?.Invoke();
+                }
+                else
+                {
+                    _releaseCoroutine = StartCoroutine(ReleaseAfterMinimumLifetime());
+                }
+            }
+        }
+        private IEnumerator ReleaseAfterMinimumLifetime()
+        {
+            yield return new WaitForSeconds(_timeSpawned - Time.time + _minimumLifetime);
+            _releaseCallback?.Invoke();
+            _releaseCoroutine = null;
+        }
         #endregion
     }
 }

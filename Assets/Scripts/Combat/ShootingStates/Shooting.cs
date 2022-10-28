@@ -20,6 +20,8 @@ namespace SinkingShips.Combat.ShootingStates
         private readonly bool _gravityEnabled;
         private readonly ProjectilesObjectPool _projectilesObjectPool;
         private readonly Transform[] _particlesSpawnAndForward;
+
+        private readonly float _projectileMinimumLifetime;
         #endregion
 
         #region States
@@ -36,7 +38,7 @@ namespace SinkingShips.Combat.ShootingStates
         #region Engine & Contructors
         public Shooting(Action hasShotCallback, Action exitStateCallback,
             float impulseStrength, bool gravityEnabled, ProjectilesObjectPool projectilesObjectPool, 
-            Transform[] particlesSpawnAndForward)
+            Transform[] particlesSpawnAndForward, float projectileMinimumLifetime)
         {
             _hasShotCallback = hasShotCallback;
             _exitStateCallback = exitStateCallback;
@@ -45,6 +47,8 @@ namespace SinkingShips.Combat.ShootingStates
             _gravityEnabled = gravityEnabled;
             _projectilesObjectPool = projectilesObjectPool;
             _particlesSpawnAndForward = particlesSpawnAndForward;
+
+            _projectileMinimumLifetime = projectileMinimumLifetime;
         }
         #endregion
 
@@ -61,7 +65,8 @@ namespace SinkingShips.Combat.ShootingStates
                 projectile.transform.rotation = spawnTransform.rotation;
 
                 //projectile.onOutOfScreen += _projectilesObjectPool.ReleaseProjectile(projectile);
-                projectile.SetPoolReleaseMethod(() => _projectilesObjectPool.ReleaseProjectile(projectile));
+                projectile.Inject(() => _projectilesObjectPool.ReleaseProjectile(projectile),
+                    _projectileMinimumLifetime);
 
                 Vector3 force = _impulseStrength * spawnTransform.forward;
                 projectile.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);

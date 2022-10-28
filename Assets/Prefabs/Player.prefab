@@ -906,7 +906,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1845993874}
-  m_LocalRotation: {x: 0.14431767, y: 1e-45, z: -0, w: 0.9895314}
+  m_LocalRotation: {x: 0.14431767, y: -1e-45, z: -0, w: 0.9895314}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1059,7 +1059,7 @@ Transform:
   - {fileID: 482406760}
   - {fileID: 6328749671663115875}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &9130615877979290706
 Rigidbody:
@@ -1131,9 +1131,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _simultaneousShooterConfig: {fileID: 11400000, guid: daee787fa4cda8a438a3ee8f154b0b58,
     type: 2}
+  _projectilesPoolConfig: {fileID: 11400000, guid: 629741c80cdb0a4479a7026ca3100802,
+    type: 2}
   _projectilesParent: {fileID: 6328749671663115875}
   _leftShootingStateMachines: {fileID: 6487419873981739576}
-  _righthootingStateMachines: {fileID: 7990170594567427665}
+  _rightShootingStateMachines: {fileID: 7990170594567427665}
 --- !u!1 &9145110137032102450
 GameObject:
   m_ObjectHideFlags: 0
