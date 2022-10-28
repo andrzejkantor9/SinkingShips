@@ -20,7 +20,6 @@ namespace SinkingShips.Combat.Projectiles
         #endregion
 
         #region States
-        private bool _markedForRelease;
         private float _timeSpawned;
 
         private Coroutine _releaseCoroutine;
@@ -38,7 +37,6 @@ namespace SinkingShips.Combat.Projectiles
         #region Engine & Contructors
         private void OnEnable()
         {
-            _markedForRelease = false;
             _timeSpawned = Time.time;
 
             if(_releaseCoroutine != null )
@@ -77,7 +75,7 @@ namespace SinkingShips.Combat.Projectiles
         #region Private & Protected
         private void StartObjectRelease()
         {
-            if (_releaseCoroutine == null && enabled)
+            if (_releaseCoroutine == null && gameObject.activeInHierarchy)
             {
                 if (Time.time >= _timeSpawned + _minimumLifetime)
                 {
