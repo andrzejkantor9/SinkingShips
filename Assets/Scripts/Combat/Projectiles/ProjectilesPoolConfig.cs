@@ -7,6 +7,7 @@ namespace SinkingShips.Combat.Projectiles
     public class ProjectilesPoolConfig : ScriptableObject, IObjectPoolConfig<Projectile>
     {
         #region Implementing
+        [field: Header("Implementing")]
         [field: SerializeField]
         public Projectile PoolObject { get; private set; }
         [field: SerializeField]
@@ -16,6 +17,7 @@ namespace SinkingShips.Combat.Projectiles
         #endregion
 
         #region Specialized
+        [field: Header("Specialized")]
         [field: SerializeField]
         public float MinimumLifetime { get; private set; } = 3f;
         #endregion

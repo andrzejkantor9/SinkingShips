@@ -29,8 +29,6 @@ namespace SinkingShips.Combat.Projectiles
         #region Engine & Contructors
         public ProjectilesObjectPool(PoolConfig poolConfig) : base(poolConfig)
         {
-            _poolConfig = poolConfig;
-
             _objectPool = new ObjectPool<Projectile>(
                 CreatePoolObject,
                 OnGet,
@@ -38,12 +36,6 @@ namespace SinkingShips.Combat.Projectiles
                 DestroyPoolObject,
                 defaultCapacity: _poolConfig.DefaultCapacity,
                 maxSize: _poolConfig.MaxProjectilesCounts);
-
-            if (!poolConfig.PoolObjectsParent)
-            {
-                CustomLogger.LogWarning("PoolObjectsParent is null, projectiles will be parented to scene root",
-                    LogCategory.Combat);
-            }
         }
         #endregion
 

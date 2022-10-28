@@ -11,18 +11,12 @@ namespace SinkingShips.Combat.ShootingStates
 
         #region Config
         //[Header("CONFIG")]
+
+        private CallbacksConfig _callbacks;
+        private ShootingConfig _shootingConfig;
         #endregion
 
         #region Cache & Constants
-        private Action _hasShotCallback;
-        private Action _exitStateCallback;
-
-        private readonly float _impulseStrength;
-        private readonly bool _gravityEnabled;
-        private readonly ObjectPoolBase<Projectile> _projectilesObjectPool;
-        private readonly Transform[] _particlesSpawnAndForward;
-
-        private readonly float _projectileMinimumLifetime;
         #endregion
 
         #region States
@@ -32,24 +26,51 @@ namespace SinkingShips.Combat.ShootingStates
         #endregion
 
         #region Data
+        public struct CallbacksConfig
+        {
+            public Action OnShotFinished { get; }
+            public Action OnExitState { get; }
+            public Func<Projectile> GetProjectile { get; }
+            public Action<Projectile> OnReleaseProjectile { get; }
+
+            public CallbacksConfig(
+                Action onShotFinished, 
+                Action onExitState, 
+                Func<Projectile> GetProjectile, 
+                Action<Projectile> onReleaseProjectile)
+            {
+                OnShotFinished = onShotFinished;
+                OnExitState = onExitState;
+                this.GetProjectile = GetProjectile;
+                OnReleaseProjectile = onReleaseProjectile;
+            }
+        }
+        
+        public struct ShootingConfig
+        {
+            public readonly float _impulseStrength;
+            public readonly Transform[] _particlesSpawnAndForward;
+            public readonly float _projectileMinimumLifetime;
+
+            public ShootingConfig(
+                float impulseStrength, 
+                Transform[] particlesSpawnAndForward, 
+                float projectileMinimumLifetime)
+            {
+                _impulseStrength = impulseStrength;
+                _particlesSpawnAndForward = particlesSpawnAndForward;
+                _projectileMinimumLifetime = projectileMinimumLifetime;
+            }
+        }
         #endregion
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
 
         #region Engine & Contructors
-        public Shooting(Action hasShotCallback, Action exitStateCallback,
-            float impulseStrength, bool gravityEnabled, ObjectPoolBase<Projectile> projectilesObjectPool, 
-            Transform[] particlesSpawnAndForward, float projectileMinimumLifetime)
+        public Shooting(CallbacksConfig callbacks, ShootingConfig shootingConfig)
         {
-            _hasShotCallback = hasShotCallback;
-            _exitStateCallback = exitStateCallback;
-
-            _impulseStrength = impulseStrength;
-            _gravityEnabled = gravityEnabled;
-            _projectilesObjectPool = projectilesObjectPool;
-            _particlesSpawnAndForward = particlesSpawnAndForward;
-
-            _projectileMinimumLifetime = projectileMinimumLifetime;
+            _callbacks = callbacks;
+            _shootingConfig = shootingConfig;
         }
         #endregion
 
@@ -59,26 +80,13 @@ namespace SinkingShips.Combat.ShootingStates
         #region Interfaces & Inheritance
         public void Enter()
         {
-            foreach(Transform spawnTransform in _particlesSpawnAndForward)
-            {
-                Projectile projectile = _projectilesObjectPool.GetObject();
-                projectile.transform.position = spawnTransform.position;
-                projectile.transform.rotation = spawnTransform.rotation;
-
-                //projectile.onOutOfScreen += _projectilesObjectPool.ReleaseProjectile(projectile);
-                projectile.Inject(() => _projectilesObjectPool.ReleaseObject(projectile),
-                    _projectileMinimumLifetime);
-
-                Vector3 force = _impulseStrength * spawnTransform.forward;
-                projectile.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
-            }
-
-            _hasShotCallback?.Invoke();
+            SpawnAndShoot();
+            _callbacks.OnShotFinished?.Invoke();
         }
 
         public void Exit()
         {
-            _exitStateCallback?.Invoke();
+            _callbacks.OnExitState?.Invoke();
         }
 
         public void Update(float deltaTime)
@@ -90,6 +98,21 @@ namespace SinkingShips.Combat.ShootingStates
         #endregion
 
         #region Private & Protected
+        private void SpawnAndShoot()
+        {
+            foreach (Transform spawnTransform in _shootingConfig._particlesSpawnAndForward)
+            {
+                Projectile projectile = _callbacks.GetProjectile();
+                projectile.transform.position = spawnTransform.position;
+                projectile.transform.rotation = spawnTransform.rotation;
+
+                projectile.Inject(() => _callbacks.OnReleaseProjectile(projectile),
+                    _shootingConfig._projectileMinimumLifetime);
+
+                Vector3 force = _shootingConfig._impulseStrength * spawnTransform.forward;
+                projectile.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
+            }
+        }
         #endregion
     }
 }

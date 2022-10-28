@@ -24,8 +24,6 @@ namespace SinkingShips.Combat.ShootingStates
         [SerializeField]
         private Transform[] _particlesSpawnAndForward;
 
-        //private Action _hasShotCallback;
-
         private Action _hasShotCallbackInternal;
 
         private Dictionary<Type, List<Transition>> _transitions = new Dictionary<Type, List<Transition>>();
@@ -123,19 +121,18 @@ namespace SinkingShips.Combat.ShootingStates
         {
             _shootingConfig = shootingConfig;
             _wasShotPerformed = wasShotPerformed;
-            //_hasShotCallback = hasShotCallback;
 
             SetupStates();
         }
         //refactor
             //proper state transitions
-            //logs
-            //decouple everything from shooting?
-            //split rigidbody shooting and shooting?
             //call abstract shoot method?
-            //get component<rigidbody> in shooting and pool - ugly
-            //simultaneous and rigidbody shooter separate?
+            //decouple everything from shooting?
             //introduce structs that make sense
+            //get component<rigidbody> in shooting and pool - ugly
+            //logs
+            //___
+            //simultaneous and rigidbody shooter separate?
             //ITwoSidedShooter interface depends on inject with callbacks
             //abstract out state machine?
         #endregion
@@ -149,23 +146,33 @@ namespace SinkingShips.Combat.ShootingStates
         #region Private & Protected
         private void SetupStates()
         {
-            _hasShotCallbackInternal += () => 
-            {
-                _hasShot = true; 
-                //_hasShotCallback?.Invoke();                
-            };
+            _hasShotCallbackInternal += () => _hasShot = true; 
 
             _ready = new Ready();
-            _shooting = new Shooting(_hasShotCallbackInternal, () => _hasShot = false, 
-                _shootingConfig.ImpulseStrength, _shootingConfig.GravityEnabled, _shootingConfig.ProjectilesObjectPool,
-                _particlesSpawnAndForward, _shootingConfig.ProjectileMinimumLifetime);
             _reloading = new Reloading(_shootingConfig.TimeBetweenAttacks, () => { });
+            SetShootingState();
 
             AddTransition(_ready, _shooting, _wasShotPerformed);
             AddTransition(_shooting, _reloading, HasShot());
             AddTransition(_reloading, _ready, HasReloaded());
 
             SwitchState(_ready);
+        }
+
+        private void SetShootingState()
+        {
+            var shootingCallbacks = new Shooting.CallbacksConfig(
+                            _hasShotCallbackInternal,
+                            () => _hasShot = false,
+                            _shootingConfig.ProjectilesObjectPool.GetObject,
+                            _shootingConfig.ProjectilesObjectPool.ReleaseObject);
+
+            var shootingConfig = new Shooting.ShootingConfig(
+                _shootingConfig.ImpulseStrength,
+                _particlesSpawnAndForward,
+                _shootingConfig.ProjectileMinimumLifetime);
+
+            _shooting = new Shooting(shootingCallbacks, shootingConfig);
         }
 
         private void SwitchState(IShootingState state)

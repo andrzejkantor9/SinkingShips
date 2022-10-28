@@ -49,8 +49,19 @@ namespace SinkingShips.Utils
         ////////////////////////////////////////////////////////////////////////////////////////////////
 
         #region Engine & Contructors
+        /// <summary>
+        /// inheriting class decides type of pool, needs to create instance
+        /// </summary>
+        /// <param name="poolConfig">filled pool config struct</param>
         protected ObjectPoolBase(PoolConfig poolConfig)
         {
+            _poolConfig = poolConfig;
+
+            if (!poolConfig.PoolObjectsParent)
+            {
+                CustomLogger.LogWarning("PoolObjectsParent is null, projectiles will be parented to scene root",
+                    LogCategory.Combat);
+            }
         }
         #endregion
 
