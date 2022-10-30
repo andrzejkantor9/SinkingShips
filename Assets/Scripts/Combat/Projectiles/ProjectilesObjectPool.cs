@@ -63,21 +63,11 @@ namespace SinkingShips.Combat.Projectiles
         protected override void OnGet(Projectile poolObject)
         {
             poolObject.gameObject.SetActive(true);
-
-            Rigidbody rigidbody = poolObject.GetComponent<Rigidbody>();
-
-            rigidbody.isKinematic = false;
-            rigidbody.detectCollisions = true;
         }
 
         protected override void OnRelease(Projectile poolObject)
         {
             poolObject.gameObject.SetActive(false);
-
-            Rigidbody rigidbody = poolObject.GetComponent<Rigidbody>();
-            rigidbody.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            rigidbody.isKinematic = true;
-            rigidbody.detectCollisions = false;
         }
 
         protected override void DestroyPoolObject(Projectile poolObject)

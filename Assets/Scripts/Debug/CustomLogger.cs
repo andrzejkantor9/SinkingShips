@@ -183,9 +183,9 @@ namespace SinkingShips.Debug
             }
 
         [Conditional("DEVELOPMENT_BUILD"), Conditional("UNITY_EDITOR")]
-        public static void Log<T>(
+        public static void Log<T1>(
             string message, 
-            T contextObject, 
+            T1 contextObject, 
             LogCategory logCategory, 
             LogFrequency logFrequency,
             LogDetails logDetails,
@@ -227,9 +227,9 @@ namespace SinkingShips.Debug
             }
 
         [Conditional("DEVELOPMENT_BUILD"), Conditional("UNITY_EDITOR")]
-        public static void LogWarning<T>(
+        public static void LogWarning<T1>(
             string message,
-            T contextObject, 
+            T1 contextObject, 
             LogCategory logCategory,
             bool logToScreen = true, 
             bool stackInfo = true,
@@ -270,9 +270,9 @@ namespace SinkingShips.Debug
             }
 
         [Conditional("DEVELOPMENT_BUILD"), Conditional("UNITY_EDITOR")]
-        public static void LogError<T>(
+        public static void LogError<T1>(
             string message,
-            T contextObject,
+            T1 contextObject,
             bool logToScreen = true, 
             bool stackInfo = true,
             [System.Runtime.CompilerServices.CallerFilePath] string filePath = "")
@@ -301,8 +301,8 @@ namespace SinkingShips.Debug
 
         #region Assertions
         [Conditional("DEVELOPMENT_BUILD"), Conditional("UNITY_EDITOR")]
-        public static void AssertNotNull<T, U>(T variableToCheck, string variableToCheckName, U scriptThis) 
-            where T : UnityEngine.Object
+        public static void AssertNotNull<T1, T2>(T1 variableToCheck, string variableToCheckName, T2 scriptThis) 
+            where T1 : UnityEngine.Object
         {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
             string scriptName = GetScriptNameWithoutNamespace(scriptThis);
@@ -318,7 +318,7 @@ namespace SinkingShips.Debug
         }
 
         [Conditional("DEVELOPMENT_BUILD"), Conditional("UNITY_EDITOR")]
-        public static void AssertTrue<T>(bool conditionValue, string messageIfFalse, T scriptThis) 
+        public static void AssertTrue<T1>(bool conditionValue, string messageIfFalse, T1 scriptThis) 
         {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
             string scriptName = GetScriptNameWithoutNamespace(scriptThis);
@@ -348,7 +348,7 @@ namespace SinkingShips.Debug
             return scriptName;
         }
 
-        private static UnityEngine.Object TryGetUnityObject<T>(T possibleUnityObject)
+        private static UnityEngine.Object TryGetUnityObject<T1>(T1 possibleUnityObject)
         {
             if(possibleUnityObject == null)
                 return null;

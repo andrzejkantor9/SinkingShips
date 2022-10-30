@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine;
 
 using SinkingShips.Debug;
+using UnityEngine.Pool;
 
 namespace SinkingShips.Combat.Projectiles
 {
@@ -17,6 +18,9 @@ namespace SinkingShips.Combat.Projectiles
         //[Header("CACHE")]
 
         private float _minimumLifetime;
+        private float _impulseStrength;
+
+        private Rigidbody _rigidbody;
         #endregion
 
         #region States
@@ -35,15 +39,26 @@ namespace SinkingShips.Combat.Projectiles
         ////////////////////////////////////////////////////////////////////////////////////////////////
 
         #region Engine & Contructors
+        private void Awake()
+        {
+            _rigidbody = GetComponent<Rigidbody>();
+        }
+
         private void OnEnable()
         {
             _timeSpawned = Time.time;
-
             if(_releaseCoroutine != null )
             {
                 StopCoroutine(_releaseCoroutine);
                 _releaseCoroutine = null;
             }
+        }
+
+        private void OnDisable()
+        {
+            _rigidbody.velocity = Vector3.zero;
+            _rigidbody.isKinematic = true;
+            _rigidbody.detectCollisions = false;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -59,10 +74,16 @@ namespace SinkingShips.Combat.Projectiles
         #endregion
 
         #region Public
-        public override void Inject(Action onRelease, float minimumLifetime)
+        public override void Inject(Action onRelease, float minimumLifetime, float projectileSpeed)
         {
             _onRelease = onRelease;
             _minimumLifetime = minimumLifetime;
+            _impulseStrength = projectileSpeed;
+             
+            _rigidbody.isKinematic = false;
+            _rigidbody.detectCollisions = true;
+            Vector3 force = _impulseStrength * transform.forward;
+            _rigidbody.AddForce(force, ForceMode.Impulse);
         }
         #endregion
 

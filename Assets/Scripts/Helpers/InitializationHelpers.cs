@@ -18,12 +18,12 @@ namespace SinkingShips.Helpers
         /// <param name="componentRoot">root of component</param>
         /// <param name="componentName">copy variable name as string here for detailed assert message</param>
         /// <returns>returns unchanged or get component value if null or default</returns>
-        public static T GetComponentIfEmpty<T>(T component, GameObject componentRoot, string componentName)
+        public static T1 GetComponentIfEmpty<T1>(T1 component, GameObject componentRoot, string componentName)
         {
             if (!IsNullOrDefault(component))
                 return component;
 
-            component = componentRoot.GetComponent<T>();
+            component = componentRoot.GetComponent<T1>();
             CustomLogger.AssertTrue(!IsNullOrDefault(component), $"{componentName} not found on gameObject",
                 componentRoot);
 
@@ -36,7 +36,7 @@ namespace SinkingShips.Helpers
         /// <param name="componentsRoot">root of desired components</param>
         /// <param name="componentsName">copy variable name as string here for detailed assert message</param>
         /// <returns>returns unchanged or get component value if list contains 0 elements</returns>
-        public static List<T> GetComponentsIfEmpty<T>(List<T> components, GameObject componentsRoot, 
+        public static List<T1> GetComponentsIfEmpty<T1>(List<T1> components, GameObject componentsRoot, 
             string componentsName)
         {
             if (!componentsRoot)
@@ -49,8 +49,8 @@ namespace SinkingShips.Helpers
                 return components;
             }
 
-            T[] newComponents = componentsRoot.GetComponents<T>();
-            foreach(T component in newComponents)
+            T1[] newComponents = componentsRoot.GetComponents<T1>();
+            foreach(T1 component in newComponents)
             {
                 components.Add(component);
             }
@@ -63,9 +63,9 @@ namespace SinkingShips.Helpers
         #endregion
 
         #region Private & Protected
-        private static bool IsNullOrDefault<T>(T component)
+        private static bool IsNullOrDefault<T1>(T1 component)
         {
-            return component == null || component.Equals(default(T));
+            return component == null || component.Equals(default(T1));
         }
         #endregion
     }

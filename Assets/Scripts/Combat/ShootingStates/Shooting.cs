@@ -102,10 +102,7 @@ namespace SinkingShips.Combat.ShootingStates
                 projectile.transform.rotation = spawnTransform.rotation;
 
                 projectile.Inject(() => _callbacks.OnReleaseProjectile(projectile),
-                    _shootingConfig._projectileMinimumLifetime);
-
-                Vector3 force = _shootingConfig._impulseStrength * spawnTransform.forward;
-                projectile.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
+                    _shootingConfig._projectileMinimumLifetime, _shootingConfig._impulseStrength);
             }
         }
         #endregion

@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace SinkingShips.Combat.Projectiles
 {
-    public interface IObjectPoolConfig<T> where T : class
+    public interface IObjectPoolConfig<T1> where T1 : class
     {
-        T PoolObject { get; }
+        T1 PoolObject { get; }
         int DefaultCapacity { get; }
         int MaxProjectilesCounts { get; }
 

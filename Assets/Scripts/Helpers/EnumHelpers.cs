@@ -7,17 +7,17 @@ namespace SinkingShips.Helpers
     {
         ////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public static string GetName<T>(T enumValue) where T : Enum
+        public static string GetName<T1>(T1 enumValue) where T1 : Enum
         {
             //not sure if this is needed
-            UnityEngine.Assertions.Assert.IsTrue(typeof(T).IsEnum, $"{typeof(T)} is not an enum");
+            UnityEngine.Assertions.Assert.IsTrue(typeof(T1).IsEnum, $"{typeof(T1)} is not an enum");
 
-            return Enum.GetName(typeof(T), enumValue);
+            return Enum.GetName(typeof(T1), enumValue);
         }
 
-        public static T[] EnumGetAllValues<T>() where T : Enum
+        public static T1[] EnumGetAllValues<T1>() where T1 : Enum
         {
-            T[] allEnumValues = (T[])Enum.GetValues(typeof(T));
+            T1[] allEnumValues = (T1[])Enum.GetValues(typeof(T1));
             return allEnumValues;
         }
 

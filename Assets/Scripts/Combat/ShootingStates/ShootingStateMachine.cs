@@ -134,7 +134,6 @@ namespace SinkingShips.Combat.ShootingStates
             SetupStates();
         }
         //refactor
-            //get component<rigidbody> in shooting and pool - ugly
             //call abstract shoot method?
             //decouple everything from shooting?
             //logs
