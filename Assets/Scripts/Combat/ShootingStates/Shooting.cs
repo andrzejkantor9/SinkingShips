@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace SinkingShips.Combat.ShootingStates
 {
-    public class Shooting : IShootingState
+    public class Shooting : ShootingState
     {
 
         #region Config
@@ -26,27 +26,24 @@ namespace SinkingShips.Combat.ShootingStates
         #endregion
 
         #region Data
-        public struct CallbacksConfig
+        public class CallbacksConfig
         {
             public Action OnShotFinished { get; }
-            public Action OnExitState { get; }
             public Func<Projectile> GetProjectile { get; }
             public Action<Projectile> OnReleaseProjectile { get; }
 
             public CallbacksConfig(
                 Action onShotFinished, 
-                Action onExitState, 
-                Func<Projectile> GetProjectile, 
+                Func<Projectile> getProjectile, 
                 Action<Projectile> onReleaseProjectile)
             {
                 OnShotFinished = onShotFinished;
-                OnExitState = onExitState;
-                this.GetProjectile = GetProjectile;
+                GetProjectile = getProjectile;
                 OnReleaseProjectile = onReleaseProjectile;
             }
         }
         
-        public struct ShootingConfig
+        public class ShootingConfig
         {
             public readonly float _impulseStrength;
             public readonly Transform[] _particlesSpawnAndForward;
@@ -67,7 +64,12 @@ namespace SinkingShips.Combat.ShootingStates
         ////////////////////////////////////////////////////////////////////////////////////////////////
 
         #region Engine & Contructors
-        public Shooting(CallbacksConfig callbacks, ShootingConfig shootingConfig)
+        public Shooting(CallbacksConfig callbacks, ShootingConfig shootingConfig) : base(null, null)
+        {
+        }
+
+        public Shooting(CallbacksConfig callbacks, ShootingConfig shootingConfig, 
+            Action onEnterState, Action onExitState) : base(onEnterState, onExitState)
         {
             _callbacks = callbacks;
             _shootingConfig = shootingConfig;
@@ -78,19 +80,12 @@ namespace SinkingShips.Combat.ShootingStates
         #endregion
 
         #region Interfaces & Inheritance
-        public void Enter()
+        public override void Enter()
         {
+            base.Enter();
+
             SpawnAndShoot();
             _callbacks.OnShotFinished?.Invoke();
-        }
-
-        public void Exit()
-        {
-            _callbacks.OnExitState?.Invoke();
-        }
-
-        public void Update(float deltaTime)
-        {
         }
         #endregion
 

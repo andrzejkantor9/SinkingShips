@@ -28,7 +28,7 @@ namespace SinkingShips.Utils
         #endregion
 
         #region Data
-        public struct PoolConfig
+        public class PoolConfig
         {
             public T1 ObjectPrefabScript { get; private set; }
             public Transform PoolObjectsParent { get; private set; }

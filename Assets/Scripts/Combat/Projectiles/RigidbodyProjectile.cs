@@ -26,7 +26,7 @@ namespace SinkingShips.Combat.Projectiles
         #endregion
 
         #region Events & Statics
-        private Action _releaseCallback;
+        private Action _onRelease;
         #endregion
 
         #region Data
@@ -59,9 +59,9 @@ namespace SinkingShips.Combat.Projectiles
         #endregion
 
         #region Public
-        public override void Inject(Action releaseCallback, float minimumLifetime)
+        public override void Inject(Action onRelease, float minimumLifetime)
         {
-            _releaseCallback = releaseCallback;
+            _onRelease = onRelease;
             _minimumLifetime = minimumLifetime;
         }
         #endregion
@@ -79,7 +79,7 @@ namespace SinkingShips.Combat.Projectiles
             {
                 if (Time.time >= _timeSpawned + _minimumLifetime)
                 {
-                    _releaseCallback?.Invoke();
+                    _onRelease?.Invoke();
                 }
                 else
                 {
@@ -90,7 +90,7 @@ namespace SinkingShips.Combat.Projectiles
         private IEnumerator ReleaseAfterMinimumLifetime()
         {
             yield return new WaitForSeconds(_timeSpawned - Time.time + _minimumLifetime);
-            _releaseCallback?.Invoke();
+            _onRelease?.Invoke();
             _releaseCoroutine = null;
         }
         #endregion

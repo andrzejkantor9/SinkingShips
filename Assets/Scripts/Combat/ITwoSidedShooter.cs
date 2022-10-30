@@ -7,7 +7,7 @@ namespace SinkingShips.Combat
     {
         ////////////////////////////////////////////////////////////////////////////////////////////////
 
-        void Inject(Func<bool> leftShootingCallback, Func<bool> rihgtShootingCallback);
+        void Inject(Func<bool> onShootLeft, Func<bool> onShootRight);
         void ShootLeft();
         void ShootRight();
     }

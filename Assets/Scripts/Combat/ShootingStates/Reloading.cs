@@ -6,7 +6,7 @@ using SinkingShips.Combat.ShootingStates;
 
 namespace SinkingShips.Combat
 {
-    public class Reloading : IShootingState
+    public class Reloading : ShootingState
     {
         #region Config
         //[Header("CONFIG")]
@@ -21,7 +21,6 @@ namespace SinkingShips.Combat
         #endregion
 
         #region Events & Statics
-        private Action _enterStateCallback;
         #endregion
 
         #region Data
@@ -30,10 +29,15 @@ namespace SinkingShips.Combat
         ////////////////////////////////////////////////////////////////////////////////////////////////
 
         #region Engine & Contructors
-        public Reloading(float reloadingDuration, Action enterStateCallback)
+        public Reloading(float reloadingDuration) : base(null, null)
         {
             _reloadingDuration = reloadingDuration;
-            _enterStateCallback = enterStateCallback;
+        }
+
+        public Reloading(float reloadingDuration, Action onEnterState, Action onExitState) 
+            : base(onEnterState, onExitState)
+        {
+            _reloadingDuration = reloadingDuration;
         }
         #endregion
 
@@ -41,18 +45,17 @@ namespace SinkingShips.Combat
         #endregion
 
         #region Interfaces & Inheritance
-        public void Enter()
+        public override void Enter()
         {
+            base.Enter();
+
             ReloadingTime = 0f;
-            _enterStateCallback?.Invoke();
         }
 
-        public void Exit()
+        public override void Update(float deltaTime)
         {
-        }
+            base.Update(deltaTime);
 
-        public void Update(float deltaTime)
-        {
             ReloadingTime += deltaTime;
         }
         #endregion

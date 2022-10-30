@@ -1,8 +1,9 @@
+using System;
 using UnityEngine;
 
 namespace SinkingShips.Combat.ShootingStates
 {
-    public class Ready : IShootingState
+    public class Ready : ShootingState
     {
         #region Config
         //[Header("CONFIG")]
@@ -25,23 +26,18 @@ namespace SinkingShips.Combat.ShootingStates
         ////////////////////////////////////////////////////////////////////////////////////////////////
 
         #region Engine & Contructors
+        public Ready() : base(null, null)
+        {
+        }
+        public Ready(Action onEnterState, Action onExitState) : base(onEnterState, onExitState)
+        {
+        }
         #endregion
 
         #region Public
         #endregion
 
         #region Interfaces & Inheritance
-        public void Enter()
-        {
-        }
-
-        public void Exit()
-        {
-        }
-
-        public void Update(float deltaTime)
-        {
-        }
         #endregion
 
         #region Events & Statics

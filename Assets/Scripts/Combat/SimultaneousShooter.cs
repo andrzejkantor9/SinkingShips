@@ -40,8 +40,8 @@ namespace SinkingShips.Combat
         #endregion
 
         #region Events & Statics
-        Func<bool> _shootingLeft;
-        Func<bool> _shootingRight;
+        private Func<bool> _shootingLeft;
+        private Func<bool> _shootingRight;
         #endregion
 
         #region Data
@@ -73,10 +73,10 @@ namespace SinkingShips.Combat
         #endregion
 
         #region Public
-        public void Inject(Func<bool> leftShootingCallback, Func<bool> rihgtShootingCallback)
+        public void Inject(Func<bool> onShootLeft, Func<bool> onShootRight)
         {
-            _shootingLeft = leftShootingCallback;
-            _shootingRight = rihgtShootingCallback;
+            _shootingLeft = onShootLeft;
+            _shootingRight = onShootRight;
         }
         #endregion
 
@@ -100,16 +100,18 @@ namespace SinkingShips.Combat
         #region Private & Protected
         private void SetupStateMachines()
         {
+            var leftCallbacksConfig = new ShootingStateMachine.CallbacksConfig(
+                _projectilesObjectPool.GetObject, _projectilesObjectPool.ReleaseObject, _shootingLeft);
+            var rightCallbacksConfig = new ShootingStateMachine.CallbacksConfig(
+                _projectilesObjectPool.GetObject, _projectilesObjectPool.ReleaseObject, _shootingRight);
+
             var shootingConfig = new ShootingStateMachine.ShootingConfig(
-                _projectilesObjectPool,
-                _projectilesPoolConfig.PoolObject,
                 _simultaneousShooterConfig.TimeBetweenAttacks,
                 _simultaneousShooterConfig.ImpulseStrength,
-                _simultaneousShooterConfig.GravityEnabled, 
                 _projectilesPoolConfig.MinimumLifetime);
 
-            _leftShootingStateMachines.Inject(shootingConfig, _shootingLeft);
-            _rightShootingStateMachines.Inject(shootingConfig, _shootingRight);
+            _leftShootingStateMachines.Inject(leftCallbacksConfig, shootingConfig);
+            _rightShootingStateMachines.Inject(rightCallbacksConfig, shootingConfig);
         }
         #endregion
     }
