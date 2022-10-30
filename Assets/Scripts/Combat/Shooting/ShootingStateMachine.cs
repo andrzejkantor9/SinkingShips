@@ -9,13 +9,10 @@ using SinkingShips.Utils;
 
 namespace SinkingShips.Combat.ShootingStates
 {
-    public class ShootingStateMachine : MonoBehaviour
+    public class ShootingStateMachine : ShootingController
     {
         #region Config
         //[Header("CONFIG")]
-
-        private CallbacksConfig _callbacksConfig;
-        private ShootingConfig _shootingConfig;
         #endregion
 
         #region Cache & Constants
@@ -35,37 +32,6 @@ namespace SinkingShips.Combat.ShootingStates
         #endregion
 
         #region Data
-        public class CallbacksConfig
-        {
-            public Func<Projectile> GetProjectile { get; private set; }
-            public Action<Projectile> OnReleaseObject { get; private set; }
-            public Func<bool> ShouldShoot { get; private set; }
-
-            /// <summary>
-            /// </summary>
-            /// <param name="onreleaseObject">Action to be performed after projectile is no longer needed.</param>
-            public CallbacksConfig(Func<Projectile> getProjectile, Action<Projectile> onreleaseObject, 
-                Func<bool> shouldShoot)
-            {
-                GetProjectile = getProjectile;
-                OnReleaseObject = onreleaseObject;
-                ShouldShoot = shouldShoot;
-            }
-        }
-
-        public class ShootingConfig
-        {
-            public readonly float _projectileMinimumLifetime;
-            public readonly float _timeBetweenAttacks;
-            public readonly float _impulseStrength;
-
-            public ShootingConfig(float timeBetweenAttacks, float impulseStrength, float projectileMinimumLifetime)
-            {
-                _projectileMinimumLifetime = projectileMinimumLifetime;
-                _timeBetweenAttacks = timeBetweenAttacks;
-                _impulseStrength = impulseStrength;
-            }
-        }
         #endregion
 
         #region Transitions & StateMachine
@@ -127,20 +93,11 @@ namespace SinkingShips.Combat.ShootingStates
         #endregion
 
         #region Public
-        public void Inject(CallbacksConfig callbacksConfig, ShootingConfig shootingConfig)
+        public override void Inject(CallbacksConfig callbacksConfig, ShootingConfig shootingConfig)
         {
-            _callbacksConfig = callbacksConfig;
-            _shootingConfig = shootingConfig;
+            base.Inject(callbacksConfig, shootingConfig);
             SetupStates();
         }
-        //refactor
-            //call abstract shoot method?
-            //decouple everything from shooting?
-            //logs
-            //___
-            //how would it work with channel shooting?
-            //simultaneous and rigidbody shooter separate?
-            //abstract out state machine?
         #endregion
 
         #region Interfaces & Inheritance
@@ -166,12 +123,10 @@ namespace SinkingShips.Combat.ShootingStates
         private void SetupShootingState()
         {
             var shootingCallbacks = new Shooting.CallbacksConfig(
-                null,
-                _callbacksConfig.GetProjectile,
-                _callbacksConfig.OnReleaseObject);
+                _callbacksConfig.GetProjectile, _callbacksConfig.OnReleaseObject);
 
             var shootingConfig = new Shooting.ShootingConfig(
-                _shootingConfig._impulseStrength,
+                _shootingConfig._projectileSpeed,
                 _particlesSpawnAndForward,
                 _shootingConfig._projectileMinimumLifetime);
 

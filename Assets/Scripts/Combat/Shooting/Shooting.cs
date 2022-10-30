@@ -12,7 +12,7 @@ namespace SinkingShips.Combat.ShootingStates
         #region Config
         //[Header("CONFIG")]
 
-        private CallbacksConfig _callbacks;
+        private CallbacksConfig _callbacksConfig;
         private ShootingConfig _shootingConfig;
         #endregion
 
@@ -28,16 +28,11 @@ namespace SinkingShips.Combat.ShootingStates
         #region Data
         public class CallbacksConfig
         {
-            public Action OnShotFinished { get; }
             public Func<Projectile> GetProjectile { get; }
             public Action<Projectile> OnReleaseProjectile { get; }
 
-            public CallbacksConfig(
-                Action onShotFinished, 
-                Func<Projectile> getProjectile, 
-                Action<Projectile> onReleaseProjectile)
+            public CallbacksConfig(Func<Projectile> getProjectile, Action<Projectile> onReleaseProjectile)
             {
-                OnShotFinished = onShotFinished;
                 GetProjectile = getProjectile;
                 OnReleaseProjectile = onReleaseProjectile;
             }
@@ -45,16 +40,16 @@ namespace SinkingShips.Combat.ShootingStates
         
         public class ShootingConfig
         {
-            public readonly float _impulseStrength;
+            public readonly float _projectileSpeed;
             public readonly Transform[] _particlesSpawnAndForward;
             public readonly float _projectileMinimumLifetime;
 
             public ShootingConfig(
-                float impulseStrength, 
+                float projectileSpeed, 
                 Transform[] particlesSpawnAndForward, 
                 float projectileMinimumLifetime)
             {
-                _impulseStrength = impulseStrength;
+                _projectileSpeed = projectileSpeed;
                 _particlesSpawnAndForward = particlesSpawnAndForward;
                 _projectileMinimumLifetime = projectileMinimumLifetime;
             }
@@ -68,10 +63,10 @@ namespace SinkingShips.Combat.ShootingStates
         {
         }
 
-        public Shooting(CallbacksConfig callbacks, ShootingConfig shootingConfig, 
+        public Shooting(CallbacksConfig callbacksConfig, ShootingConfig shootingConfig, 
             Action onEnterState, Action onExitState) : base(onEnterState, onExitState)
         {
-            _callbacks = callbacks;
+            _callbacksConfig = callbacksConfig;
             _shootingConfig = shootingConfig;
         }
         #endregion
@@ -97,12 +92,12 @@ namespace SinkingShips.Combat.ShootingStates
         {
             foreach (Transform spawnTransform in _shootingConfig._particlesSpawnAndForward)
             {
-                Projectile projectile = _callbacks.GetProjectile();
+                Projectile projectile = _callbacksConfig.GetProjectile();
                 projectile.transform.position = spawnTransform.position;
                 projectile.transform.rotation = spawnTransform.rotation;
 
-                projectile.Inject(() => _callbacks.OnReleaseProjectile(projectile),
-                    _shootingConfig._projectileMinimumLifetime, _shootingConfig._impulseStrength);
+                projectile.Inject(() => _callbacksConfig.OnReleaseProjectile(projectile),
+                    _shootingConfig._projectileMinimumLifetime, _shootingConfig._projectileSpeed);
             }
         }
         #endregion

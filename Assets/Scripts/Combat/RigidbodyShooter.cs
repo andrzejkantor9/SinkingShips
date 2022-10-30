@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -7,17 +8,16 @@ using SinkingShips.Debug;
 
 using SinkingShips.Combat.ShootingStates;
 using SinkingShips.Combat.Projectiles;
-using System;
 using SinkingShips.Utils;
 
 namespace SinkingShips.Combat
 {
-    public class SimultaneousShooter : MonoBehaviour, ITwoSidedShooter
+    public class RigidbodyShooter : MonoBehaviour, ITwoSidedShooter
     {
         #region Config
         [Header("CONFIG")]
         [SerializeField]
-        private SimultaneousShooterConfig _simultaneousShooterConfig;
+        private RigidbodyShooterConfig _rigidbodyShooterConfig;
         [SerializeField]
         private ProjectilesPoolConfig _projectilesPoolConfig;
         #endregion
@@ -27,16 +27,14 @@ namespace SinkingShips.Combat
         [SerializeField]
         private Transform _projectilesParent;
         [SerializeField]
-        private ShootingStateMachine _leftShootingStateMachines;
+        private ShootingController _leftShootingController;
         [SerializeField]
-        private ShootingStateMachine _rightShootingStateMachines;
+        private ShootingController _rightShootingController;
 
         private ObjectPoolBase<Projectile> _projectilesObjectPool;
         #endregion
 
         #region States
-        //private bool _leftShotPerformed;
-        //private bool _rightShotPerformed;
         #endregion
 
         #region Events & Statics
@@ -52,11 +50,11 @@ namespace SinkingShips.Combat
         #region Engine & Contructors
         private void Awake()
         {
-            CustomLogger.AssertTrue(_simultaneousShooterConfig != null, "_simultaneousShooterConfig is null", this);
+            CustomLogger.AssertTrue(_rigidbodyShooterConfig != null, "_rigidbodyShooterConfig is null", this);
             CustomLogger.AssertTrue(_projectilesPoolConfig != null, "_projectilesPoolConfig is null", this);
 
-            CustomLogger.AssertNotNull(_leftShootingStateMachines, "_leftShootingStateMachines is null", this);
-            CustomLogger.AssertNotNull(_rightShootingStateMachines, "_righthootingStateMachines is null", this);
+            CustomLogger.AssertNotNull(_leftShootingController, "_leftShootingStateMachines is null", this);
+            CustomLogger.AssertNotNull(_rightShootingController, "_righthootingStateMachines is null", this);
 
             var poolConfig = new ObjectPoolBase<Projectile>.PoolConfig(
                 _projectilesPoolConfig.PoolObject, 
@@ -68,7 +66,7 @@ namespace SinkingShips.Combat
 
         private void Start()
         {
-            SetupStateMachines();
+            SetupShootingController();
         }
         #endregion
 
@@ -83,13 +81,13 @@ namespace SinkingShips.Combat
         #region Interfaces & Inheritance
         public void ShootLeft()
         {
-            CustomLogger.Log($"shot left with impulse: {_simultaneousShooterConfig.ImpulseStrength}", this,
+            CustomLogger.Log($"shot left with impulse: {_rigidbodyShooterConfig.ImpulseStrength}", this,
                 LogCategory.Combat, LogFrequency.Regular, LogDetails.Basic);
         }
 
         public void ShootRight()
         {
-            CustomLogger.Log($"shot right with impulse: {_simultaneousShooterConfig.ImpulseStrength}", this,
+            CustomLogger.Log($"shot right with impulse: {_rigidbodyShooterConfig.ImpulseStrength}", this,
                 LogCategory.Combat, LogFrequency.Regular, LogDetails.Basic);
         }
         #endregion
@@ -98,20 +96,20 @@ namespace SinkingShips.Combat
         #endregion
 
         #region Private & Protected
-        private void SetupStateMachines()
+        private void SetupShootingController()
         {
-            var leftCallbacksConfig = new ShootingStateMachine.CallbacksConfig(
+            var leftCallbacksConfig = new ShootingController.CallbacksConfig(
                 _projectilesObjectPool.GetObject, _projectilesObjectPool.ReleaseObject, _shootingLeft);
-            var rightCallbacksConfig = new ShootingStateMachine.CallbacksConfig(
+            var rightCallbacksConfig = new ShootingController.CallbacksConfig(
                 _projectilesObjectPool.GetObject, _projectilesObjectPool.ReleaseObject, _shootingRight);
 
-            var shootingConfig = new ShootingStateMachine.ShootingConfig(
-                _simultaneousShooterConfig.TimeBetweenAttacks,
-                _simultaneousShooterConfig.ImpulseStrength,
+            var shootingConfig = new ShootingController.ShootingConfig(
+                _rigidbodyShooterConfig.TimeBetweenAttacks,
+                _rigidbodyShooterConfig.ImpulseStrength,
                 _projectilesPoolConfig.MinimumLifetime);
 
-            _leftShootingStateMachines.Inject(leftCallbacksConfig, shootingConfig);
-            _rightShootingStateMachines.Inject(rightCallbacksConfig, shootingConfig);
+            _leftShootingController.Inject(leftCallbacksConfig, shootingConfig);
+            _rightShootingController.Inject(rightCallbacksConfig, shootingConfig);
         }
         #endregion
     }

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38ba6986d54ce7a47ae673b8962134fd, type: 3}
-  m_Name: SimultaneousShooterConfig
+  m_Name: RigidbodyShooterConfig
   m_EditorClassIdentifier: 
   <TimeBetweenAttacks>k__BackingField: 2
   <ImpulseStrength>k__BackingField: 50

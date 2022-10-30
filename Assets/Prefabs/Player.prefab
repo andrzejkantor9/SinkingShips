@@ -1059,7 +1059,7 @@ Transform:
   - {fileID: 482406760}
   - {fileID: 6328749671663115875}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &9130615877979290706
 Rigidbody:
@@ -1129,13 +1129,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34cb365ad432cc441ba705e0e3e0a696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _simultaneousShooterConfig: {fileID: 11400000, guid: daee787fa4cda8a438a3ee8f154b0b58,
+  _rigidbodyShooterConfig: {fileID: 11400000, guid: daee787fa4cda8a438a3ee8f154b0b58,
     type: 2}
   _projectilesPoolConfig: {fileID: 11400000, guid: 629741c80cdb0a4479a7026ca3100802,
     type: 2}
   _projectilesParent: {fileID: 6328749671663115875}
-  _leftShootingStateMachines: {fileID: 6487419873981739576}
-  _rightShootingStateMachines: {fileID: 7990170594567427665}
+  _leftShootingController: {fileID: 6487419873981739576}
+  _rightShootingController: {fileID: 7990170594567427665}
 --- !u!1 &9145110137032102450
 GameObject:
   m_ObjectHideFlags: 0
