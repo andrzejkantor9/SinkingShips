@@ -85,7 +85,7 @@ namespace SinkingShips.Combat.ShootingStates
             base.Enter();
 
             SpawnAndShoot();
-            _callbacks.OnShotFinished?.Invoke();
+            Exit();
         }
         #endregion
 

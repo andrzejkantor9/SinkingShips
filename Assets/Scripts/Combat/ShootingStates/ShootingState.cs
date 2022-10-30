@@ -5,25 +5,31 @@ namespace SinkingShips.Combat.ShootingStates
 {
     public abstract class ShootingState
     {
-        public Action OnEnterState { get; }
-        public Action OnExitState { get; }
+        public event Action _onEnterState;
+        public event Action _onExitState;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
 
         protected ShootingState(Action onEnterState = null, Action onExitState = null)
         {
-            OnEnterState = onEnterState;
-            OnExitState = onExitState;
+            _onEnterState += onEnterState;
+            _onExitState += onExitState;
+        }
+
+        ~ShootingState()
+        {
+            _onEnterState -= _onEnterState;
+            _onExitState -= _onExitState;
         }
 
         public virtual void Enter()
         {
-            OnEnterState?.Invoke();
+            _onEnterState?.Invoke();
         }
 
         public virtual void Exit()
         {
-            OnExitState?.Invoke();
+            _onExitState?.Invoke();
         }
 
         public virtual void Update(float deltaTime)

@@ -73,7 +73,7 @@ namespace SinkingShips.Combat.ShootingStates
 
         private Dictionary<Type, List<Transition>> _transitions = new Dictionary<Type, List<Transition>>();
         private List<Transition> _currentTransitions = new List<Transition>();
-        private static List<Transition> EmptyTransitions = new List<Transition>(0);
+        private static List<Transition> _emptyTransitions = new List<Transition>(0);
 
         private class Transition
         {
@@ -87,14 +87,19 @@ namespace SinkingShips.Combat.ShootingStates
             }
         }
 
-        private Func<bool> _shouldShoot;
-        private Func<bool> HasReloaded()
+        private bool _hasShot;
+        private bool _hasReloaded;
+        private Func<bool> ShouldShoot()
         {
-            return () => _reloading.ReloadingTime > _shootingConfig._timeBetweenAttacks;
+            return _callbacksConfig.ShouldShoot;
         }
         private Func<bool> HasShot()
         {
-            return _callbacksConfig.ShouldShoot;
+            return () => _hasShot;
+        }
+        private Func<bool> HasReloaded()
+        {
+            return () => _hasReloaded;
         }
         #endregion
 
@@ -129,12 +134,12 @@ namespace SinkingShips.Combat.ShootingStates
             SetupStates();
         }
         //refactor
-            //proper state transitions - inject, setup states, check each state contents
             //get component<rigidbody> in shooting and pool - ugly
             //call abstract shoot method?
             //decouple everything from shooting?
             //logs
             //___
+            //how would it work with channel shooting?
             //simultaneous and rigidbody shooter separate?
             //abstract out state machine?
         #endregion
@@ -149,10 +154,10 @@ namespace SinkingShips.Combat.ShootingStates
         private void SetupStates()
         {
             _ready = new Ready();
-            _reloading = new Reloading(_shootingConfig._timeBetweenAttacks);
             SetupShootingState();
+            _reloading = new Reloading(_shootingConfig._timeBetweenAttacks, null, () => SetShot(false));
 
-            AddTransition(_ready, _shooting, _shouldShoot);
+            AddTransition(_ready, _shooting, ShouldShoot());
             AddTransition(_shooting, _reloading, HasShot());
             AddTransition(_reloading, _ready, HasReloaded());
 
@@ -171,7 +176,7 @@ namespace SinkingShips.Combat.ShootingStates
                 _particlesSpawnAndForward,
                 _shootingConfig._projectileMinimumLifetime);
 
-            _shooting = new Shooting(shootingCallbacks, shootingConfig);
+            _shooting = new Shooting(shootingCallbacks, shootingConfig, null, () => SetShot(true));
         }
 
         private void SwitchState(ShootingState state)
@@ -191,7 +196,7 @@ namespace SinkingShips.Combat.ShootingStates
             //set current transitions
             _transitions.TryGetValue(_currentState.GetType(), out _currentTransitions);
             if (_currentTransitions == null)
-                _currentTransitions = EmptyTransitions;
+                _currentTransitions = _emptyTransitions;
 
             //enter state
             CustomLogger.Log($"{gameObject.name} enter state: {_currentState.GetType().Name}", this,
@@ -219,6 +224,12 @@ namespace SinkingShips.Combat.ShootingStates
             }
 
             return null;
+        }
+
+        private void SetShot(bool hasShot)
+        {
+            _hasShot = hasShot;
+            _hasReloaded = !hasShot;
         }
         #endregion
     }

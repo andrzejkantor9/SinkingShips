@@ -17,7 +17,7 @@ namespace SinkingShips.Combat
         #endregion
 
         #region States
-        public float ReloadingTime { get; private set; }
+        private float _reloadingTime;
         #endregion
 
         #region Events & Statics
@@ -49,14 +49,18 @@ namespace SinkingShips.Combat
         {
             base.Enter();
 
-            ReloadingTime = 0f;
+            _reloadingTime = 0f;
         }
 
         public override void Update(float deltaTime)
         {
             base.Update(deltaTime);
 
-            ReloadingTime += deltaTime;
+            _reloadingTime += deltaTime;
+            if(_reloadingTime > _reloadingDuration)
+            {
+                Exit();
+            }
         }
         #endregion
 
