@@ -17,3 +17,7 @@ MonoBehaviour:
   <DefaultCapacity>k__BackingField: 8
   <MaxProjectilesCounts>k__BackingField: 16
   <MinimumLifetime>k__BackingField: 3
+  <ShootParticle>k__BackingField: {fileID: 3702999457107628076, guid: 3a47d033e36fe474e9c4c7eefe77d09b,
+    type: 3}
+  <HitParticle>k__BackingField: {fileID: 1203016386011021025, guid: cbad6741875f6084dbcb2ec17911d443,
+    type: 3}

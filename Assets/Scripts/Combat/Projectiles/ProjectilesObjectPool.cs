@@ -29,9 +29,9 @@ namespace SinkingShips.Combat.Projectiles
             return _objectPool.Get();
         }
         
-        public override void ReleaseObject(Projectile poolObject)
+        public override void ReleaseObject(Projectile projectile)
         {
-            _objectPool.Release(poolObject);
+            _objectPool.Release(projectile);
         }
         #endregion
 
@@ -46,25 +46,25 @@ namespace SinkingShips.Combat.Projectiles
             return projectile;
         }
 
-        protected override void OnGet(Projectile poolObject)
+        protected override void OnGet(Projectile projectile)
         {
-            poolObject.gameObject.SetActive(true);
-            CustomLogger.Log($"Get object: {poolObject.gameObject.name} from object pool.", this,
+            projectile.gameObject.SetActive(true);
+            CustomLogger.Log($"Get object: {projectile.gameObject.name} from object pool.", this,
                 LogCategory.Combat, LogFrequency.MostFrames, LogDetails.Medium);
         }
 
-        protected override void OnRelease(Projectile poolObject)
+        protected override void OnRelease(Projectile projectile)
         {
-            poolObject.gameObject.SetActive(false);
-            CustomLogger.Log($"Release object: {poolObject.gameObject.name} from object pool.", this,
+            projectile.gameObject.SetActive(false);
+            CustomLogger.Log($"Release object: {projectile.gameObject.name} from object pool.", this,
                 LogCategory.Combat, LogFrequency.MostFrames, LogDetails.Medium);
         }
 
-        protected override void DestroyPoolObject(Projectile poolObject)
+        protected override void DestroyPoolObject(Projectile projectile)
         {
-            CustomLogger.Log($"Destroy object: {poolObject.gameObject.name} from object pool.", this,
+            CustomLogger.Log($"Destroy object: {projectile.gameObject.name} from object pool.", this,
                 LogCategory.Combat, LogFrequency.Frequent, LogDetails.Medium);
-            GameObject.Destroy(poolObject);
+            GameObject.Destroy(projectile);
         }
         #endregion
     }

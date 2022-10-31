@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb5a208e2fda34468e713435f767cfd, type: 3}
+  m_Name: RigidbodyProjectileConfig
+  m_EditorClassIdentifier: 
+  <TrailVfx>k__BackingField: {fileID: 3702999457107628076, guid: 3a47d033e36fe474e9c4c7eefe77d09b,
+    type: 3}
+  <HitVfx>k__BackingField: {fileID: 1203016386011021025, guid: cbad6741875f6084dbcb2ec17911d443,
+    type: 3}
+  <ImpulseStrength>k__BackingField: 50

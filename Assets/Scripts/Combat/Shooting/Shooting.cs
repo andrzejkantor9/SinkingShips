@@ -27,16 +27,11 @@ namespace SinkingShips.Combat.Shooting
         
         public class ShootingConfig
         {
-            public readonly float _projectileSpeed;
             public readonly Transform[] _particlesSpawnAndForward;
             public readonly float _projectileMinimumLifetime;
 
-            public ShootingConfig(
-                float projectileSpeed, 
-                Transform[] particlesSpawnAndForward, 
-                float projectileMinimumLifetime)
+            public ShootingConfig(Transform[] particlesSpawnAndForward, float projectileMinimumLifetime)
             {
-                _projectileSpeed = projectileSpeed;
                 _particlesSpawnAndForward = particlesSpawnAndForward;
                 _projectileMinimumLifetime = projectileMinimumLifetime;
             }
@@ -78,7 +73,7 @@ namespace SinkingShips.Combat.Shooting
                 projectile.transform.rotation = spawnTransform.rotation;
 
                 projectile.Inject(() => _callbacksConfig.OnReleaseProjectile(projectile),
-                    _shootingConfig._projectileMinimumLifetime, _shootingConfig._projectileSpeed);
+                    _shootingConfig._projectileMinimumLifetime);
             }
         }
         #endregion

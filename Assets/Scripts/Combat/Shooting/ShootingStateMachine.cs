@@ -102,7 +102,6 @@ namespace SinkingShips.Combat.Shooting
                 _callbacksConfig.GetProjectile, _callbacksConfig.OnReleaseObject);
 
             var shootingConfig = new Shooting.ShootingConfig(
-                _shootingConfig._projectileSpeed,
                 _particlesSpawnAndForward,
                 _shootingConfig._projectileMinimumLifetime);
 

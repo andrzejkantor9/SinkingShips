@@ -34,13 +34,11 @@ namespace SinkingShips.Combat.Shooting
         {
             public readonly float _projectileMinimumLifetime;
             public readonly float _timeBetweenAttacks;
-            public readonly float _projectileSpeed;
 
-            public ShootingConfig(float timeBetweenAttacks, float projectileSpeed, float projectileMinimumLifetime)
+            public ShootingConfig(float timeBetweenAttacks, float projectileMinimumLifetime)
             {
                 _projectileMinimumLifetime = projectileMinimumLifetime;
                 _timeBetweenAttacks = timeBetweenAttacks;
-                _projectileSpeed = projectileSpeed;
             }
         }
         #endregion

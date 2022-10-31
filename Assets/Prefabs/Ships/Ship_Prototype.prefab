@@ -176,7 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8014151753465892960}
   - component: {fileID: 1603403995123921657}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ship_Prototype
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 8014151754179485192}
   - component: {fileID: 8014151754179485199}
   - component: {fileID: 8014151754179485198}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SteeringPlace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -323,7 +323,7 @@ GameObject:
   - component: {fileID: 8014151754408186997}
   - component: {fileID: 8014151754408186996}
   - component: {fileID: 8014151754408186987}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}

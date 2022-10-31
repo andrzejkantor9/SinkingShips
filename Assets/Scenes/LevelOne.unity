@@ -331,7 +331,7 @@ GameObject:
   - component: {fileID: 1310759814}
   - component: {fileID: 1310759813}
   - component: {fileID: 1310759812}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ocean
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -492,11 +492,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 794555182, guid: 7085b6d66b09c55489e8797c897dfbf3, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000019107636
+      value: 0.000000019107636
       objectReference: {fileID: 0}
     - target: {fileID: 794555182, guid: 7085b6d66b09c55489e8797c897dfbf3, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000022299373
+      value: -0.0000000022299373
       objectReference: {fileID: 0}
     - target: {fileID: 5680987505560442421, guid: 7085b6d66b09c55489e8797c897dfbf3,
         type: 3}
@@ -582,7 +582,7 @@ PrefabInstance:
     - target: {fileID: 9053782642148813237, guid: 9f8565032013a634da533675db7cd9ff,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 4.05
       objectReference: {fileID: 0}
     - target: {fileID: 9053782642148813237, guid: 9f8565032013a634da533675db7cd9ff,
         type: 3}
@@ -592,7 +592,7 @@ PrefabInstance:
     - target: {fileID: 9053782642148813237, guid: 9f8565032013a634da533675db7cd9ff,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -4.23
       objectReference: {fileID: 0}
     - target: {fileID: 9053782642148813237, guid: 9f8565032013a634da533675db7cd9ff,
         type: 3}

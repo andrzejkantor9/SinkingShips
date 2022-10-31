@@ -73,14 +73,12 @@ namespace SinkingShips.Combat
         #region Interfaces & Inheritance
         public void ShootLeft()
         {
-            CustomLogger.Log($"shot left with impulse: {_rigidbodyShooterConfig.ImpulseStrength}", this,
-                LogCategory.Combat, LogFrequency.Regular, LogDetails.Basic);
+            CustomLogger.Log($"Shot left", this, LogCategory.Combat, LogFrequency.Regular, LogDetails.Basic);
         }
 
         public void ShootRight()
         {
-            CustomLogger.Log($"shot right with impulse: {_rigidbodyShooterConfig.ImpulseStrength}", this,
-                LogCategory.Combat, LogFrequency.Regular, LogDetails.Basic);
+            CustomLogger.Log($"Shot right", this, LogCategory.Combat, LogFrequency.Regular, LogDetails.Basic);
         }
         #endregion
 
@@ -94,7 +92,6 @@ namespace SinkingShips.Combat
 
             var shootingConfig = new ShootingController.ShootingConfig(
                 _rigidbodyShooterConfig.TimeBetweenAttacks,
-                _rigidbodyShooterConfig.ImpulseStrength,
                 _projectilesPoolConfig.MinimumLifetime);
 
             _leftShootingController.Inject(leftCallbacksConfig, shootingConfig);
