@@ -1,14 +1,12 @@
 using System;
-using System.Collections.Generic;
 
 using UnityEngine;
 
-using SinkingShips.Helpers;
 using SinkingShips.Debug;
-
-using SinkingShips.Combat.ShootingStates;
-using SinkingShips.Combat.Projectiles;
 using SinkingShips.Utils;
+
+using SinkingShips.Combat.Shooting;
+using SinkingShips.Combat.Projectiles;
 
 namespace SinkingShips.Combat
 {
@@ -34,15 +32,9 @@ namespace SinkingShips.Combat
         private ObjectPoolBase<Projectile> _projectilesObjectPool;
         #endregion
 
-        #region States
-        #endregion
-
         #region Events & Statics
         private Func<bool> _shootingLeft;
         private Func<bool> _shootingRight;
-        #endregion
-
-        #region Data
         #endregion
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -90,9 +82,6 @@ namespace SinkingShips.Combat
             CustomLogger.Log($"shot right with impulse: {_rigidbodyShooterConfig.ImpulseStrength}", this,
                 LogCategory.Combat, LogFrequency.Regular, LogDetails.Basic);
         }
-        #endregion
-
-        #region Events & Statics
         #endregion
 
         #region Private & Protected

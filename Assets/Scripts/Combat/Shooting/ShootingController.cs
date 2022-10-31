@@ -1,26 +1,14 @@
 using System;
+
 using UnityEngine;
 
-namespace SinkingShips.Combat.ShootingStates
+namespace SinkingShips.Combat.Shooting
 {
     public abstract class ShootingController : MonoBehaviour
     {
         #region Config
-        //[Header("CONFIG")]
-
         protected CallbacksConfig _callbacksConfig;
         protected ShootingConfig _shootingConfig;
-        #endregion
-
-        #region Cache & Constants
-        //[Header("CACHE")]
-        //[Space(8f)]
-        #endregion
-
-        #region States
-        #endregion
-
-        #region Events & Statics
         #endregion
 
         #region Data
@@ -59,24 +47,12 @@ namespace SinkingShips.Combat.ShootingStates
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
 
-        #region Engine & Contructors
-        #endregion
-
         #region Public
         public virtual void Inject(CallbacksConfig callbacksConfig, ShootingConfig shootingConfig)
         {
             _callbacksConfig = callbacksConfig;
             _shootingConfig = shootingConfig;
         }
-        #endregion
-
-        #region Interfaces & Inheritance
-        #endregion
-
-        #region Events & Statics
-        #endregion
-
-        #region Private & Protected
         #endregion
     }
 }

@@ -1,5 +1,6 @@
-using SinkingShips.Debug;
 using UnityEngine;
+
+using SinkingShips.Debug;
 
 namespace SinkingShips.Combat.Projectiles
 {

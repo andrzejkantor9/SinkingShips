@@ -4,7 +4,6 @@ using System.Collections;
 using UnityEngine;
 
 using SinkingShips.Debug;
-using UnityEngine.Pool;
 
 namespace SinkingShips.Combat.Projectiles
 {

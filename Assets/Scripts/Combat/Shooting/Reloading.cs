@@ -1,29 +1,17 @@
 using System;
 
-using UnityEngine;
-
-using SinkingShips.Combat.ShootingStates;
+using SinkingShips.Combat.Shooting;
 
 namespace SinkingShips.Combat
 {
     public class Reloading : ShootingState
     {
-        #region Config
-        //[Header("CONFIG")]
-        #endregion
-
         #region Cache & Constants
         private float _reloadingDuration;
         #endregion
 
         #region States
         private float _reloadingTime;
-        #endregion
-
-        #region Events & Statics
-        #endregion
-
-        #region Data
         #endregion
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,9 +27,6 @@ namespace SinkingShips.Combat
         {
             _reloadingDuration = reloadingDuration;
         }
-        #endregion
-
-        #region Public
         #endregion
 
         #region Interfaces & Inheritance
@@ -62,12 +47,6 @@ namespace SinkingShips.Combat
                 Exit();
             }
         }
-        #endregion
-
-        #region Events & Statics
-        #endregion
-
-        #region Private & Protected
         #endregion
     }
 }

@@ -1,7 +1,10 @@
 using System;
+
 using UnityEngine;
 
-namespace SinkingShips.Combat.ShootingStates
+using SinkingShips.Debug;
+
+namespace SinkingShips.Combat.Shooting
 {
     public abstract class ShootingState
     {

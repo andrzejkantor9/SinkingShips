@@ -1,6 +1,6 @@
 {
-    "name": "SinkingShips.Combat.ShootingStates",
-    "rootNamespace": "SinkingShips.Combat.ShootingStates",
+    "name": "SinkingShips.Combat.Shooting",
+    "rootNamespace": "SinkingShips.Combat.Shooting",
     "references": [
         "GUID:bfa3f9e1429b5e04aa8ebf0071fbb457",
         "GUID:cd0c2db3ba770454d9a27d93baef337b",

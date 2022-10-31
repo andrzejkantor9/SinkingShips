@@ -1,7 +1,7 @@
 using UnityEngine;
 
-using SinkingShips.Combat.Projectiles;
 using SinkingShips.Debug;
+using SinkingShips.Combat.Projectiles;
 
 namespace SinkingShips.Combat
 {

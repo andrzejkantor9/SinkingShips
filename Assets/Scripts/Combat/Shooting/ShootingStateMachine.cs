@@ -5,33 +5,15 @@ using UnityEngine;
 using UnityEngine.Profiling;
 
 using SinkingShips.Debug;
-using SinkingShips.Utils;
 
-namespace SinkingShips.Combat.ShootingStates
+namespace SinkingShips.Combat.Shooting
 {
     public class ShootingStateMachine : ShootingController
     {
-        #region Config
-        //[Header("CONFIG")]
-        #endregion
-
         #region Cache & Constants
         [Header("CACHE")]
         [SerializeField]
         private Transform[] _particlesSpawnAndForward;
-
-        private Ready _ready;
-        private Shooting _shooting;
-        private Reloading _reloading;
-        #endregion
-
-        #region States
-        #endregion
-
-        #region Events & Statics
-        #endregion
-
-        #region Data
         #endregion
 
         #region Transitions & StateMachine
@@ -100,27 +82,21 @@ namespace SinkingShips.Combat.ShootingStates
         }
         #endregion
 
-        #region Interfaces & Inheritance
-        #endregion
-
-        #region Events & Statics
-        #endregion
-
         #region Private & Protected
         private void SetupStates()
         {
-            _ready = new Ready();
-            SetupShootingState();
-            _reloading = new Reloading(_shootingConfig._timeBetweenAttacks, null, () => SetShot(false));
+            var ready = new Ready();
+            Shooting shooting = SetupShootingState();
+            var reloading = new Reloading(_shootingConfig._timeBetweenAttacks, null, () => SetShot(false));
 
-            AddTransition(_ready, _shooting, ShouldShoot());
-            AddTransition(_shooting, _reloading, HasShot());
-            AddTransition(_reloading, _ready, HasReloaded());
+            AddTransition(ready, shooting, ShouldShoot());
+            AddTransition(shooting, reloading, HasShot());
+            AddTransition(reloading, ready, HasReloaded());
 
-            SwitchState(_ready);
+            SwitchState(ready);
         }
 
-        private void SetupShootingState()
+        private Shooting SetupShootingState()
         {
             var shootingCallbacks = new Shooting.CallbacksConfig(
                 _callbacksConfig.GetProjectile, _callbacksConfig.OnReleaseObject);
@@ -130,7 +106,7 @@ namespace SinkingShips.Combat.ShootingStates
                 _particlesSpawnAndForward,
                 _shootingConfig._projectileMinimumLifetime);
 
-            _shooting = new Shooting(shootingCallbacks, shootingConfig, null, () => SetShot(true));
+            return new Shooting(shootingCallbacks, shootingConfig, null, () => SetShot(true));
         }
 
         private void SwitchState(ShootingState state)
@@ -142,8 +118,8 @@ namespace SinkingShips.Combat.ShootingStates
             if (_currentState != null)
             {
                 _currentState.Exit();
-                CustomLogger.Log($"{gameObject.name} exit state: {_currentState.GetType().Name}", this,
-                    LogCategory.Combat, LogFrequency.MostFrames, LogDetails.Basic);
+                CustomLogger.Log($"Exit state state: {_currentState.GetType().Name}", this,
+                    LogCategory.Combat, LogFrequency.Frequent, LogDetails.Basic);
             }
             _currentState = state;
 
@@ -153,9 +129,9 @@ namespace SinkingShips.Combat.ShootingStates
                 _currentTransitions = _emptyTransitions;
 
             //enter state
-            CustomLogger.Log($"{gameObject.name} enter state: {_currentState.GetType().Name}", this,
-                    LogCategory.Combat, LogFrequency.MostFrames, LogDetails.Basic);
             _currentState.Enter();
+            CustomLogger.Log($"Enter state state: {_currentState.GetType().Name}", this,
+                LogCategory.Combat, LogFrequency.Frequent, LogDetails.Basic);
         }
 
         private void AddTransition(ShootingState previousState, ShootingState followingState, Func<bool> condition)
@@ -167,6 +143,8 @@ namespace SinkingShips.Combat.ShootingStates
             }
 
             transitions.Add(new Transition(followingState, condition));
+            CustomLogger.Log($"Add transition from state: {previousState.GetType().Name}, to: {followingState.GetType().Name}", 
+                this, LogCategory.Combat, LogFrequency.Rare, LogDetails.Basic);
         }
 
         private Transition GetTransition()

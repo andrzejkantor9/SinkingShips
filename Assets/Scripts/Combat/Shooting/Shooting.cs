@@ -1,28 +1,15 @@
-using SinkingShips.Combat.Projectiles;
-using SinkingShips.Debug;
-using SinkingShips.Utils;
 using System;
+
 using UnityEngine;
 
-namespace SinkingShips.Combat.ShootingStates
+namespace SinkingShips.Combat.Shooting
 {
     public class Shooting : ShootingState
     {
 
         #region Config
-        //[Header("CONFIG")]
-
         private CallbacksConfig _callbacksConfig;
         private ShootingConfig _shootingConfig;
-        #endregion
-
-        #region Cache & Constants
-        #endregion
-
-        #region States
-        #endregion
-
-        #region Events & Statics
         #endregion
 
         #region Data
@@ -71,9 +58,6 @@ namespace SinkingShips.Combat.ShootingStates
         }
         #endregion
 
-        #region Public
-        #endregion
-
         #region Interfaces & Inheritance
         public override void Enter()
         {
@@ -82,9 +66,6 @@ namespace SinkingShips.Combat.ShootingStates
             SpawnAndShoot();
             Exit();
         }
-        #endregion
-
-        #region Events & Statics
         #endregion
 
         #region Private & Protected

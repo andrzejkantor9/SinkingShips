@@ -1,29 +1,13 @@
-using System;
-
 using UnityEngine;
 using UnityEngine.Pool;
-using SinkingShips.Debug;
+
 using SinkingShips.Utils;
+using SinkingShips.Debug;
 
 namespace SinkingShips.Combat.Projectiles
 {
     public class ProjectilesObjectPool : ObjectPoolBase<Projectile>
     {
-        #region Config
-        #endregion
-
-        #region Cache & Constants
-        #endregion
-
-        #region States
-        #endregion
-
-        #region Events & Statics
-        #endregion
-
-        #region Data
-        #endregion
-
         ////////////////////////////////////////////////////////////////////////////////////////////////
 
         #region Engine & Contructors
@@ -56,6 +40,8 @@ namespace SinkingShips.Combat.Projectiles
         {
             Projectile projectile = GameObject.Instantiate<Projectile>
                 (_poolConfig.ObjectPrefabScript, _poolConfig.PoolObjectsParent);
+            CustomLogger.Log($"Create object: {projectile.gameObject.name} in object pool.", this,
+                LogCategory.Combat, LogFrequency.Frequent, LogDetails.Medium);
 
             return projectile;
         }
@@ -63,23 +49,23 @@ namespace SinkingShips.Combat.Projectiles
         protected override void OnGet(Projectile poolObject)
         {
             poolObject.gameObject.SetActive(true);
+            CustomLogger.Log($"Get object: {poolObject.gameObject.name} from object pool.", this,
+                LogCategory.Combat, LogFrequency.MostFrames, LogDetails.Medium);
         }
 
         protected override void OnRelease(Projectile poolObject)
         {
             poolObject.gameObject.SetActive(false);
+            CustomLogger.Log($"Release object: {poolObject.gameObject.name} from object pool.", this,
+                LogCategory.Combat, LogFrequency.MostFrames, LogDetails.Medium);
         }
 
         protected override void DestroyPoolObject(Projectile poolObject)
         {
+            CustomLogger.Log($"Destroy object: {poolObject.gameObject.name} from object pool.", this,
+                LogCategory.Combat, LogFrequency.Frequent, LogDetails.Medium);
             GameObject.Destroy(poolObject);
         }
-        #endregion
-
-        #region Events & Statics
-        #endregion
-
-        #region Private & Protected
         #endregion
     }
 }
