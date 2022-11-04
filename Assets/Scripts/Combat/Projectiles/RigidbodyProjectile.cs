@@ -1,10 +1,12 @@
 using System;
-using System.Collections;
 
 using UnityEngine;
 
 using SinkingShips.Debug;
 using SinkingShips.Helpers;
+using SinkingShips.Audio;
+using SinkingShips.Effects;
+using SinkingShips.Physics;
 
 namespace SinkingShips.Combat.Projectiles
 {
@@ -14,17 +16,24 @@ namespace SinkingShips.Combat.Projectiles
         [Header("CONFIG")]
         [SerializeField]
         private RigidbodyProjectileConfig _projectileConfig;
+
+        private float _minimumLifetime;
+        private float _impulseStrength;
         #endregion
 
         #region Cache & Constants
-        private float _minimumLifetime;
-        private float _impulseStrength;
+        [SerializeField]
+        private AudioPlayer _shootSfx;
+        [SerializeField]
+        private AudioPlayer _hitSfx;
 
-        private Rigidbody _rigidbody;
+        [SerializeField]
+        private ParticlePlayer _trailVfx;
+        [SerializeField]
+        private ParticlePlayer _hitVfx;
+
+        private RigidbodyWrapper _rigidbodyWrapper;
         private Renderer _renderer;
-
-        private ParticleSystem _trailVfx;
-        private ParticleSystem _hitVfx;
         #endregion
 
         #region States
@@ -43,21 +52,17 @@ namespace SinkingShips.Combat.Projectiles
         #region Engine & Contructors
         private void Awake()
         {
-            _rigidbody = InitializationHelpers.GetComponentIfEmpty(_rigidbody, gameObject, "_rigidbody");
-            _renderer = InitializationHelpers.GetComponentIfEmpty(_renderer, gameObject, "_rigidbody");
+            _rigidbodyWrapper = InitializationHelpers.GetComponentIfEmpty(_rigidbodyWrapper, gameObject, "_rigidbodyWrapper");
+            _renderer = InitializationHelpers.GetComponentIfEmpty(_renderer, gameObject, "_renderer");
 
-            CustomLogger.AssertNotNull(_rigidbody, "_rigidbody", this);
-            CustomLogger.AssertNotNull(_renderer, "_renderer", this);
             CustomLogger.AssertNotNull(_projectileConfig, "_projectileConfig", this);
 
-            if(_projectileConfig.HitVfx)
-            {
-                _hitVfx = Instantiate(_projectileConfig.HitVfx, transform);
-            }            
-            if(_projectileConfig.TrailVfx)
-            {
-                _trailVfx = Instantiate(_projectileConfig.TrailVfx, transform);
-            }
+            CustomLogger.AssertNotNull(_shootSfx, "_shootSfx", this);
+            CustomLogger.AssertNotNull(_hitSfx, "_hitSfx", this);
+            CustomLogger.AssertNotNull(_trailVfx, "_trailVfx", this);
+            CustomLogger.AssertNotNull(_hitVfx, "_hitVfx", this);
+
+            _impulseStrength = _projectileConfig.ImpulseStrength;
         }
 
         private void OnEnable()
@@ -66,12 +71,9 @@ namespace SinkingShips.Combat.Projectiles
             _hasReleased = false;
             SetPartialyActive(true);
 
-            if (_trailVfx)
-            {
-                _trailVfx.transform.position = transform.position;
-                _trailVfx.transform.rotation = transform.rotation;
-                _trailVfx.Play();
-            }
+            _trailVfx.Play();
+            _shootSfx.Play();
+
             CustomLogger.Log("Activate projectile", this, LogCategory.Combat, LogFrequency.Frequent, LogDetails.Medium);
         }
 
@@ -83,13 +85,10 @@ namespace SinkingShips.Combat.Projectiles
         //only uses collisions set in project settings
         private void OnTriggerEnter(Collider other)
         {
-            if(_hitVfx)
-            {
-                _hitVfx.transform.position = transform.position;
-                _hitVfx.Play();
-            }
-            ReleaseProjectile();
+            _hitSfx.Play();
+            _hitVfx.Play();
 
+            ReleaseProjectile();
             CustomLogger.Log($"{gameObject.name} has collided with: {other.name}", this,
                 LogCategory.Combat, LogFrequency.Regular, LogDetails.Basic);
         }
@@ -105,10 +104,16 @@ namespace SinkingShips.Combat.Projectiles
         {
             _onRelease = onRelease;
             _minimumLifetime = minimumLifetime;
-            _impulseStrength = _projectileConfig.ImpulseStrength;
 
-            Vector3 impulse = _impulseStrength * transform.forward;
-            _rigidbody.AddForce(impulse, ForceMode.Impulse);
+            //needs to be here because of forward being initialized after enable
+            _rigidbodyWrapper.AddForce(_impulseStrength, transform.forward, ForceMode.Impulse);
+        }
+        #endregion
+
+        #region Events & Statics
+        private Func<bool> IsEffectPlaying()
+        {
+            return () => _trailVfx.IsPlaying() || _hitVfx.IsPlaying() || _hitSfx.IsPlaying() || _shootSfx.IsPlaying();
         }
         #endregion
 
@@ -117,21 +122,17 @@ namespace SinkingShips.Combat.Projectiles
         {
             if (_releaseCoroutine == null && gameObject.activeInHierarchy)
             {
+                //has minimum tim to disable passed
                 if (Time.time >= _timeSpawned + _minimumLifetime)
                 {
                     ReleaseProjectile();
                 }
                 else
                 {
-                    _releaseCoroutine = StartCoroutine(ReleaseAfterMinimumLifetime());
+                    float timeToRelease = _timeSpawned - Time.time + _minimumLifetime;
+                    _releaseCoroutine = StartCoroutine(TimeHelpers.DoAfterSeconds(timeToRelease, ReleaseProjectile));
                 }
             }
-        }
-
-        private IEnumerator ReleaseAfterMinimumLifetime()
-        {
-            yield return new WaitForSeconds(_timeSpawned - Time.time + _minimumLifetime);
-            ReleaseProjectile();
         }
 
         private void ReleaseProjectile()
@@ -142,18 +143,12 @@ namespace SinkingShips.Combat.Projectiles
             SetPartialyActive(false);
             _hasReleased = true;
 
-            StartCoroutine(DisableAfterEffect(() => _hitVfx.isPlaying));
+            StartCoroutine(TimeHelpers.DisableAfterCondition(IsEffectPlaying(), _onRelease));
         }
 
         private void SetPartialyActive(bool active)
         {
-            if (!active)
-            {
-                _rigidbody.velocity = Vector3.zero;
-            }
-            _rigidbody.isKinematic = !active;
-            _rigidbody.detectCollisions = active;
-
+            _rigidbodyWrapper.SetActive(active);
             _renderer.enabled = active;
             EndCoroutine();
         }
@@ -165,16 +160,6 @@ namespace SinkingShips.Combat.Projectiles
                 StopCoroutine(_releaseCoroutine);
                 _releaseCoroutine = null;
             }
-        }
-
-        private IEnumerator DisableAfterEffect(Func<bool> isEffectPlaying)
-        {
-            while (isEffectPlaying())
-            {
-                yield return null;
-            }
-
-            _onRelease?.Invoke();
         }
         #endregion
     }

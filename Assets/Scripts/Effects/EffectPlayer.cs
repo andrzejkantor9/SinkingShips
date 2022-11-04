@@ -2,13 +2,15 @@ using UnityEngine;
 
 namespace SinkingShips.Effects
 {
-    public interface IEffectPlayer
+    public abstract class EffectPlayer : MonoBehaviour
     {
         ////////////////////////////////////////////////////////////////////////////////////////////////
 
         #region Interfaces & Inheritance
-        public abstract void PlayEffect();
-        public abstract void StopEffect();
+        public abstract bool IsPlaying();
+
+        public abstract void Play();
+        public abstract void Stop();
         #endregion
     }
 }

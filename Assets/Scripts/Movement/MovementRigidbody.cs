@@ -5,7 +5,7 @@ using UnityEngine;
 using SinkingShips.Debug;
 using SinkingShips.Helpers;
 using SinkingShips.Effects;
-using System;
+using SinkingShips.Physics;
 
 namespace SinkingShips.Movement
 {
@@ -19,18 +19,17 @@ namespace SinkingShips.Movement
         #endregion
 
         #region Cache & Constants
-        //[Space(8f)]
         [Header("CACHE")]
         [SerializeField]
         private Transform _addForcePosition;
         [SerializeField]
         private GameObject _movementEffectsRoot;
 
-        [Header("CACHE - optional (auto initialized if null)")]
+        [Header("CACHE - optional (GetComponent initialized if null)")]
         [SerializeField]
-        private Rigidbody _rigidbody;
+        private RigidbodyWrapper _rigidbodyWrapper;
 
-        private List<IEffectPlayer> _movementEffectsPlayers = new List<IEffectPlayer>();
+        private List<EffectPlayer> _movementEffectsPlayers = new List<EffectPlayer>();
         #endregion
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,8 +37,8 @@ namespace SinkingShips.Movement
         #region Engine & Contructors
         private void Awake()
         {
-            _rigidbody = InitializationHelpers.GetComponentIfEmpty(_rigidbody, gameObject, "_rigidbody");
-            _movementEffectsPlayers = InitializationHelpers.GetComponentsIfEmpty<IEffectPlayer>
+            _rigidbodyWrapper = InitializationHelpers.GetComponentIfEmpty(_rigidbodyWrapper, gameObject, "_rigidbodyWrapper");
+            _movementEffectsPlayers = InitializationHelpers.GetComponentsIfEmpty
                 (_movementEffectsPlayers, _movementEffectsRoot, "_movementEffectsPlayers");
 
             CustomLogger.AssertTrue(_movementConfig != null, "_movementConfig", this);
@@ -56,17 +55,9 @@ namespace SinkingShips.Movement
             bool isMovingForward = distance > 0f;
             force *= isMovingForward ? 1f : _movementConfig.BackwardMultiplier;
 
-            if (_rigidbody.velocity.sqrMagnitude < Mathf.Pow(_movementConfig.MaxVelocityMagintude, 2))
+            if (_rigidbodyWrapper.IsVelocityBelow(_movementConfig.MaxVelocityMagintude))
             {
-                _rigidbody.AddForceAtPosition(force, _addForcePosition.position);
-
-#if DEVELOPMENT_BUILD || UNITY_EDITOR
-                if (force != Vector3.zero || _rigidbody.velocity != Vector3.zero)
-                {
-                    CustomLogger.Log($"added force: {force}, current velocity: {_rigidbody.velocity}", this,
-                        LogCategory.Movement, LogFrequency.EveryFrame, LogDetails.Medium);
-                }
-#endif
+                _rigidbodyWrapper.AddForceAtPosition(force, _addForcePosition.position);
             }
 
             ToggleEffects(!Mathf.Approximately(distance, 0f));
@@ -77,17 +68,9 @@ namespace SinkingShips.Movement
             Vector3 torque = deltaTime * _movementConfig.TorqueValue * turnAmount * transform.up;
             bool isRotatingRight = turnAmount > 0f;
 
-            if(_rigidbody.angularVelocity.sqrMagnitude < Mathf.Pow(_movementConfig.MaxAngularVelocityMagnitude, 2))
+            if(_rigidbodyWrapper.IsAngularVelocityBelow(_movementConfig.MaxAngularVelocityMagnitude))
             {
-                _rigidbody.AddRelativeTorque(torque);
-
-#if DEVELOPMENT_BUILD || UNITY_EDITOR
-                if (torque != Vector3.zero)
-                {
-                    CustomLogger.Log($"added torque: {torque}, angular velocity: {_rigidbody.angularVelocity}", this,
-                        LogCategory.Movement, LogFrequency.EveryFrame, LogDetails.Medium);
-                }
-#endif
+                _rigidbodyWrapper.AddRelativeTorque(torque);
             }
         }
         #endregion
@@ -99,14 +82,14 @@ namespace SinkingShips.Movement
             {
                 foreach (var effectPlayer in _movementEffectsPlayers)
                 {
-                    effectPlayer.PlayEffect();
+                    effectPlayer.Play();
                 }
             }
             else
             {
                 foreach (var effectPlayer in _movementEffectsPlayers)
                 {
-                    effectPlayer.StopEffect();
+                    effectPlayer.Stop();
                 }
             }
         }

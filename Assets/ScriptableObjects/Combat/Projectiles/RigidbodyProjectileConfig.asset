@@ -16,4 +16,8 @@ MonoBehaviour:
     type: 3}
   <HitVfx>k__BackingField: {fileID: 1203016386011021025, guid: cbad6741875f6084dbcb2ec17911d443,
     type: 3}
+  <ShootSfx>k__BackingField: {fileID: 8300000, guid: 91c6280be05c6234ab06950494dcb70a,
+    type: 3}
+  <HitSfx>k__BackingField: {fileID: 8300000, guid: ecc3f65bad78dce478d44ced7e659979,
+    type: 3}
   <ImpulseStrength>k__BackingField: 50

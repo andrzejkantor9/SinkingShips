@@ -4,10 +4,11 @@ using UnityEngine;
 
 using SinkingShips.Helpers;
 using SinkingShips.Debug;
+using SinkingShips.Audio;
 
 namespace SinkingShips.Effects
 {
-    public class VolumeOverTimeSfxPlayer : MonoBehaviour,  IEffectPlayer
+    public class VolumeOverTimeSfxPlayer : AudioPlayer
     {
         #region
         [Header("CONFIG")]
@@ -16,7 +17,7 @@ namespace SinkingShips.Effects
         #endregion
 
         #region Cache & Constants
-        [Header("CACHE - optional (auto initialized if null)")]
+        [Header("CACHE - optional (GetComponent initialized if null)")]
         [SerializeField]
         private AudioSource _audioSource;
 
@@ -33,7 +34,7 @@ namespace SinkingShips.Effects
         #region Engine & Contructors
         private void Awake()
         {
-            _audioSource = InitializationHelpers.GetComponentIfEmpty<AudioSource>(_audioSource, gameObject, 
+            _audioSource = InitializationHelpers.GetComponentIfEmpty(_audioSource, gameObject, 
                 "_audioSource");
 
             CustomLogger.AssertTrue(_volumeOverTimeSfxConfig != null, "_volumeOverTimeSfxConfig is null", 
@@ -44,25 +45,37 @@ namespace SinkingShips.Effects
         #endregion
 
         #region Interfaces & Inheritance
-        public void PlayEffect()
+        public override bool IsPlaying()
+        {
+            return _audioSource.isPlaying;
+        }
+
+        public override void Play()
         {
             if (!_audioSource.isPlaying || _currentStopCoroutine != null)
             {
-                Play();
+                PlayEffect();
             }
         }
 
-        public void StopEffect()
+        /// <summary>
+        /// not implemented
+        /// </summary>
+        public override void Play(AudioClip audioClip)
+        {
+        }
+
+        public override void Stop()
         {
             if ((_audioSource.isPlaying || _currentPlayCoroutine != null ) && _currentStopCoroutine == null)
             {
-                Stop();
+                StopEffect();
             }
         }
         #endregion
 
         #region Private & Protected
-        private void Play()
+        private void PlayEffect()
         {
             float startVolume = 0f;
             if (_currentStopCoroutine != null)
@@ -75,7 +88,7 @@ namespace SinkingShips.Effects
             _currentPlayCoroutine = StartCoroutine(PlayAndIncreaseVolume(startVolume));
         }
 
-        private void Stop()
+        private void StopEffect()
         {
             if (_currentPlayCoroutine != null)
             {

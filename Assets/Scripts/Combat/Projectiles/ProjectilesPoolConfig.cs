@@ -35,7 +35,7 @@ namespace SinkingShips.Combat.Projectiles
         #region Interfaces & Inheritance
         public void AssertObject()
         {
-            CustomLogger.AssertNotNull(PoolObject, "ProjectilePrefab is null", this);
+            CustomLogger.AssertNotNull(PoolObject, "ProjectilePrefab", this);
         }
         #endregion
     }

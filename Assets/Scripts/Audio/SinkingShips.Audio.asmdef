@@ -1,11 +1,10 @@
 {
-    "name": "SinkingShips.Movement",
-    "rootNamespace": "SinkingShips.Movement",
+    "name": "SinkingShips.Audio",
+    "rootNamespace": "SinkingShips.Audio",
     "references": [
         "GUID:bfa3f9e1429b5e04aa8ebf0071fbb457",
         "GUID:cd0c2db3ba770454d9a27d93baef337b",
-        "GUID:d81d90af78393f2479cd144488866e47",
-        "GUID:8cbea9cd4cc8e2f4eaadda1b88719ee1"
+        "GUID:d81d90af78393f2479cd144488866e47"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

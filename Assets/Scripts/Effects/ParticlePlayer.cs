@@ -1,9 +1,8 @@
-using SinkingShips.Debug;
 using UnityEngine;
 
-namespace SinkingShips.Combat.Projectiles
+namespace SinkingShips.Effects
 {
-    public abstract class ProjectileConfig : ScriptableObject
+    public abstract class ParticlePlayer : EffectPlayer
     {
         ////////////////////////////////////////////////////////////////////////////////////////////////
     }
