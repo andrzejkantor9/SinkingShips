@@ -63,7 +63,7 @@ namespace SinkingShips.Combat.Shooting
         }
         #endregion
 
-        #region Private & Protected
+        #region Private
         private void SpawnAndShoot()
         {
             foreach (Transform spawnTransform in _shootingConfig._particlesSpawnAndForward)

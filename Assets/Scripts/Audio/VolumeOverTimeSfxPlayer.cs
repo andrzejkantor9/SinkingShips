@@ -74,7 +74,7 @@ namespace SinkingShips.Effects
         }
         #endregion
 
-        #region Private & Protected
+        #region Private
         private void PlayEffect()
         {
             float startVolume = 0f;

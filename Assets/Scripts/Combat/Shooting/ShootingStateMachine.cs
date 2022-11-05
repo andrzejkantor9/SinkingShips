@@ -82,7 +82,7 @@ namespace SinkingShips.Combat.Shooting
         }
         #endregion
 
-        #region Private & Protected
+        #region Private
         private void SetupStates()
         {
             var ready = new Ready();

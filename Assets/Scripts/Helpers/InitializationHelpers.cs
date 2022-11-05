@@ -62,7 +62,7 @@ namespace SinkingShips.Helpers
         }
         #endregion
 
-        #region Private & Protected
+        #region Private
         private static bool IsNullOrDefault<T1>(T1 component)
         {
             return component == null || component.Equals(default(T1));

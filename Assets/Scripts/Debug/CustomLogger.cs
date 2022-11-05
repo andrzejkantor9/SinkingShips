@@ -27,7 +27,7 @@ namespace SinkingShips.Debug
         Menus,
         Music,
         NPCs,
-        Resources,
+        Statistics,
         Saving,
         Settings,
         SFX,
@@ -81,7 +81,7 @@ namespace SinkingShips.Debug
             {LogCategory.Menus, true},
             {LogCategory.Music, true},
             {LogCategory.NPCs, true},
-            {LogCategory.Resources, true},
+            {LogCategory.Statistics, true},
             {LogCategory.Saving, true},
             {LogCategory.Settings, true},
             {LogCategory.SFX, true},
@@ -333,7 +333,7 @@ namespace SinkingShips.Debug
         }
         #endregion
 
-        #region Private & Protected
+        #region Private
         private static string GetFileFromPath(string filePath)
         {
             filePath = filePath.Substring(filePath.LastIndexOf('\\') + 1);

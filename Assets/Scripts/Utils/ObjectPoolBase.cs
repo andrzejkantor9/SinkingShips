@@ -81,7 +81,7 @@ namespace SinkingShips.Utils
         #region Events & Statics
         #endregion
 
-        #region Private & Protected
+        #region Private
         #endregion
     }
 }

@@ -89,7 +89,8 @@ namespace SinkingShips.Combat.Projectiles
             _hitVfx.Play();
 
             ReleaseProjectile();
-            CustomLogger.Log($"{gameObject.name} has collided with: {other.name}", this,
+            string colliderName = other.attachedRigidbody ? other.attachedRigidbody.gameObject.name : other.name;
+            CustomLogger.Log($"{gameObject.name} has collided with: {colliderName}", this,
                 LogCategory.Combat, LogFrequency.Regular, LogDetails.Basic);
         }
 
@@ -117,7 +118,7 @@ namespace SinkingShips.Combat.Projectiles
         }
         #endregion
 
-        #region Private & Protected
+        #region Private
         private void StartObjectRelease()
         {
             if (_releaseCoroutine == null && gameObject.activeInHierarchy)

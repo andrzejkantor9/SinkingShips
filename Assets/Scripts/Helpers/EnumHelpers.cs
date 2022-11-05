@@ -21,7 +21,7 @@ namespace SinkingShips.Helpers
             return allEnumValues;
         }
 
-        #region Private & Protected
+        #region Private
         #endregion
     }
 }

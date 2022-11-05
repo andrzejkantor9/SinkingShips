@@ -82,7 +82,7 @@ namespace SinkingShips.Combat
         }
         #endregion
 
-        #region Private & Protected
+        #region Private
         private void SetupShootingController()
         {
             var leftCallbacksConfig = new ShootingController.CallbacksConfig(

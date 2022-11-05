@@ -75,7 +75,7 @@ namespace SinkingShips.Movement
         }
         #endregion
 
-        #region Private & Protected
+        #region Private
         private void ToggleEffects(bool active)
         {
             if (active)
