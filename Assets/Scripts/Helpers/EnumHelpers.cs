@@ -20,8 +20,5 @@ namespace SinkingShips.Helpers
             T1[] allEnumValues = (T1[])Enum.GetValues(typeof(T1));
             return allEnumValues;
         }
-
-        #region Private
-        #endregion
     }
 }

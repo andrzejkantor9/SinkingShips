@@ -10,21 +10,11 @@ namespace SinkingShips.Utils
     public abstract class ObjectPoolBase<T1> where T1 : MonoBehaviour
     {
         #region Config
-        //[Header("CONFIG")]
-
         protected PoolConfig _poolConfig;
         #endregion
 
         #region Cache & Constants
-        //[Header("CACHE")]
-
         protected IObjectPool<T1> _objectPool;
-        #endregion
-
-        #region States
-        #endregion
-
-        #region Events & Statics
         #endregion
 
         #region Data
@@ -65,9 +55,6 @@ namespace SinkingShips.Utils
         }
         #endregion
 
-        #region Public
-        #endregion
-
         #region Interfaces & Inheritance
         public abstract T1 GetObject();
         public abstract void ReleaseObject(T1 poolObject);
@@ -76,12 +63,6 @@ namespace SinkingShips.Utils
         protected abstract void OnGet(T1 poolObject);
         protected abstract void OnRelease(T1 poolObject);
         protected abstract void DestroyPoolObject(T1 poolObject);
-        #endregion
-
-        #region Events & Statics
-        #endregion
-
-        #region Private
         #endregion
     }
 }
