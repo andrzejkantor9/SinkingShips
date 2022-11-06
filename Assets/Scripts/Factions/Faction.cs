@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using SinkingShips.Debug;
+using SinkingShips.Types;
 
 namespace SinkingShips.Factions
 {

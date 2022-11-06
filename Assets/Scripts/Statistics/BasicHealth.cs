@@ -14,24 +14,17 @@ namespace SinkingShips.Statistics
         private BasicHealthConfig _config;
         #endregion
 
-        #region Cache & Constants
-        private Faction _faction;
-        #endregion
-
         ////////////////////////////////////////////////////////////////////////////////////////////////
 
         #region Engine & Contructors
-        private void Awake()
+        protected override void Awake()
         {
-            _faction = InitializationHelpers.GetComponentIfEmpty(_faction, gameObject, "_faction");
-
+            base.Awake();
             CustomLogger.AssertNotNull(_config, "_config", this);
 
             _currentValue = _config.StartingValue;
             _maxValue = _config.MaxValue;
             _minValue = _config.MinValue;
-
-            _affiliation = _faction.Affiliation;
         }
         #endregion
     }
