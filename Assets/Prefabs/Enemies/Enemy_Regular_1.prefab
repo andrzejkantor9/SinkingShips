@@ -163,10 +163,20 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3218834487398899901, guid: e073249ac2df4db4a9b54ad6f3547b15,
+        type: 3}
+      propertyPath: _health
+      value: 
+      objectReference: {fileID: 4718385996389150976}
     - target: {fileID: 3905798864768014352, guid: e073249ac2df4db4a9b54ad6f3547b15,
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4980878369617940312, guid: e073249ac2df4db4a9b54ad6f3547b15,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.0002746582
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

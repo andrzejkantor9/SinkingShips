@@ -1,0 +1,18 @@
+{
+    "name": "SinkingShips.UI",
+    "rootNamespace": "SinkingShips.UI",
+    "references": [
+        "GUID:bfa3f9e1429b5e04aa8ebf0071fbb457",
+        "GUID:cd0c2db3ba770454d9a27d93baef337b",
+        "GUID:749ee16e8180e834d87ab4565a03dab2"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

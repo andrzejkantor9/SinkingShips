@@ -8,10 +8,6 @@ namespace SinkingShips.Statistics
         public float MaxValue { get; set; }
         [field: SerializeField]
         public float MinValue { get; set; }
-        [field: SerializeField]
-        public bool CanRegenerate { get; set; }
-        [field: SerializeField, Tooltip("per second")]
-        public float RegenerationSpeed { get; set; }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
     }

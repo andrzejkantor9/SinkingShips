@@ -31,9 +31,6 @@ namespace SinkingShips.Statistics
             _maxValue = _config.MaxValue;
             _minValue = _config.MinValue;
 
-            _canRegenerate = _config.CanRegenerate;
-            _regenerationSpeed = _config.RegenerationSpeed;
-
             _affiliation = _faction.Affiliation;
         }
         #endregion

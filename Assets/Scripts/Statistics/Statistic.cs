@@ -11,7 +11,7 @@ namespace SinkingShips.Statistics
         #endregion
 
         #region Events & Statics
-        public event Action onChanged;
+        public event Action<float> onChanged;
         #endregion
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -20,7 +20,7 @@ namespace SinkingShips.Statistics
         abstract protected void Reduce(float amount);
         abstract protected void Increase(float amount);
 
-        protected void CallOnChanged() => onChanged?.Invoke();
+        protected void CallOnChanged() => onChanged?.Invoke(_currentValue);
         #endregion
     }
 }

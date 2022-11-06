@@ -9,14 +9,11 @@ namespace SinkingShips.Statistics
         #region Config
         protected float _maxValue;
         protected float _minValue;
-        protected bool _canRegenerate;
-        /// <summary>
-        /// per second
-        /// </summary>
-        protected float _regenerationSpeed;
         #endregion
 
         #region Events & Statics
+        public event Action<float> onChangedPercentage;
+
         public event Action onDelepted;
         public event Action onFull;
         #endregion
@@ -24,8 +21,9 @@ namespace SinkingShips.Statistics
         ////////////////////////////////////////////////////////////////////////////////////////////////
 
         #region Interfaces & Inheritance
-        protected bool IsDepleted => _currentValue == _minValue;
-        protected bool IsFull => _currentValue == _maxValue;
+        public bool IsDepleted => _currentValue == _minValue;
+        public bool IsFull => _currentValue == _maxValue;
+        public float PercentageValue => _currentValue / _maxValue;
 
         protected override void Reduce(float amount)
         {
@@ -67,6 +65,7 @@ namespace SinkingShips.Statistics
         {
             _currentValue += amount;
             CallOnChanged();
+            onChangedPercentage?.Invoke(PercentageValue);
 
             CustomLogger.Log($"Statistic: {GetType().Name} new value: {_currentValue}", this,
                     LogCategory.Statistics, LogFrequency.Frequent, LogDetails.Basic);

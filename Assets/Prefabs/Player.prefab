@@ -408,7 +408,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 794555181}
-  m_LocalRotation: {x: 0.115917265, y: -0.000000019107636, z: 0.0000000022299373,
+  m_LocalRotation: {x: 0.115917265, y: 0.000000019107636, z: -0.0000000022299373,
     w: 0.9932589}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -1139,6 +1139,7 @@ MonoBehaviour:
   _projectilesParent: {fileID: 6328749671663115875}
   _leftShootingController: {fileID: 6487419873981739576}
   _rightShootingController: {fileID: 7990170594567427665}
+  _faction: {fileID: 0}
 --- !u!114 &6488791908617745780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1282,6 +1283,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3218834487398899901, guid: 1d903adb0be49c649b8e6a5b5fb236c4,
+        type: 3}
+      propertyPath: _health
+      value: 
+      objectReference: {fileID: 5268060159137849355}
     - target: {fileID: 3905798864768014352, guid: 1d903adb0be49c649b8e6a5b5fb236c4,
         type: 3}
       propertyPath: m_Enabled
