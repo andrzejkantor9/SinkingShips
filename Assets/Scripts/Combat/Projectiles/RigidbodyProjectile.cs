@@ -7,6 +7,8 @@ using SinkingShips.Helpers;
 using SinkingShips.Audio;
 using SinkingShips.Effects;
 using SinkingShips.Physics;
+using SinkingShips.Statistics;
+using SinkingShips.Types;
 
 namespace SinkingShips.Combat.Projectiles
 {
@@ -17,7 +19,8 @@ namespace SinkingShips.Combat.Projectiles
         [SerializeField]
         private RigidbodyProjectileConfig _projectileConfig;
 
-        private float _minimumLifetime;
+        InjectConfig _injectConfig;
+
         private float _impulseStrength;
         #endregion
 
@@ -38,13 +41,9 @@ namespace SinkingShips.Combat.Projectiles
 
         #region States
         private float _timeSpawned;
-        private bool _hasReleased;
+        private bool _hitSuccessful;
 
         private Coroutine _releaseCoroutine;
-        #endregion
-
-        #region Events & Statics
-        private Action _onRelease;
         #endregion
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,7 +67,7 @@ namespace SinkingShips.Combat.Projectiles
         private void OnEnable()
         {
             _timeSpawned = Time.time;
-            _hasReleased = false;
+            _hitSuccessful = false;
             SetPartialyActive(true);
 
             _trailVfx.Play();
@@ -85,13 +84,19 @@ namespace SinkingShips.Combat.Projectiles
         //only uses collisions set in project settings
         private void OnTriggerEnter(Collider other)
         {
-            _hitSfx.Play();
-            _hitVfx.Play();
+            if (_hitSuccessful)
+                return;
 
-            ReleaseProjectile();
-            string colliderName = other.attachedRigidbody ? other.attachedRigidbody.gameObject.name : other.name;
-            CustomLogger.Log($"{gameObject.name} has collided with: {colliderName}", this,
-                LogCategory.Combat, LogFrequency.Regular, LogDetails.Basic);
+            ProcessHit(other);
+
+            if(_hitSuccessful)
+            {
+                ReleaseProjectile();
+
+                string colliderName = other.attachedRigidbody ? other.attachedRigidbody.gameObject.name : other.name;
+                CustomLogger.Log($"{gameObject.name} has collided with: {colliderName}", this,
+                    LogCategory.Combat, LogFrequency.Regular, LogDetails.Basic);
+            }
         }
 
         private void OnBecameInvisible()
@@ -101,10 +106,9 @@ namespace SinkingShips.Combat.Projectiles
         #endregion
 
         #region Public
-        public override void Inject(Action onRelease, float minimumLifetime)
+        public override void Inject(InjectConfig config)
         {
-            _onRelease = onRelease;
-            _minimumLifetime = minimumLifetime;
+            _injectConfig = config;
 
             //needs to be here because of forward being initialized after enable
             _rigidbodyWrapper.AddForce(_impulseStrength, transform.forward, ForceMode.Impulse);
@@ -124,13 +128,13 @@ namespace SinkingShips.Combat.Projectiles
             if (_releaseCoroutine == null && gameObject.activeInHierarchy)
             {
                 //has minimum tim to disable passed
-                if (Time.time >= _timeSpawned + _minimumLifetime)
+                if (Time.time >= _timeSpawned + _injectConfig._minimumLifetime)
                 {
                     ReleaseProjectile();
                 }
                 else
                 {
-                    float timeToRelease = _timeSpawned - Time.time + _minimumLifetime;
+                    float timeToRelease = _timeSpawned - Time.time + _injectConfig._minimumLifetime;
                     _releaseCoroutine = StartCoroutine(TimeHelpers.DoAfterSeconds(timeToRelease, ReleaseProjectile));
                 }
             }
@@ -138,13 +142,9 @@ namespace SinkingShips.Combat.Projectiles
 
         private void ReleaseProjectile()
         {
-            if (_hasReleased)
-                return;
-
             SetPartialyActive(false);
-            _hasReleased = true;
 
-            StartCoroutine(TimeHelpers.DisableAfterCondition(IsEffectPlaying(), _onRelease));
+            StartCoroutine(TimeHelpers.DisableAfterCondition(IsEffectPlaying(), _injectConfig.ReleaseCallback));
         }
 
         private void SetPartialyActive(bool active)
@@ -161,6 +161,30 @@ namespace SinkingShips.Combat.Projectiles
                 StopCoroutine(_releaseCoroutine);
                 _releaseCoroutine = null;
             }
+        }
+
+        private void ProcessHit(Collider other)
+        {
+            var health = other.attachedRigidbody.GetComponent<Health>();
+            if (!health)
+            {
+                CustomLogger.LogWarning($"{other.attachedRigidbody.gameObject.name} is missing Health component", 
+                    this, LogCategory.Combat);
+            }
+            else
+            {
+                if(health.Damage(_injectConfig._damagePerHit, _injectConfig._affiliation))
+                {
+                    _hitSuccessful = true;
+                }
+            }
+
+            if(_hitSuccessful)
+            {
+                _hitSfx.Play();
+                _hitVfx.Play();
+            }
+            
         }
         #endregion
     }

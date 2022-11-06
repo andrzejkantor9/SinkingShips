@@ -4,6 +4,9 @@ using UnityEngine;
 
 using SinkingShips.Debug;
 using SinkingShips.Utils;
+using SinkingShips.Factions;
+using SinkingShips.Helpers;
+using SinkingShips.Types;
 
 using SinkingShips.Combat.Shooting;
 using SinkingShips.Combat.Projectiles;
@@ -29,6 +32,10 @@ namespace SinkingShips.Combat
         [SerializeField]
         private ShootingController _rightShootingController;
 
+        [Header("CACHE - optional (GetComponent initialized if null)")]
+        [SerializeField]
+        private Faction _faction;
+
         private ObjectPoolBase<Projectile> _projectilesObjectPool;
         #endregion
 
@@ -42,6 +49,8 @@ namespace SinkingShips.Combat
         #region Engine & Contructors
         private void Awake()
         {
+            _faction = InitializationHelpers.GetComponentIfEmpty(_faction, gameObject, "_faction");
+
             CustomLogger.AssertTrue(_rigidbodyShooterConfig != null, "_rigidbodyShooterConfig is null", this);
             CustomLogger.AssertTrue(_projectilesPoolConfig != null, "_projectilesPoolConfig is null", this);
 
@@ -91,8 +100,10 @@ namespace SinkingShips.Combat
                 _projectilesObjectPool.GetObject, _projectilesObjectPool.ReleaseObject, _shootingRight);
 
             var shootingConfig = new ShootingController.ShootingConfig(
+                _rigidbodyShooterConfig.DamagePerHit, 
                 _rigidbodyShooterConfig.TimeBetweenAttacks,
-                _projectilesPoolConfig.MinimumLifetime);
+                _projectilesPoolConfig.MinimumLifetime,
+                _faction.Affiliation);
 
             _leftShootingController.Inject(leftCallbacksConfig, shootingConfig);
             _rightShootingController.Inject(rightCallbacksConfig, shootingConfig);

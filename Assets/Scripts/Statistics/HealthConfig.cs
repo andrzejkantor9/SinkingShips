@@ -1,10 +1,9 @@
+using SinkingShips.Types;
 using UnityEngine;
 
-using SinkingShips.Types;
-
-namespace SinkingShips.Control
+namespace SinkingShips.Statistics
 {
-    public abstract class ShipController : MonoBehaviour
+    public abstract class HealthConfig : ConsumableStatisticConfig
     {
         ////////////////////////////////////////////////////////////////////////////////////////////////
     }

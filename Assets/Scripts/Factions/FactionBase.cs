@@ -2,10 +2,12 @@ using UnityEngine;
 
 using SinkingShips.Types;
 
-namespace SinkingShips.Control
+namespace SinkingShips.Factions
 {
-    public abstract class ShipController : MonoBehaviour
+    public abstract class FactionBase : MonoBehaviour
     {
+        public Affiliation Affiliation { get; protected set; }
+
         ////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }

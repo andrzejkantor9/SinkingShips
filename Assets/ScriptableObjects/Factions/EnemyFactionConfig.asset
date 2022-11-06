@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38ba6986d54ce7a47ae673b8962134fd, type: 3}
-  m_Name: RigidbodyShooterConfig
+  m_Script: {fileID: 11500000, guid: 9604a943f2c2e1a4ca44adb31509ada8, type: 3}
+  m_Name: EnemyFactionConfig
   m_EditorClassIdentifier: 
-  <DamagePerHit>k__BackingField: 10
-  <TimeBetweenAttacks>k__BackingField: 2
+  <Affiliation>k__BackingField: 1

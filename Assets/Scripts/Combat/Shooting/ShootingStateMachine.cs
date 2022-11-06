@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Profiling;
 
 using SinkingShips.Debug;
+using SinkingShips.Types;
 
 namespace SinkingShips.Combat.Shooting
 {
@@ -25,14 +26,14 @@ namespace SinkingShips.Combat.Shooting
 
         private class Transition
         {
-            public Func<bool> Condition { get; }
-            public ShootingState FollowingState { get; }
-
             public Transition(ShootingState followingState, Func<bool> condition)
             {
-                FollowingState = followingState;
+                _followingState = followingState;
                 Condition = condition;
             }
+
+            public readonly ShootingState _followingState;
+            public Func<bool> Condition { get; }
         }
 
         private bool _hasShot;
@@ -66,7 +67,7 @@ namespace SinkingShips.Combat.Shooting
 
             Transition transition = GetTransition();
             if (transition != null)
-                SwitchState(transition.FollowingState);
+                SwitchState(transition._followingState);
 
             _currentState.Update(Time.deltaTime);
 
@@ -103,7 +104,9 @@ namespace SinkingShips.Combat.Shooting
 
             var shootingConfig = new Shooting.ShootingConfig(
                 _particlesSpawnAndForward,
-                _shootingConfig._projectileMinimumLifetime);
+                _shootingConfig._damagePerHit, 
+                _shootingConfig._projectileMinimumLifetime, 
+                _shootingConfig._affiliation);
 
             return new Shooting(shootingCallbacks, shootingConfig, null, () => SetShot(true));
         }

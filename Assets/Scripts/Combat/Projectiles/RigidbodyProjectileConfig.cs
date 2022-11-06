@@ -1,5 +1,7 @@
 using UnityEngine;
 
+using SinkingShips.Types;
+
 namespace SinkingShips.Combat.Projectiles
 {
     [CreateAssetMenu(fileName = "RigidbodyProjectileConfig", menuName = "Combat/Projectiles/RigidbodyProjectile")]

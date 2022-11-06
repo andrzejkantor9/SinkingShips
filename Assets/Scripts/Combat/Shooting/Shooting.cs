@@ -2,6 +2,8 @@ using System;
 
 using UnityEngine;
 
+using SinkingShips.Types;
+
 namespace SinkingShips.Combat.Shooting
 {
     public class Shooting : ShootingState
@@ -28,12 +30,17 @@ namespace SinkingShips.Combat.Shooting
         public class ShootingConfig
         {
             public readonly Transform[] _particlesSpawnAndForward;
+            public readonly float _damagePerHit;
             public readonly float _projectileMinimumLifetime;
+            public readonly Affiliation _affiliation;
 
-            public ShootingConfig(Transform[] particlesSpawnAndForward, float projectileMinimumLifetime)
+            public ShootingConfig(Transform[] particlesSpawnAndForward, float damagePerHit, 
+                float projectileMinimumLifetime, Affiliation unitAffiliation)
             {
                 _particlesSpawnAndForward = particlesSpawnAndForward;
+                _damagePerHit = damagePerHit;
                 _projectileMinimumLifetime = projectileMinimumLifetime;
+                _affiliation = unitAffiliation;
             }
         }
         #endregion
@@ -72,8 +79,13 @@ namespace SinkingShips.Combat.Shooting
                 projectile.transform.position = spawnTransform.position;
                 projectile.transform.rotation = spawnTransform.rotation;
 
-                projectile.Inject(() => _callbacksConfig.OnReleaseProjectile(projectile),
-                    _shootingConfig._projectileMinimumLifetime);
+                var injectConfig = new Projectile.InjectConfig(
+                    () => _callbacksConfig.OnReleaseProjectile(projectile),
+                    _shootingConfig._damagePerHit, 
+                    _shootingConfig._projectileMinimumLifetime, 
+                    _shootingConfig._affiliation);
+                projectile.Inject(injectConfig); 
+                    
             }
         }
         #endregion

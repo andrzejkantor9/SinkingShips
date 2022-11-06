@@ -2,6 +2,8 @@ using System;
 
 using UnityEngine;
 
+using SinkingShips.Types;
+
 namespace SinkingShips.Combat.Shooting
 {
     public abstract class ShootingController : MonoBehaviour
@@ -32,13 +34,18 @@ namespace SinkingShips.Combat.Shooting
 
         public class ShootingConfig
         {
+            public readonly float _damagePerHit;
             public readonly float _projectileMinimumLifetime;
             public readonly float _timeBetweenAttacks;
+            public readonly Affiliation _affiliation;
 
-            public ShootingConfig(float timeBetweenAttacks, float projectileMinimumLifetime)
+            public ShootingConfig(float damagePerHit, float timeBetweenAttacks, float projectileMinimumLifetime,
+                Affiliation affiliation)
             {
+                _damagePerHit = damagePerHit;
                 _projectileMinimumLifetime = projectileMinimumLifetime;
                 _timeBetweenAttacks = timeBetweenAttacks;
+                _affiliation = affiliation;
             }
         }
         #endregion
