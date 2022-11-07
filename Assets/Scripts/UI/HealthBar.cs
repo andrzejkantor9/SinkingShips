@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 using SinkingShips.Debug;
 using SinkingShips.Statistics;
+using UnityEngine.Profiling;
 
 namespace SinkingShips.UI
 {
@@ -41,7 +42,11 @@ namespace SinkingShips.UI
 
         private void LateUpdate()
         {
+            Profiler.BeginSample("HealthBar LateUpdate()");
+
             transform.forward = Camera.main.transform.forward;
+
+            Profiler.EndSample();
         }
         #endregion
 
