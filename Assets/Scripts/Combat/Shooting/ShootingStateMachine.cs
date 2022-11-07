@@ -153,7 +153,7 @@ namespace SinkingShips.Combat.Shooting
         {
             foreach (Transition transition in _currentTransitions)
             {
-                if (transition.Condition())
+                if (transition.Condition != null && transition.Condition())
                     return transition;
             }
 
