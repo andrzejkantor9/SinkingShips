@@ -116,7 +116,7 @@ namespace SinkingShips.Combat.Projectiles
         #endregion
 
         #region Events & Statics
-        private Func<bool> IsEffectPlaying()
+        private Func<bool> IsAnyEffectPlaying()
         {
             return () => _trailVfx.IsPlaying() || _hitVfx.IsPlaying() || _hitSfx.IsPlaying() || _shootSfx.IsPlaying();
         }
@@ -144,7 +144,7 @@ namespace SinkingShips.Combat.Projectiles
         {
             SetPartialyActive(false);
 
-            StartCoroutine(TimeHelpers.DisableAfterCondition(IsEffectPlaying(), _injectConfig.ReleaseCallback));
+            StartCoroutine(TimeHelpers.WaitUntilFalse(IsAnyEffectPlaying(), _injectConfig.ReleaseCallback));
         }
 
         private void SetPartialyActive(bool active)
