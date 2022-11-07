@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e17480fab69ea17409f7d887bb6e0026, type: 3}
-  m_Name: ProjectilesPoolConfig
+  m_Name: ProjectilesPool_Config
   m_EditorClassIdentifier: 
   <PoolObject>k__BackingField: {fileID: 5456044929987700686, guid: 1c42a6ba457ae1849b3465be23dc5cfa,
     type: 3}

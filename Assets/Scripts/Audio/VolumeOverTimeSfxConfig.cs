@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace SinkingShips.Effects
 {
-    [CreateAssetMenu(fileName = "VolumeOverTimeSfxConfig", menuName = "Audio/VolumeOverTimeSfx")]
+    [CreateAssetMenu(fileName = "VolumeOverTimeSfx_Config", menuName = "Audio/VolumeOverTimeSfx")]
     public class VolumeOverTimeSfxConfig : ScriptableObject
     {
         [field: Header("Play Options")]

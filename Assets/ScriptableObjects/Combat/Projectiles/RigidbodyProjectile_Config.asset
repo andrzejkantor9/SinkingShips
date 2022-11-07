@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb5a208e2fda34468e713435f767cfd, type: 3}
-  m_Name: RigidbodyProjectileConfig
+  m_Name: RigidbodyProjectile_Config
   m_EditorClassIdentifier: 
   <TrailVfx>k__BackingField: {fileID: 3702999457107628076, guid: 3a47d033e36fe474e9c4c7eefe77d09b,
     type: 3}

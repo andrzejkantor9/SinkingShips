@@ -4,7 +4,7 @@ using SinkingShips.Types;
 
 namespace SinkingShips.Combat.Projectiles
 {
-    [CreateAssetMenu(fileName = "RigidbodyProjectileConfig", menuName = "Combat/Projectiles/RigidbodyProjectile")]
+    [CreateAssetMenu(fileName = "RigidbodyProjectile_Config", menuName = "Combat/Projectiles/RigidbodyProjectile")]
     public class RigidbodyProjectileConfig : ProjectileConfig
     {
         [field: SerializeField]

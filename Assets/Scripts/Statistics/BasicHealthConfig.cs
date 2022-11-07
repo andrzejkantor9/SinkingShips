@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace SinkingShips.Statistics
 {
-    [CreateAssetMenu(fileName = "BasicHealthConfig", menuName = "Statistics/BasicHealth")]
+    [CreateAssetMenu(fileName = "BasicHealth_Config", menuName = "Statistics/BasicHealth")]
     public class BasicHealthConfig : HealthConfig
     {
         ////////////////////////////////////////////////////////////////////////////////////////////////

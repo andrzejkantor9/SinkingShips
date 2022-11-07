@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bfadc8ba5baa9d41b2ab2893088d5e7, type: 3}
-  m_Name: VolumeOverTimeSfxConfig
+  m_Script: {fileID: 11500000, guid: 9604a943f2c2e1a4ca44adb31509ada8, type: 3}
+  m_Name: PlayerFaction_Config
   m_EditorClassIdentifier: 
-  <PlayFromRandomSecond>k__BackingField: 1
-  <TimeToMaxVolume>k__BackingField: 3
-  <TimeToStopSfx>k__BackingField: 1
+  <affiliation>k__BackingField: 0

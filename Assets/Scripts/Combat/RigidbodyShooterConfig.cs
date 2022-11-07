@@ -5,7 +5,7 @@ using SinkingShips.Combat.Projectiles;
 
 namespace SinkingShips.Combat
 {
-    [CreateAssetMenu(fileName = "SimultaneousShooterConfig", menuName = "Combat/SimultaneousShooter")]
+    [CreateAssetMenu(fileName = "SimultaneousShooter_Config", menuName = "Combat/SimultaneousShooter")]
     public class RigidbodyShooterConfig : ScriptableObject
     {
         [field: SerializeField, Min(0f)]

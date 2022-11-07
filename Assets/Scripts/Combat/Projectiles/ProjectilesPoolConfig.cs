@@ -4,7 +4,7 @@ using SinkingShips.Debug;
 
 namespace SinkingShips.Combat.Projectiles
 {
-    [CreateAssetMenu(fileName = "ProjectilesPoolConfig", menuName = "Combat/Projectiles/ProjectilesPool")]
+    [CreateAssetMenu(fileName = "ProjectilesPool_Config", menuName = "Combat/Projectiles/ProjectilesPool")]
     public class ProjectilesPoolConfig : ScriptableObject, IObjectPoolConfig<Projectile>
     {
         #region Implementing

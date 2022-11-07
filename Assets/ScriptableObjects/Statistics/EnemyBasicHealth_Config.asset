@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff77bba8085116b4fb537483d9748008, type: 3}
-  m_Name: PlayerBasicHealthConfig
+  m_Name: EnemyBasicHealth_Config
   m_EditorClassIdentifier: 
-  <StartingValue>k__BackingField: 100
-  <MaxValue>k__BackingField: 100
+  <StartingValue>k__BackingField: 30
+  <MaxValue>k__BackingField: 30
   <MinValue>k__BackingField: 0
-  <CanRegenerate>k__BackingField: 1
+  <CanRegenerate>k__BackingField: 0
   <RegenerationSpeed>k__BackingField: 5
+  <UnitAffiliation>k__BackingField: 1

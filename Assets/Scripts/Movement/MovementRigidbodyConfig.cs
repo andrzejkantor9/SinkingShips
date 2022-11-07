@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace SinkingShips.Movement
 {
-    [CreateAssetMenu(fileName = "MovementRigidbodyConfig", menuName = "Movement/Rigidbody")]
+    [CreateAssetMenu(fileName = "MovementRigidbody_Config", menuName = "Movement/Rigidbody")]
     public class MovementRigidbodyConfig : ScriptableObject
     {
         #region Config
