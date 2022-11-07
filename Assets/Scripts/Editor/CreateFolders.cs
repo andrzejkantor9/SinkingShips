@@ -1,10 +1,13 @@
 using System.IO;
 using System.Collections.Generic;
 
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 namespace SinkingShips.Editor
 {
+#if UNITY_EDITOR
     public class CreateFolders : EditorWindow
     {
         #region Config
@@ -86,4 +89,5 @@ namespace SinkingShips.Editor
         }
         #endregion
     }
+#endif
 }

@@ -5,17 +5,11 @@ using UnityEngine;
 using SinkingShips.Debug;
 using SinkingShips.Helpers;
 using SinkingShips.Effects;
-using System;
-using UnityEditor.Build.Content;
 
 namespace SinkingShips.Control
 {
     public class BasicDeathHandler : DeathHandlerBase
     {
-        #region Config
-        //[Header("CONFIG")]
-        #endregion
-
         #region Cache & Constants
         [Header("CACHE")]
         [SerializeField]
@@ -28,12 +22,6 @@ namespace SinkingShips.Control
         private Coroutine _dyingCoroutine;
         #endregion
 
-        #region Events & Statics
-        #endregion
-
-        #region Data
-        #endregion
-
         ////////////////////////////////////////////////////////////////////////////////////////////////
 
         #region Engine & Contructors
@@ -44,9 +32,6 @@ namespace SinkingShips.Control
             _deathEffects = InitializationHelpers.GetComponentsIfEmpty
                 (_deathEffects, _movementEffectsRoot, "_movementEffectsPlayers");
         }
-        #endregion
-
-        #region Public
         #endregion
 
         #region Interfaces & Inheritance
