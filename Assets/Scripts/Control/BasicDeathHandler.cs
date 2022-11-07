@@ -58,7 +58,7 @@ namespace SinkingShips.Control
             PlayEffects();
             _dyingCoroutine = StartCoroutine(TimeHelpers.WaitUntilFalse(() => IsAnyEffectPlaying(), FinalizeDeath));
 
-            CustomLogger.Log($"Start dying:{gameObject.name}", this,
+            CustomLogger.Log($"Start dying: {gameObject.name}", this,
                 LogCategory.Combat, LogFrequency.Regular, LogDetails.Basic);
         }
         #endregion
@@ -87,7 +87,7 @@ namespace SinkingShips.Control
         private void FinalizeDeath()
         {
             _dyingCoroutine = null;
-            CustomLogger.Log($"Finalize death on:{gameObject.name}", this, 
+            CustomLogger.Log($"Finalize death on: {gameObject.name}", this, 
                 LogCategory.Combat, LogFrequency.Regular, LogDetails.Basic);
 
             Destroy(gameObject);

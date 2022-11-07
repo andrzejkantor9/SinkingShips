@@ -46,7 +46,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 91c6280be05c6234ab06950494dcb70a, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -191,7 +191,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: ecc3f65bad78dce478d44ced7e659979, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -533,6 +533,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &882639187741457661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5058395122975872177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1a877fb3faad794b8c8f75d214beb08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rigidbody: {fileID: 0}
 --- !u!114 &5456044929987700686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -550,19 +563,6 @@ MonoBehaviour:
   _hitSfx: {fileID: 7990486181985053461}
   _trailVfx: {fileID: 6961053645374594611}
   _hitVfx: {fileID: 9020758232087433304}
---- !u!114 &882639187741457661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5058395122975872177}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1a877fb3faad794b8c8f75d214beb08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rigidbody: {fileID: 0}
 --- !u!4 &6211639174241531955 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7291245961221148600, guid: 45d27060e780cd744a3cce2d5e7e269a,
